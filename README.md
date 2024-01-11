@@ -1,28 +1,25 @@
-# Create T3 App
+# [T3 App Template]: T3 Stack with shadcn-ui Admin Layout
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+## Overview
+This project is a management interface developed using the [T3 Stack](https://create.t3.gg/), encapsulated with [shadcn-ui](https://ui.shadcn.com/)
+. It aims to provide a responsive, user-friendly, and feature-rich admin interface suitable for various devices and screen sizes.
 
-## What's next? How do I make an app with this?
+## Features
+  - Theme Switching: Allows users to switch the interface theme according to their preference or requirement.
+  - Responsive Sidebar: A flexible sidebar that adapts to different screen sizes and devices.
+  - Sidebar Shrinking: Users can expand or collapse the sidebar as needed to optimize screen space.
+  - Secondary Menu in Sidebar: For better organization and access, the sidebar includes multi-level menus.
+  - Mobile Sidebar: Specially designed for mobile devices to ensure smooth usage on smaller screens.
+  - Other Features...: Waiting for further updates
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## Quick Start
+  1. Clone the repository: git clone https://github.com/gaofubin/t3-app-template.git
+  2. Install dependencies: npm install
+  3. Start the project: npm run dev
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## Dashboard Demo
+> Demo Link: https://t3-app-template.vercel.app/
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+![light](light.png)
 
-## Learn More
-
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
-
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
-
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
-
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+![dark](dark.png)
