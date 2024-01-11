@@ -1,4 +1,6 @@
-import { CartIcon, UserIcon, WishIcon } from "@/lib/icons";
+import UserButton from "@/components/user-button"
+import { CartIcon, WishIcon } from "@/lib/icons"
+
 export default function ShopPage() {
   return (
     <div className=" ">
@@ -9,12 +11,12 @@ export default function ShopPage() {
       <RelatedProductSection />
       <FooterSection />
     </div>
-  );
+  )
 }
 
 export const gs = {
   maxW: "1200px",
-};
+}
 
 function TopBar() {
   return (
@@ -50,7 +52,7 @@ function TopBar() {
         </span>
       </span>
     </div>
-  );
+  )
 }
 function MainHeader() {
   return (
@@ -60,23 +62,24 @@ function MainHeader() {
       <div>
         <h1 className="text-[30px] font-bold uppercase">E-shoper</h1>
       </div>
-      <div className="flex max-h-[50px] w-full max-w-[750px] items-stretch justify-between gap-0 self-stretch max-md:max-w-full max-md:flex-wrap">
+      <div className="flex w-full  max-w-[750px] items-stretch justify-between gap-0 self-stretch max-md:max-w-full max-md:flex-wrap">
         <div className="flex grow basis-[0%] flex-col items-end justify-center border border-solid border-zinc-800 border-opacity-10 max-md:max-w-full max-md:pl-5">
           <input
             type="text"
-            className="h-full w-full border border-solid border-zinc-800 border-opacity-10 pl-4"
+            className="h-[50px] w-full border border-solid border-zinc-800 border-opacity-10 pl-4"
           />
           <span className="absolute">
             <img
               loading="lazy"
               src="https://cdn.builder.io/api/v1/image/assets/TEMP/2eedb4369e4c6c5540db074793bc03e0566864459364db450b723fea7a4985fa?apiKey=da85e7e8aa194b7592d4b6becf2fde0c&"
-              className="aspect-[1.1] w-[42px] max-w-full overflow-hidden object-contain object-center"
+              className="aspect-[1.1] w-[55px] max-w-full overflow-hidden object-contain object-center"
             />
           </span>
         </div>
       </div>
-      <div className="flex w-full max-w-[116px] justify-end gap-5">
+      <div className="flex w-full max-w-[116px] justify-end gap-5 items-center">
         <div className="relative">
+          <UserButton />
           {/* TODO: Wishlist and cart */}
           {/* <Menu>
             <Menu.Button>
@@ -118,7 +121,7 @@ function MainHeader() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 function NavigationSection() {
   return (
@@ -178,7 +181,7 @@ function NavigationSection() {
         </div>
       </span>
     </div>
-  );
+  )
 }
 function ContentSection() {
   return (
@@ -549,7 +552,7 @@ function ContentSection() {
         You may also like
       </div>
     </span>
-  );
+  )
 }
 function RelatedProductSection() {
   return (
@@ -801,7 +804,7 @@ function RelatedProductSection() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 function FooterSection() {
   return (
@@ -903,5 +906,5 @@ function FooterSection() {
         />
       </span>
     </div>
-  );
+  )
 }
