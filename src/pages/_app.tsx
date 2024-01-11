@@ -1,29 +1,49 @@
+import { BreakpointIndicator } from "@/components/breakpoint-indicator";
+import { Layout } from "@/components/layout";
+import { Toaster } from "@/components/ui/toaster";
+import { persistStore } from "@/lib/persist";
+import { cartStore } from "@/lib/persist/cart";
+import { Inter as FontSans } from "@next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
-import { type AppType } from "next/app";
-
-import { api } from "@/utils/api";
 import { ThemeProvider } from "next-themes";
+import { type AppType } from "next/app";
+import "~/styles/globals.css";
+import { api } from "~/utils/api";
 
-import { PublicLayout } from "@/components/public-layout";
-import { ModalProvider } from "@/providers/modal-provider";
-import "@/styles/globals.css";
+
+const fontSans = FontSans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+})
+
+persistStore(cartStore, "CART")
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
   return (
-    <SessionProvider session={session}>
-      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        <PublicLayout>
-          <ModalProvider>
+    <>
+      <SessionProvider session={session}>
+        <style jsx global>{`
+          :root {
+            --font-sans: ${fontSans.style.fontFamily};
+          }
+        `}</style>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <Layout>
             <Component {...pageProps} />
-          </ModalProvider>
-        </PublicLayout>
-      </ThemeProvider>
-    </SessionProvider>
-  );
-};
+          </Layout>
+          <Toaster />
+        </ThemeProvider>
+        <BreakpointIndicator />
+      </SessionProvider>
+      <Analytics />
+    </>
+  )
+}
 
-export default api.withTRPC(MyApp);
+export default api.withTRPC(MyApp)
