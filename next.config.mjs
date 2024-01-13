@@ -1,4 +1,5 @@
-import asd from "@next/bundle-analyzer"
+import asd from "@next/bundle-analyzer";
+
 
 await import("./src/env/server.mjs")
 
@@ -39,6 +40,7 @@ export default defineNextConfig({
       "loremflickr.com",
       "avatars.githubusercontent.com",
       "picsum.photos",
+      "cdn.builder.io",
     ],
   },
 })
