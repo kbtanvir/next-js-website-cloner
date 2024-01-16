@@ -82,6 +82,7 @@ model Product {
     isDeleted   Boolean  @default(false)
     userId      String
     user        User     @relation(map: "createdBy", fields: [userId], references: [id], onDelete: Cascade)
+    inStock     Boolean
 
     @@unique([createdAt, id])
     @@index([userId])

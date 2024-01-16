@@ -14,6 +14,7 @@ export function createRandomProducts(createdById: string) {
     description: faker.commerce.productDescription(),
     price: parseFloat(faker.commerce.price()),
     image: faker.image.url(),
+    inStock: faker.datatype.boolean({ probability: 0.2 }),
     userId: createdById,
   }
 }

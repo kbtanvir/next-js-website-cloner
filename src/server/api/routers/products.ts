@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { createRandomProducts } from "@/prisma/data/faker-data"
 import { type Prisma } from "@prisma/client"
 import { type inferAsyncReturnType } from "@trpc/server"
@@ -12,17 +14,71 @@ export const productRouter = createTRPCRouter({
   infiniteProducts: publicProcedure
     .input(
       z.object({
-        onlyFollowing: z.boolean().optional(),
         limit: z.number().optional(),
         cursor: z.object({ id: z.string(), createdAt: z.date() }).optional(),
+        inStock: z.boolean().optional(),
+        // minPrice: z.number().optional(),
+        // maxPrice: z.number().optional(),
+        // category: z.string().optional(),
       })
     )
-    .query(async ({ input: { limit = 10, cursor }, ctx }) => {
-      return await getInfiniteProducts({
-        limit,
-        ctx,
-        cursor,
+    .query(async ({ input, ctx }) => {
+      const whereClause: any = {}
+
+      if (input.inStock !== undefined) {
+        whereClause.inStock = input.inStock
+      }
+
+      // if (input.minPrice !== undefined || input.maxPrice !== undefined) {
+      //   whereClause.price = {
+      //     gte: input.minPrice,
+      //     lte: input.maxPrice,
+      //   }
+      // }
+
+      // if (input.category !== undefined) {
+      //   whereClause.category = input.category
+      // }
+
+      if (!input.limit) {
+        input.limit = 10
+      }
+
+      const data = await ctx.prisma.product.findMany({
+        take: input.limit ? input.limit + 1 : undefined,
+        cursor: input.cursor ? { createdAt_id: input.cursor } : undefined,
+        orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+        where: whereClause,
+        select: {
+          id: true,
+          title: true,
+          price: true,
+          image: true,
+          description: true,
+          createdAt: true,
+          user: {
+            select: { name: true, id: true, image: true },
+          },
+        },
       })
+
+      let nextCursor: typeof input.cursor | undefined
+
+      if (data.length > (input.limit ?? 10)) {
+        const nextItem = data.pop()
+        if (nextItem != null) {
+          nextCursor = { id: nextItem.id, createdAt: nextItem.createdAt }
+        }
+      }
+
+      return {
+        products: data.map((product) => {
+          return {
+            ...product,
+          }
+        }),
+        nextCursor,
+      }
     }),
   deleteAllProducts: publicProcedure.mutation(async ({ ctx }) => {
     await ctx.prisma.product.deleteMany()
@@ -40,6 +96,8 @@ export const productRouter = createTRPCRouter({
     Array.from({ length: 100 }).forEach(() => {
       PRODUCTS.push(createRandomProducts(userID))
     })
+
+
     const data = PRODUCTS.map((product) => ({ ...product }))
 
     await ctx.prisma.product.createMany({
@@ -47,51 +105,3 @@ export const productRouter = createTRPCRouter({
     })
   }),
 })
-
-async function getInfiniteProducts({
-  whereClause,
-  ctx,
-  limit,
-  cursor,
-}: {
-  whereClause?: Prisma.ProductWhereInput
-  limit: number
-  cursor: { id: string; createdAt: Date } | undefined
-  ctx: inferAsyncReturnType<typeof createTRPCContext>
-}) {
-  const data = await ctx.prisma.product.findMany({
-    take: limit + 1,
-    cursor: cursor ? { createdAt_id: cursor } : undefined,
-    orderBy: [{ createdAt: "desc" }, { id: "desc" }],
-    where: whereClause,
-    select: {
-      id: true,
-      title: true,
-      price: true,
-      image: true,
-      description: true,
-      createdAt: true,
-      user: {
-        select: { name: true, id: true, image: true },
-      },
-    },
-  })
-
-  let nextCursor: typeof cursor | undefined
-
-  if (data.length > limit) {
-    const nextItem = data.pop()
-    if (nextItem != null) {
-      nextCursor = { id: nextItem.id, createdAt: nextItem.createdAt }
-    }
-  }
-
-  return {
-    products: data.map((product) => {
-      return {
-        ...product,
-      }
-    }),
-    nextCursor,
-  }
-}

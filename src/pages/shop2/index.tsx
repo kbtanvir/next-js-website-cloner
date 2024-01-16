@@ -4,10 +4,11 @@ import UserButton from "@/components/user-button"
 import { CartIcon, WishIcon } from "@/lib/icons"
 import { type Product } from "@prisma/client"
 import Image from "next/image"
-import { Fragment } from "react"
+import { Fragment, useEffect } from "react"
 import { IoIosArrowDown, IoMdHeartEmpty } from "react-icons/io"
 import { IoCartOutline, IoGitCompareOutline } from "react-icons/io5"
 import { api } from "~/utils/api"
+import { useGlobalStore } from "~/utils/global.store"
 
 export default function ShopPage() {
   return (
@@ -16,7 +17,7 @@ export default function ShopPage() {
       <MainHeader />
       <NavigationSection />
       <ContentSection />
-      <RelatedProductSection />
+      {/* <RelatedProductSection /> */}
       <FooterSection />
     </div>
   )
@@ -280,10 +281,28 @@ function ProductItem({ item }: { item: Partial<Product> }) {
 }
 
 function ProductGrid() {
+  const { inStock } = useGlobalStore()
   const query = api.product.infiniteProducts.useInfiniteQuery(
-    {},
-    { getNextPageParam: (lastPage) => lastPage.nextCursor }
+    { inStock: undefined },
+    {
+      getNextPageParam: (lastPage) => lastPage.nextCursor,
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    }
   )
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await query.refetch()
+      } catch (error) {
+        console.error("Error fetching data:", error)
+      }
+    }
+
+    void fetchData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inStock])
 
   if (query.error) {
     return <div>{query.error.message}</div>
