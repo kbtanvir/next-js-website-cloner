@@ -43,7 +43,7 @@ export const productRouter = createTRPCRouter({
     const data = PRODUCTS.map((product) => ({ ...product }))
 
     await ctx.prisma.product.createMany({
-      data: data,
+      data,
     })
   }),
 })

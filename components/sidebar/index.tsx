@@ -45,7 +45,7 @@ function CategoryFilter() {
 
 export function Sidebar() {
   return (
-    <div className="max-w-[280px] w-full">
+    <div className="max-w-[220px] w-full">
       <span className=" flex grow flex-col items-stretch">
         <div className="text-[22px] leading-6 text-zinc-800 text-opacity-80">
           Filter:
