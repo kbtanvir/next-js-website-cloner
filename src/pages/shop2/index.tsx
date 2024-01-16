@@ -4,11 +4,11 @@ import UserButton from "@/components/user-button"
 import { CartIcon, WishIcon } from "@/lib/icons"
 import { type Product } from "@prisma/client"
 import Image from "next/image"
-import { Fragment, useEffect } from "react"
+import { Fragment, useEffect, useState } from "react"
 import { IoIosArrowDown, IoMdHeartEmpty } from "react-icons/io"
 import { IoCartOutline, IoGitCompareOutline } from "react-icons/io5"
 import { api } from "~/utils/api"
-import { useGlobalStore } from "~/utils/global.store"
+import { globalStore, useGlobalStore } from "~/utils/global.store"
 
 export default function ShopPage() {
   return (
@@ -194,6 +194,7 @@ function Breadcrumb() {
   )
 }
 function PageTitle() {
+  const { totalProducts } = useGlobalStore()
   return (
     <div className="bg-slate-100 p-6 max-w-[1300px] mx-auto">
       <span className="mx-auto flex  w-full items-center justify-between gap-5 self-stretch max-md:max-w-full max-md:flex-wrap max-md:px-5">
@@ -215,7 +216,7 @@ function PageTitle() {
             SORT BY
           </div>
           <div className="my-auto grow self-center whitespace-nowrap text-sm leading-5 text-black">
-            139 products
+            {totalProducts} products
           </div>
         </span>
       </span>
@@ -281,12 +282,12 @@ function ProductItem({ item }: { item: Partial<Product> }) {
 }
 
 function ProductGrid() {
-  const { inStock } = useGlobalStore()
+  const [data, setData] = useState<Product[]>([])
+  const { inStockFilter } = useGlobalStore()
   const query = api.product.infiniteProducts.useInfiniteQuery(
-    { inStock: undefined },
+    { inStock: inStockFilter ? true : undefined, limit: 20 },
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
-      refetchOnMount: false,
       refetchOnWindowFocus: false,
     }
   )
@@ -302,7 +303,13 @@ function ProductGrid() {
 
     void fetchData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inStock])
+  }, [inStockFilter])
+
+  useEffect(() => {
+    const data = query.data?.pages.map((page) => page.products).flat() ?? []
+    setData(data)
+    globalStore.setTotalProducts(data.length)
+  }, [query.data])
 
   if (query.error) {
     return <div>{query.error.message}</div>

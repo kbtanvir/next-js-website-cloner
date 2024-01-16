@@ -1,14 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { createRandomProducts } from "@/prisma/data/faker-data"
-import { type Prisma } from "@prisma/client"
-import { type inferAsyncReturnType } from "@trpc/server"
-import { z } from "zod"
-import {
-  createTRPCRouter,
-  publicProcedure,
-  type createTRPCContext,
-} from "~/server/api/trpc"
+import { createRandomProducts } from "@/prisma/data/faker-data";
+import { z } from "zod";
+import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import { globalStore } from "~/utils/global.store";
+
 
 export const productRouter = createTRPCRouter({
   infiniteProducts: publicProcedure
@@ -26,7 +22,7 @@ export const productRouter = createTRPCRouter({
       const whereClause: any = {}
 
       if (input.inStock !== undefined) {
-        whereClause.inStock = input.inStock
+        whereClause.inStock = true
       }
 
       // if (input.minPrice !== undefined || input.maxPrice !== undefined) {
@@ -49,17 +45,10 @@ export const productRouter = createTRPCRouter({
         cursor: input.cursor ? { createdAt_id: input.cursor } : undefined,
         orderBy: [{ createdAt: "desc" }, { id: "desc" }],
         where: whereClause,
-        select: {
-          id: true,
-          title: true,
-          price: true,
-          image: true,
-          description: true,
-          createdAt: true,
-          user: {
-            select: { name: true, id: true, image: true },
-          },
-        },
+        include:{
+          user:true
+        }
+       
       })
 
       let nextCursor: typeof input.cursor | undefined
@@ -71,6 +60,9 @@ export const productRouter = createTRPCRouter({
         }
       }
 
+      console.log(data)
+
+ 
       return {
         products: data.map((product) => {
           return {
@@ -96,7 +88,6 @@ export const productRouter = createTRPCRouter({
     Array.from({ length: 100 }).forEach(() => {
       PRODUCTS.push(createRandomProducts(userID))
     })
-
 
     const data = PRODUCTS.map((product) => ({ ...product }))
 

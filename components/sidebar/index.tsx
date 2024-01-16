@@ -1,27 +1,18 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form";
-import type * as z from "zod";
-import { globalStore } from "~/utils/global.store";
+import { globalStore, useGlobalStore } from "~/utils/global.store";
 
 
 function AvaibilityFilter() {
+  const { inStockFilter } = useGlobalStore()
   return (
     <div className="flex flex-col justify-between gap-5">
       <div className="flex justify-between">
         <div className="flex items-center space-x-2">
           <Checkbox
-            onChange={(e) => {
-              console.log(e.target)
+            onCheckedChange={(e) => {
+              globalStore.setInStockFilter(!inStockFilter)
+              console.log(inStockFilter)
             }}
           />
           <label
@@ -63,15 +54,6 @@ function CategoryFilter() {
 }
 
 export function Sidebar() {
-  // * FORM FIELDS
- const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-  })
- 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    globalStore.setState(dto)
-  }
-   
   return (
     <div className="max-w-[220px] w-full">
       <span className=" flex grow flex-col items-stretch">
@@ -79,33 +61,27 @@ export function Sidebar() {
           Filter:
         </div>
         <div className="mt-7 flex h-px shrink-0 flex-col bg-zinc-800 bg-opacity-20" />
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="w-2/3 space-y-6"
-          >
-            <Accordion type="multiple" className="w-full">
-              <AccordionItem value="item-1">
-                <AccordionTrigger>Avaibility</AccordionTrigger>
-                <AccordionContent>
-                  <AvaibilityFilter />
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-2">
-                <AccordionTrigger>Price</AccordionTrigger>
-                <AccordionContent>
-                  <PriceFilter />
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-3">
-                <AccordionTrigger>Categories</AccordionTrigger>
-                <AccordionContent>
-                  <CategoryFilter />
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          </form>
-        </Form>
+
+        <Accordion type="multiple" className="w-full">
+          <AccordionItem value="item-1">
+            <AccordionTrigger>Avaibility</AccordionTrigger>
+            <AccordionContent>
+              <AvaibilityFilter />
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-2">
+            <AccordionTrigger>Price</AccordionTrigger>
+            <AccordionContent>
+              <PriceFilter />
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-3">
+            <AccordionTrigger>Categories</AccordionTrigger>
+            <AccordionContent>
+              <CategoryFilter />
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
       </span>
     </div>
   )
