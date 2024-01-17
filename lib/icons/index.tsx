@@ -10,12 +10,12 @@ export function UserIcon() {
       <path
         d="M1 20.4583C1 16.3775 4.35787 13.0694 8.5 13.0694C12.6421 13.0694 16 16.3775 16 20.4583M12.7857 5.68047C12.7857 8.01234 10.8669 9.9027 8.5 9.9027C6.13306 9.9027 4.21429 8.01234 4.21429 5.68047C4.21429 3.3486 6.13306 1.45825 8.5 1.45825C10.8669 1.45825 12.7857 3.3486 12.7857 5.68047Z"
         stroke="black"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
-  );
+  )
 }
 
 export function WishIcon() {
@@ -32,7 +32,7 @@ export function WishIcon() {
         fill="black"
       />
     </svg>
-  );
+  )
 }
 export function CartIcon() {
   return (
@@ -46,9 +46,9 @@ export function CartIcon() {
       <path
         d="M5.03305 3.58233H23L20.5556 11.3601H6.34931M21.7778 15.8046H7.11111L4.66667 1.36011H1M8.33333 20.249C8.33333 20.8627 7.78612 21.3601 7.11111 21.3601C6.4361 21.3601 5.88889 20.8627 5.88889 20.249C5.88889 19.6353 6.4361 19.1379 7.11111 19.1379C7.78612 19.1379 8.33333 19.6353 8.33333 20.249ZM21.7778 20.249C21.7778 20.8627 21.2306 21.3601 20.5556 21.3601C19.8805 21.3601 19.3333 20.8627 19.3333 20.249C19.3333 19.6353 19.8805 19.1379 20.5556 19.1379C21.2306 19.1379 21.7778 19.6353 21.7778 20.249Z"
         stroke="black"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
-  );
+  )
 }

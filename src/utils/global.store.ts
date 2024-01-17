@@ -4,12 +4,12 @@ import { useStore } from "@poly-state/react"
 // import { demoTM } from '../data/demo'
 
 export type GlobalStore = {
-  inStockFilter: boolean
+  inStock: boolean
   totalProducts: number
 }
 
 export const initialStore: GlobalStore = {
-  inStockFilter: false,
+  inStock: false,
   totalProducts: 0,
 }
 

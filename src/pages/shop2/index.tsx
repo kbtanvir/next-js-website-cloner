@@ -27,7 +27,7 @@ function TopBar() {
   return (
     <div className=" flex flex-col items-stretch bg-blue-800 p-3.5 ">
       <span
-        className={`mx-auto flex w-full max-w-[1300px] items-stretch justify-between gap-5 max-md:flex-wrap`}
+        className={`mx-auto flex w-full max-w-[1500px] items-stretch justify-between gap-5 max-md:flex-wrap`}
       >
         <img
           loading="lazy"
@@ -62,7 +62,7 @@ function TopBar() {
 function MainHeader() {
   return (
     <div
-      className={`mx-auto py-9 flex max-w-[1300px] items-center justify-between gap-15 max-xl:px-8 max-md:flex-wrap`}
+      className={`mx-auto py-9 flex max-w-[1500px] items-center justify-between gap-15 max-xl:px-8 max-md:flex-wrap`}
     >
       <div>
         <h1 className="text-[30px] font-bold uppercase">E-shoper</h1>
@@ -129,7 +129,7 @@ function MainHeader() {
 function NavigationSection() {
   return (
     <div className="flex flex-col border-y-2 py-4">
-      <div className="mx-auto w-full flex max-w-[1300px] items-center justify-between gap-15 max-xl:px-8 max-md:flex-wrap ">
+      <div className="mx-auto w-full flex max-w-[1500px] items-center justify-between gap-15 max-xl:px-8 max-md:flex-wrap ">
         <span className="flex items-stretch justify-between gap-3">
           <img
             loading="lazy"
@@ -185,7 +185,7 @@ function NavigationSection() {
 }
 function Breadcrumb() {
   return (
-    <span className="flex max-w-[1300px] mx-auto py-5 gap-5 self-start">
+    <span className="flex max-w-[1500px] mx-auto py-5 gap-5 self-start">
       <div className="text-base leading-7 text-zinc-800">Home</div>
       <div className="text-sm leading-7 text-zinc-800 text-opacity-80">
         / Products
@@ -196,7 +196,7 @@ function Breadcrumb() {
 function PageTitle() {
   const { totalProducts } = useGlobalStore()
   return (
-    <div className="bg-slate-100 p-6 max-w-[1300px] mx-auto">
+    <div className="bg-slate-100 p-6 max-w-[1500px] mx-auto">
       <span className="mx-auto flex  w-full items-center justify-between gap-5 self-stretch max-md:max-w-full max-md:flex-wrap max-md:px-5">
         <div className="my-auto text-2xl font-semibold uppercase leading-8 text-zinc-800">
           Products
@@ -239,8 +239,15 @@ function ProductItem({ item }: { item: Partial<Product> }) {
 
           <div className="flex flex-col w-full items-stretch border  pb-px pt-2.5">
             <div className="flex flex-col items-stretch px-3">
-              <span className="absolute mt-1 max-w-[58px]  items-stretch justify-center whitespace-nowrap rounded-md border border-solid border-white border-opacity-10 bg-neutral-900 px-3.5 py-1.5 text-center text-xs leading-3 text-white">
-                -21%
+              <span className="absolute mt-1  grid gap-3  items-stretch justify-center ">
+                <span className="whitespace-nowrap rounded-md border border-solid border-white border-opacity-10 bg-neutral-900 px-3.5 py-1.5 text-center text-xs leading-3 text-white">
+                  -21%
+                </span>
+                {!item.inStock && (
+                  <span className="whitespace-nowrap rounded-md border border-solid border-white border-opacity-10 bg-red-600 px-3.5 py-1.5 text-center text-xs leading-3 text-white">
+                    {"Not in Stock"}
+                  </span>
+                )}
               </span>
               <div className="absolute flex flex-col items-center gap-2.5 self-end">
                 <div className="flex bg-white shadow-lg p-1.5 rounded-lg self-end">
@@ -283,9 +290,9 @@ function ProductItem({ item }: { item: Partial<Product> }) {
 
 function ProductGrid() {
   const [data, setData] = useState<Product[]>([])
-  const { inStockFilter } = useGlobalStore()
+  const { inStock } = useGlobalStore()
   const query = api.product.infiniteProducts.useInfiniteQuery(
-    { inStock: inStockFilter ? true : undefined, limit: 20 },
+    { inStock: inStock === false ? undefined : true, limit: 20 },
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
       refetchOnWindowFocus: false,
@@ -303,7 +310,7 @@ function ProductGrid() {
 
     void fetchData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inStockFilter])
+  }, [inStock])
 
   useEffect(() => {
     const data = query.data?.pages.map((page) => page.products).flat() ?? []
@@ -327,11 +334,9 @@ function ProductGrid() {
     <>
       <div className="w-full flex flex-col gap-10">
         <div className="grid grid-cols-4 gap-8">
-          {(query.data?.pages.map((page) => page.products).flat() ?? []).map(
-            (item, i) => (
-              <ProductItem key={i} item={item} />
-            )
-          )}
+          {data.map((item, i) => (
+            <ProductItem key={i} item={item} />
+          ))}
         </div>
         {query.hasNextPage && (
           <Button
@@ -365,7 +370,7 @@ function ContentSection() {
       <Breadcrumb />
       <PageTitle />
       <div className="mt-20">
-        <div className="flex max-w-[1300px] w-full mx-auto  justify-between gap-10">
+        <div className="flex max-w-[1500px] w-full mx-auto  justify-between gap-10">
           <Sidebar />
 
           <ProductGrid />
@@ -376,7 +381,7 @@ function ContentSection() {
 }
 function RelatedProductSection() {
   return (
-    <div className=" mx-auto max-w-[1300px] mt-20 px-px max-md:mr-2.5 max-md:mt-10 max-md:max-w-full">
+    <div className=" mx-auto max-w-[1500px] mt-20 px-px max-md:mr-2.5 max-md:mt-10 max-md:max-w-full">
       <div className="mb-20 font-semibold mt-40 self-center whitespace-nowrap text-center text-4xl leading-10 text-zinc-800  ">
         You may also like
       </div>
@@ -391,7 +396,7 @@ function RelatedProductSection() {
 function FooterSection() {
   return (
     <div className="mt-20  flex w-full flex-col items-stretch bg-slate-50 px-12 py-11 max-md:mt-10 max-md:max-w-full max-md:px-5">
-      <div className="max-w-[1300px] mx-auto w-full">
+      <div className="max-w-[1500px] mx-auto w-full">
         <div className="mt-9 flex w-full items-start justify-between gap-10 max-md:max-w-full max-md:flex-wrap">
           <div className="max-w-[400px] w-full">
             <div className="flex gap-5 max-md:flex-col max-md:items-stretch max-md:gap-0">

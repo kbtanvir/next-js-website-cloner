@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { createRandomProducts } from "@/prisma/data/faker-data";
-import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { globalStore } from "~/utils/global.store";
-
+import { type ISidebarFormSchema } from "@/components/sidebar"
+import { createRandomProducts } from "@/prisma/data/faker-data"
+import { z } from "zod"
+import { createTRPCRouter, publicProcedure } from "~/server/api/trpc"
 
 export const productRouter = createTRPCRouter({
   infiniteProducts: publicProcedure
@@ -13,13 +12,13 @@ export const productRouter = createTRPCRouter({
         limit: z.number().optional(),
         cursor: z.object({ id: z.string(), createdAt: z.date() }).optional(),
         inStock: z.boolean().optional(),
-        // minPrice: z.number().optional(),
-        // maxPrice: z.number().optional(),
-        // category: z.string().optional(),
+        minPrice: z.number().optional(),
+        maxPrice: z.number().optional(),
+        category: z.string().optional(),
       })
     )
     .query(async ({ input, ctx }) => {
-      const whereClause: any = {}
+      const whereClause: ISidebarFormSchema = {}
 
       if (input.inStock !== undefined) {
         whereClause.inStock = true
@@ -45,10 +44,9 @@ export const productRouter = createTRPCRouter({
         cursor: input.cursor ? { createdAt_id: input.cursor } : undefined,
         orderBy: [{ createdAt: "desc" }, { id: "desc" }],
         where: whereClause,
-        include:{
-          user:true
-        }
-       
+        include: {
+          user: true,
+        },
       })
 
       let nextCursor: typeof input.cursor | undefined
@@ -60,9 +58,6 @@ export const productRouter = createTRPCRouter({
         }
       }
 
-      console.log(data)
-
- 
       return {
         products: data.map((product) => {
           return {
