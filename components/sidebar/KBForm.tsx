@@ -1,5 +1,5 @@
 import { Button } from "../ui/button"
-import { ISidebarFormSchema, SidebarFormSchema } from "./index"
+import { ProductsQueryInput, type IProductQueryInput } from "./index"
 import { Form } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -7,11 +7,11 @@ import { useForm } from "react-hook-form"
 
 export function KBForm() {
   // * FORM SERVICE
-  const formService = useForm<ISidebarFormSchema>({
+  const formService = useForm<IProductQueryInput>({
     mode: "onChange",
-    resolver: zodResolver(SidebarFormSchema),
+    resolver: zodResolver(ProductsQueryInput),
   })
-  function onSubmit(dto: ISidebarFormSchema) {
+  function onSubmit(dto: IProductQueryInput) {
     console.log(dto)
   }
 

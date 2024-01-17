@@ -233,8 +233,9 @@ function ProductItem({ item }: { item: Partial<Product> }) {
             loading="lazy"
             src={item.image ?? ""}
             alt={item.title ?? ""}
-            className="absolute  object-cover object-center"
-            layout="fill"
+            className="absolute object-cover object-center h-full"
+            width={279}
+            height={330}
           />
 
           <div className="flex flex-col w-full items-stretch border  pb-px pt-2.5">
@@ -290,9 +291,10 @@ function ProductItem({ item }: { item: Partial<Product> }) {
 
 function ProductGrid() {
   const [data, setData] = useState<Product[]>([])
-  const { inStock } = useGlobalStore()
+
+  const { productsQueryDTO } = useGlobalStore()
   const query = api.product.infiniteProducts.useInfiniteQuery(
-    { inStock: inStock === false ? undefined : true, limit: 20 },
+    productsQueryDTO,
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
       refetchOnWindowFocus: false,
@@ -310,7 +312,7 @@ function ProductGrid() {
 
     void fetchData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inStock])
+  }, [JSON.stringify(productsQueryDTO)])
 
   useEffect(() => {
     const data = query.data?.pages.map((page) => page.products).flat() ?? []

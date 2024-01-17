@@ -1,35 +1,29 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { type ISidebarFormSchema } from "@/components/sidebar"
+import {
+  ProductsQueryInput,
+  type IProductQueryInput,
+} from "@/components/sidebar"
 import { createRandomProducts } from "@/prisma/data/faker-data"
-import { z } from "zod"
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc"
 
 export const productRouter = createTRPCRouter({
   infiniteProducts: publicProcedure
-    .input(
-      z.object({
-        limit: z.number().optional(),
-        cursor: z.object({ id: z.string(), createdAt: z.date() }).optional(),
-        inStock: z.boolean().optional(),
-        minPrice: z.number().optional(),
-        maxPrice: z.number().optional(),
-        category: z.string().optional(),
-      })
-    )
+    .input(ProductsQueryInput)
     .query(async ({ input, ctx }) => {
-      const whereClause: ISidebarFormSchema = {}
+      const whereClause: IProductQueryInput = {}
 
-      if (input.inStock !== undefined) {
+      if (input.inStock) {
         whereClause.inStock = true
       }
 
-      // if (input.minPrice !== undefined || input.maxPrice !== undefined) {
-      //   whereClause.price = {
-      //     gte: input.minPrice,
-      //     lte: input.maxPrice,
-      //   }
+      // if (input.sizes?.length) {
+      //   whereClause.sizes = input.sizes
       // }
+
+      if (input.price) {
+        whereClause.price = input.price
+      }
 
       // if (input.category !== undefined) {
       //   whereClause.category = input.category

@@ -8,22 +8,22 @@ import {
 import { Checkbox } from "@/components/ui/checkbox"
 import { Form } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { useToast } from "@/components/ui/use-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
-import { globalStore, useGlobalStore } from "~/utils/global.store"
+import { globalStore } from "~/utils/global.store"
 
 function AvaibilityFilter() {
-  const { inStock } = useGlobalStore()
   return (
     <div className="flex flex-col justify-between gap-5">
       <div className="flex justify-between">
         <div className="flex items-center space-x-2">
           <Checkbox
-            onCheckedChange={(e) => {
-              globalStore.setInStock(!inStock)
-              console.log(inStock)
+            onCheckedChange={() => {
+              globalStore.setProductsQueryDTO((s) => ({
+                ...s,
+                inStock: !s.inStock,
+              }))
             }}
           />
           <label
@@ -33,59 +33,73 @@ function AvaibilityFilter() {
             In Stock
           </label>
         </div>
+        0
       </div>
     </div>
   )
 }
 
-function PriceFilter() {
-  return (
-    <>
-      <div className="mt-6 flex h-0.5 shrink-0 flex-col border border-solid border-zinc-800" />
-      <span className="mt-6 flex items-start justify-between gap-2.5">
-        <div className="text-base leading-5 text-zinc-800">Price:</div>
-        <div className="text-base leading-7 text-zinc-800 text-opacity-80">
-          $ 0 - $500
-        </div>
-      </span>
-    </>
-  )
-}
-
-function CategoryFilter() {
+function SizesFilter() {
   return (
     <div className="flex flex-col justify-between gap-5">
-      {["Men", "Women", "Kids"].map((item, i) => (
+      {ProductSizes.map((item, i) => (
         <div key={i} className="flex justify-between">
-          {item} <span>0</span>
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              onCheckedChange={() => {
+                // globalStore.setProductsQueryDTO((s) =>
+                //   s.sizes?.includes(ProductSizes[i] as string)
+                //     ? {
+                //         ...s,
+                //         sizes: [
+                //           ...s.sizes.filter(
+                //             (s) => s.toString() !== ProductSizes[i]
+                //           ),
+                //         ],
+                //       }
+                //     : {
+                //         ...s,
+                //         sizes: [...s.sizes, ProductSizes[i]],
+                //       }
+                // )
+              }}
+            />
+            <label
+              htmlFor="terms"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              {item}
+            </label>
+          </div>
+          0
         </div>
       ))}
     </div>
   )
 }
-export const SidebarFormSchema = z.object({
-  inStock: z.boolean().optional(),
-  minPrice: z.coerce.number().min(0).optional(),
-  maxPrice: z.coerce.number().min(10).optional(),
+const ProductSizes = ["S", "L", "XL"] as const
+
+export const ProductsQueryInput = z.object({
   category: z.string().optional(),
+  limit: z.number().min(10).optional(),
+  cursor: z.object({ id: z.string(), createdAt: z.date() }).optional(),
+  inStock: z.boolean().optional(),
+  price: z
+    .object({
+      gte: z.coerce.number().min(0).optional(),
+      lte: z.coerce.number().min(10).optional(),
+    })
+    .optional(),
 })
 
-export type ISidebarFormSchema = z.infer<typeof SidebarFormSchema>
+export type IProductQueryInput = z.infer<typeof ProductsQueryInput>
 
 export function Sidebar() {
-  const { toast } = useToast()
-  const form = useForm<ISidebarFormSchema>({
-    resolver: zodResolver(SidebarFormSchema),
+  const form = useForm<IProductQueryInput>({
+    resolver: zodResolver(ProductsQueryInput),
   })
-  function onSubmit(data: ISidebarFormSchema) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
+  function onSubmit(data: IProductQueryInput) {
+    globalStore.setProductsQueryDTO((state) => ({ ...state, ...data }))
   }
   return (
     <div className="max-w-[280px] w-full">
@@ -117,26 +131,42 @@ export function Sidebar() {
                     <Input
                       min={0}
                       type={"number"}
+                      placeholder="Min "
                       onChange={(e) => {
-                        form.setValue("minPrice", parseFloat(e.target.value))
+                        form.setValue("price.gte", parseFloat(e.target.value))
                       }}
+                      value={form.watch("price.gte") ?? ""}
                     />
                     <Input
                       min={10}
                       type={"number"}
+                      placeholder="Max "
                       onChange={(e) => {
-                        form.setValue("maxPrice", parseFloat(e.target.value))
+                        form.setValue("price.lte", parseFloat(e.target.value))
                       }}
+                      value={form.watch("price.lte") ?? ""}
                     />
                   </div>
-                  <Button type="submit">Submit</Button>
-                  <PriceFilter />
+                  <div className="flex gap-2">
+                    <Button type="submit">Submit</Button>
+                    <Button
+                      onClick={() => {
+                        form.reset({ price: undefined })
+                        globalStore.setProductsQueryDTO((s) => ({
+                          ...s,
+                          price: undefined,
+                        }))
+                      }}
+                    >
+                      Reset
+                    </Button>
+                  </div>
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-3">
-                <AccordionTrigger>Categories</AccordionTrigger>
+                <AccordionTrigger>Sizes</AccordionTrigger>
                 <AccordionContent>
-                  <CategoryFilter />
+                  <SizesFilter />
                 </AccordionContent>
               </AccordionItem>
             </Accordion>

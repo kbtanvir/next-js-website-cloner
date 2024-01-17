@@ -16,6 +16,7 @@ export function createRandomProducts(createdById: string) {
     image: faker.image.url(),
     inStock: faker.datatype.boolean({ probability: 0.2 }),
     userId: createdById,
+    // sizes: faker.helpers.arrayElement(["S", "L", "M", "XL"]),
   }
 }
 
