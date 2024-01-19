@@ -1,5 +1,10 @@
-import { type IProduct } from "../model"
 import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu"
 import UserButton from "@/components/user-button"
 import { Sidebar } from "@/features/shop/view/sidebar"
 import { CartIcon, WishIcon } from "@/lib/icons"
@@ -9,6 +14,7 @@ import { IoIosArrowDown, IoMdHeartEmpty } from "react-icons/io"
 import { IoCartOutline, IoGitCompareOutline } from "react-icons/io5"
 import { api } from "~/utils/api"
 import { globalStore, useGlobalStore } from "~/utils/global.store"
+import { OrderByOptions, type IOrderBy, type IProduct } from "../model"
 
 export function TopBar() {
   return (
@@ -180,8 +186,47 @@ function Breadcrumb() {
     </span>
   )
 }
+
+function formatOrderByText(orderBy: IOrderBy) {
+  let field = ""
+
+  switch (orderBy) {
+    case "createdAt_asc":
+      field = "Latest"
+      break
+
+    case "createdAt_desc":
+      field = "Oldest"
+      break
+
+    case "price_asc":
+      field = "Price: Low to High"
+      break
+
+    case "price_desc":
+      field = "Price: High to Low"
+      break
+
+    default:
+      break
+  }
+
+  return field
+}
+
 function PageTitle() {
-  const { totalProducts } = useGlobalStore()
+  const {
+    productCounts,
+    productsQueryDTO: { sort },
+  } = useGlobalStore()
+
+  function handleOrderByClick(orderBy: IOrderBy) {
+    globalStore.setProductsQueryDTO((s) => ({
+      ...s,
+      sort: orderBy,
+    }))
+  }
+
   return (
     <div className="bg-slate-100 p-6 max-w-[1500px] mx-auto">
       <span className="mx-auto flex  w-full items-center justify-between gap-5 self-stretch max-md:max-w-full max-md:flex-wrap max-md:px-5">
@@ -200,10 +245,24 @@ function PageTitle() {
             className="my-auto aspect-[1.6] w-4 max-w-full shrink-0 self-center overflow-hidden object-contain object-center"
           />
           <div className="my-auto self-center text-center text-base leading-5 text-black">
-            SORT BY
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                {formatOrderByText(sort ?? "createdAt_desc")} 
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                {OrderByOptions.map((item, i) => (
+                  <DropdownMenuLabel
+                    key={i}
+                    onClick={() => handleOrderByClick(item)}
+                  >
+                    {formatOrderByText(item)}
+                  </DropdownMenuLabel>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
           <div className="my-auto grow self-center whitespace-nowrap text-sm leading-5 text-black">
-            {totalProducts} products
+            {productCounts.total ?? 0} products
           </div>
         </span>
       </span>
@@ -313,7 +372,20 @@ function ProductGrid() {
   useEffect(() => {
     const data = query.data?.pages.map((page) => page.products).flat() ?? []
     setData(data)
-    globalStore.setTotalProducts(data.length)
+
+    const productsInSizesCounts = data.reduce((acc, item) => {
+      item.sizes.forEach((size) => {
+        const acc: { [key: string]: number } = {}
+        acc[size.name] = (acc[size.name] ?? 0) + 1
+      })
+      return acc
+    }, {})
+
+    globalStore.setProductCounts({
+      total: data.length,
+      inStock: data.filter((item) => item.inStock).length,
+      productsInSizesCounts,
+    })
   }, [query.data])
 
   if (query.error) {

@@ -16,13 +16,13 @@ export const productRouter = createTRPCRouter({
     .input(ProductsQueryInput)
     .query(async ({ input, ctx }) => {
       const whereClause: any = {}
-
-      if (input.inStock) {
+      let orderBy
+      if (input.inStock === true) {
         whereClause.inStock = true
       }
 
       if (input.sizes?.length) {
-        whereClause["OR"] = [] as any[]
+        whereClause.OR = []
         const sizes = input.sizes.map((size) => ({
           sizes: {
             some: {
@@ -30,16 +30,20 @@ export const productRouter = createTRPCRouter({
             },
           },
         }))
-        whereClause["OR"] = [...sizes]
+        whereClause.OR = [...sizes]
       }
 
       if (input.price) {
         whereClause.price = input.price
       }
 
-      // if (input.category !== undefined) {
-      //   whereClause.category = input.category
-      // }
+      if (input.sort) {
+        orderBy = []
+
+        const [field, order] = input.sort.split("_")
+
+        orderBy.push({ [field as string]: order })
+      }
 
       if (!input.limit) {
         input.limit = 10
@@ -48,7 +52,7 @@ export const productRouter = createTRPCRouter({
       const data = await ctx.prisma.product.findMany({
         take: input.limit ? input.limit + 1 : undefined,
         cursor: input.cursor ? { createdAt_id: input.cursor } : undefined,
-        orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+        orderBy: orderBy,
         where: whereClause,
         include: {
           user: true,
@@ -64,7 +68,6 @@ export const productRouter = createTRPCRouter({
           nextCursor = { id: nextItem.id, createdAt: nextItem.createdAt }
         }
       }
-      console.log(data)
 
       return {
         products: data.map((product) => {
@@ -88,7 +91,7 @@ export const productRouter = createTRPCRouter({
     }
 
     // Create new products without sizes
-    const PRODUCTS = Array.from({ length: 10 }).map(() =>
+    const PRODUCTS = Array.from({ length: 50 }).map(() =>
       createRandomProducts(userID)
     )
 
@@ -116,7 +119,7 @@ export function createRandomProducts(createdById: string): CreateProductDTO {
     description: faker.commerce.productDescription(),
     price: parseFloat(faker.commerce.price()),
     image: faker.image.url(),
-    inStock: faker.datatype.boolean({ probability: 0.2 }),
+    inStock: faker.datatype.boolean({ probability: 0.5 }),
     userId: createdById,
   }
 }

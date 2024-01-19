@@ -5,14 +5,24 @@ import { useStore } from "@poly-state/react"
 // import { demoTM } from '../data/demo'
 
 export type GlobalStore = {
-  totalProducts: number
   productsQueryDTO: IProductQueryInput
+  productCounts: {
+    total: number
+    inStock: number
+    productsInSizesCounts: {
+      [key: string]: number
+    }
+  }
 }
 
 export const initialStore: GlobalStore = {
-  totalProducts: 0,
   productsQueryDTO: {
-    inStock: false,
+    sort: "createdAt_desc",
+  },
+  productCounts: {
+    total: 0,
+    inStock: 0,
+    productsInSizesCounts: {},
   },
 }
 

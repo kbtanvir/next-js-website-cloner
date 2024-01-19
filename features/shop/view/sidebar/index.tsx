@@ -15,9 +15,10 @@ import { Form } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { globalStore } from "~/utils/global.store"
+import { globalStore, useGlobalStore } from "~/utils/global.store"
 
 function AvaibilityFilter() {
+  const { productCounts } = useGlobalStore()
   return (
     <div className="flex flex-col justify-between gap-5">
       <div className="flex justify-between">
@@ -37,7 +38,7 @@ function AvaibilityFilter() {
             In Stock
           </label>
         </div>
-        0
+        {productCounts.inStock}
       </div>
     </div>
   )

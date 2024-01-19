@@ -5,6 +5,15 @@ export const ProductSizes = ["S", "L", "M", "XL"] as const
 
 export type IProductSize = (typeof ProductSizes)[number]
 
+export const OrderByOptions = [
+  "price_asc",
+  "price_desc",
+  "createdAt_asc",
+  "createdAt_desc",
+] as const
+
+export type IOrderBy = (typeof OrderByOptions)[number]
+
 export const ProductsQueryInput = z.object({
   category: z.string().optional(),
   limit: z.number().min(10).optional(),
@@ -17,6 +26,8 @@ export const ProductsQueryInput = z.object({
     })
     .optional(),
   sizes: z.enum(ProductSizes).array().optional(),
+  sort: z.enum(OrderByOptions).optional(),
+  OR: z.any().optional(),
 })
 
 export type IProductQueryInput = z.infer<typeof ProductsQueryInput>
