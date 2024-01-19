@@ -11,7 +11,7 @@ import { Sidebar } from "@/features/shop/view/sidebar"
 import { CartIcon, SortIcon, WishIcon } from "@/lib/icons"
 import Image from "next/image"
 import { Fragment, useEffect, useState } from "react"
-import { IoIosArrowDown, IoMdHeartEmpty } from "react-icons/io"
+import { IoIosArrowDown, IoMdHeart, IoMdHeartEmpty } from "react-icons/io"
 import { IoCartOutline, IoGitCompareOutline } from "react-icons/io5"
 import { api } from "~/utils/api"
 import { globalStore, useGlobalStore } from "~/utils/global.store"
@@ -278,9 +278,7 @@ function PageTitle() {
               >
                 Show {limit}
               </DropdownMenuTrigger>
-              <DropdownMenuContent
-                className="p-0 border-none"
-              >
+              <DropdownMenuContent className="p-0 border-none">
                 {[10, 20, 50].map((item, i) => (
                   <DropdownMenuLabel
                     key={i}
@@ -306,14 +304,17 @@ function PageTitle() {
   )
 }
 function ProductItem({ item }: { item: IProduct }) {
+  const mutation = api.product.updateWishList.useMutation()
+  const [inWishList, setinWishList] = useState(!!item.wishlistId)
+
   return (
     <div className="flex-col items-stretch w-full max-md:ml-0 max-md:w-full">
       <span className="flex flex-col items-stretch max-md:mt-9 ">
         <div className="relative flex  aspect-[2/2.5] w-full flex-col border-[1px] border-solid border-black ">
           <Image
             loading="lazy"
-            src={item.image ?? ""}
-            alt={item.title ?? ""}
+            src={item.image}
+            alt={item.title}
             className="absolute object-cover object-center h-full w-full"
             width={279}
             height={330}
@@ -322,7 +323,7 @@ function ProductItem({ item }: { item: IProduct }) {
           <div className="flex flex-col w-full items-stretch border  pb-px pt-2.5">
             <div className="flex flex-col items-stretch px-3">
               <span className="absolute mt-1 grid gap-3  items-stretch justify-center ">
-                <span className="whitespace-nowrap rounded-md border border-solid border-white border-opacity-10 bg-neutral-900 px-3.5 py-1.5 text-center text-xs leading-3 text-white">
+                <span className="whitespace-nowrap justify-self-start rounded-md border border-solid border-white border-opacity-10 bg-neutral-900 px-3.5 py-1.5 text-center text-xs leading-3 text-white">
                   -21%
                 </span>
 
@@ -337,15 +338,34 @@ function ProductItem({ item }: { item: IProduct }) {
                   ))}
                 </span>
                 {!item.inStock && (
-                  <span className="whitespace-nowrap rounded-md border border-solid border-white border-opacity-10 bg-red-600 px-3.5 py-1.5 text-center text-xs leading-3 text-white">
+                  <span className="justify-self-start whitespace-nowrap rounded-md border border-solid border-white border-opacity-10 bg-red-600 px-3.5 py-1.5 text-center text-xs leading-3 text-white">
                     {"Out of Stock"}
                   </span>
                 )}
               </span>
               <div className="absolute flex flex-col items-center gap-2.5 self-end">
-                <div className="flex bg-white shadow-lg p-1.5 rounded-lg self-end">
-                  <IoMdHeartEmpty fontSize={25} />
-                </div>
+                <span>
+                  {mutation.isLoading ? (
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-900" />
+                  ) : (
+                    <div
+                      className="flex bg-white shadow-lg p-1.5 rounded-lg self-end"
+                      onClick={async () => {
+                        await mutation.mutateAsync({
+                          productId: item.id,
+                          action: !!item.wishlistId ? "remove" : "add",
+                        })
+                        setinWishList(!inWishList)
+                      }}
+                    >
+                      {inWishList ? (
+                        <IoMdHeart fontSize={25} />
+                      ) : (
+                        <IoMdHeartEmpty fontSize={25} />
+                      )}
+                    </div>
+                  )}
+                </span>
                 {/* TODO: add quickview */}
                 <div className="flex bg-white shadow-lg p-1.5 rounded-lg self-end">
                   <IoGitCompareOutline fontSize={25} />
@@ -406,7 +426,8 @@ function ProductGrid() {
   }, [JSON.stringify(productsQueryDTO)])
 
   useEffect(() => {
-    const data = query.data?.pages.map((page) => page.products).flat() ?? []
+    const data = (query.data?.pages.map((page) => page.products).flat() ??
+      []) as IProduct[]
     setData(data)
 
     const productsInSizesCounts = data.reduce((acc, item) => {
@@ -416,7 +437,7 @@ function ProductGrid() {
       })
       return acc
     }, {})
-
+    console.log(data)
     globalStore.setProductCounts({
       total: data.length,
       inStock: data.filter((item) => item.inStock).length,
@@ -439,7 +460,8 @@ function ProductGrid() {
   return (
     <>
       <div className="w-full flex flex-col gap-10">
-        <div className={`grid grid-cols-${columnSize} gap-8`}>
+        {/* TODO: fix col size issue */}
+        <div className={`grid grid-cols-4 gap-8`}>
           {data.map((item, i) => (
             <ProductItem key={i} item={item} />
           ))}

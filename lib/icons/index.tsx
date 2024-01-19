@@ -26,7 +26,7 @@ export function SortIcon() {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clip-path="url(#clip0_31_1159)">
+      <g clipPath="url(#clip0_31_1159)">
         <path d="M0 0H16V2H0V0ZM0 4H12V6H0V4ZM0 8H8V10H0V8Z" fill="black" />
       </g>
       <defs>

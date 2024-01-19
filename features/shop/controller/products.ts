@@ -1,10 +1,11 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-
-import { ProductsQueryInput } from "@/features/shop/model"
+import {
+  ProductsQueryInput,
+  type CreateProductDTO,
+  type IProductQueryInput,
+} from "@/features/shop/model"
 import { faker } from "@faker-js/faker"
-import { type Product } from "@prisma/client"
 import { type inferAsyncReturnType } from "@trpc/server"
+import { z } from "zod"
 import {
   createTRPCRouter,
   publicProcedure,
@@ -15,7 +16,7 @@ export const productRouter = createTRPCRouter({
   infiniteProducts: publicProcedure
     .input(ProductsQueryInput)
     .query(async ({ input, ctx }) => {
-      const whereClause: any = {}
+      const whereClause: IProductQueryInput = {}
       let orderBy
       if (input.inStock === true) {
         whereClause.inStock = true
@@ -45,14 +46,12 @@ export const productRouter = createTRPCRouter({
         orderBy.push({ [field as string]: order })
       }
 
-      if (!input.limit) {
-        input.limit = 10
-      }
-
       const data = await ctx.prisma.product.findMany({
         take: input.limit ? input.limit + 1 : undefined,
         cursor: input.cursor ? { createdAt_id: input.cursor } : undefined,
-        orderBy: orderBy,
+        orderBy,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         where: whereClause,
         include: {
           user: true,
@@ -83,15 +82,55 @@ export const productRouter = createTRPCRouter({
 
     return true
   }),
-  addFake100: publicProcedure.mutation(async ({ ctx }) => {
+  updateWishList: publicProcedure
+    .input(
+      z.object({ productId: z.string(), action: z.enum(["add", "remove"]) })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const userId = ctx.session?.user.id
+
+      if (userId == null) {
+        throw new Error("You must be logged in to do this")
+      }
+
+      const wishListAction = {
+        add: {
+          connect: {
+            id: input.productId,
+          },
+        },
+        remove: {
+          disconnect: {
+            id: input.productId,
+          },
+        },
+      }
+
+      // connect or create wishlist
+      await ctx.prisma.product.update({
+        where: { id: input.productId },
+        data: {
+          wishlist: {
+            connectOrCreate: {
+              where: { userId },
+              create: { userId },
+            },
+          },
+        },
+      })
+
+      return true
+    }),
+  addFakeProducts: publicProcedure.mutation(async ({ ctx }) => {
     const userID = ctx.session?.user.id
+    const productCount = 10
 
     if (userID == null) {
       throw new Error("You must be logged in to do this")
     }
 
     // Create new products without sizes
-    const PRODUCTS = Array.from({ length: 50 }).map(() =>
+    const PRODUCTS = Array.from({ length: productCount }).map(() =>
       createRandomProducts(userID)
     )
 
@@ -100,15 +139,14 @@ export const productRouter = createTRPCRouter({
       addSizesToProducts(ctx, userID, productData)
     )
     await Promise.all(updatePromises)
+
+    // await addToWishList(ctx, userID, PRODUCTS)
   }),
 })
-export type CreateProductDTO = Pick<
-  Product,
-  "title" | "description" | "image" | "inStock" | "userId" | "price"
->
 
 export function createRandomProducts(createdById: string): CreateProductDTO {
   return {
+    id: faker.string.uuid(),
     title: faker.commerce.productName(),
     description: faker.commerce.productDescription(),
     price: parseFloat(faker.commerce.price()),
@@ -143,3 +181,25 @@ async function addSizesToProducts(
   // Transaction to ensure either BOTH operations happen or NONE of them happen
   await ctx.prisma.$transaction([connectOrCreateSizes])
 }
+
+// async function addToWishList(
+//   ctx: inferAsyncReturnType<typeof createTRPCContext>,
+//   userID: string,
+//   products: CreateProductDTO[]
+// ) {
+//   const ids = products.slice(0, 5).map((product) => ({ id: product.id }))
+//   //  add to wishlist
+
+//   const createWishList = ctx.prisma.wishlist.create({
+//     data: {
+//       userId: userID,
+//       products: {
+//         connect: ids,
+//       },
+//     },
+//   })
+
+//   // Transaction to ensure either BOTH operations happen or NONE of them happen
+
+//   await ctx.prisma.$transaction([createWishList])
+// }

@@ -53,14 +53,15 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
+    id            String     @id @default(cuid())
     name          String?
-    email         String?   @unique
+    email         String?    @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]
     sessions      Session[]
     products      Product[]
+    Wishlist      Wishlist[]
 }
 
 model VerificationToken {
@@ -81,19 +82,34 @@ model Size {
 }
 
 model Product {
-    id          String   @id @default(cuid())
+    id          String    @id @default(cuid())
     title       String
     description String
     price       Float
     image       String
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
-    isDeleted   Boolean  @default(false)
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+    isDeleted   Boolean   @default(false)
     userId      String
-    user        User     @relation(map: "createdBy", fields: [userId], references: [id], onDelete: Cascade)
+    user        User      @relation(map: "createdBy", fields: [userId], references: [id], onDelete: Cascade)
     inStock     Boolean
     sizes       Size[]
+    wishlist    Wishlist? @relation(fields: [wishlistId], references: [id])
+    wishlistId  String?
 
     @@unique([createdAt, id])
+    @@index([userId])
+    @@index([wishlistId])
+}
+
+model Wishlist {
+    id        String    @id @default(cuid())
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    userId    String
+    user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    products  Product[]
+
+    @@unique([userId])
     @@index([userId])
 }
