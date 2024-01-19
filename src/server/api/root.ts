@@ -1,4 +1,4 @@
-import { productRouter } from "./routers/products"
+import { productRouter } from "../../../features/shop/controller/products"
 import { createTRPCRouter } from "~/server/api/trpc"
 
 /**

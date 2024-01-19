@@ -1,4 +1,9 @@
-import { Button } from "../ui/button"
+import { Button } from "../../../../components/ui/button"
+import {
+  ProductSizes,
+  ProductsQueryInput,
+  type IProductQueryInput,
+} from "../../model"
 import {
   Accordion,
   AccordionContent,
@@ -10,7 +15,6 @@ import { Form } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import * as z from "zod"
 import { globalStore } from "~/utils/global.store"
 
 function AvaibilityFilter() {
@@ -47,21 +51,17 @@ function SizesFilter() {
           <div className="flex items-center space-x-2">
             <Checkbox
               onCheckedChange={() => {
-                // globalStore.setProductsQueryDTO((s) =>
-                //   s.sizes?.includes(ProductSizes[i] as string)
-                //     ? {
-                //         ...s,
-                //         sizes: [
-                //           ...s.sizes.filter(
-                //             (s) => s.toString() !== ProductSizes[i]
-                //           ),
-                //         ],
-                //       }
-                //     : {
-                //         ...s,
-                //         sizes: [...s.sizes, ProductSizes[i]],
-                //       }
-                // )
+                globalStore.setProductsQueryDTO((s: IProductQueryInput) =>
+                  s.sizes?.includes(item)
+                    ? {
+                        ...s,
+                        sizes: s.sizes.filter((i) => i !== item),
+                      }
+                    : {
+                        ...s,
+                        sizes: [...(s.sizes ?? []), item],
+                      }
+                )
               }}
             />
             <label
@@ -77,22 +77,6 @@ function SizesFilter() {
     </div>
   )
 }
-const ProductSizes = ["S", "L", "XL"] as const
-
-export const ProductsQueryInput = z.object({
-  category: z.string().optional(),
-  limit: z.number().min(10).optional(),
-  cursor: z.object({ id: z.string(), createdAt: z.date() }).optional(),
-  inStock: z.boolean().optional(),
-  price: z
-    .object({
-      gte: z.coerce.number().min(0).optional(),
-      lte: z.coerce.number().min(10).optional(),
-    })
-    .optional(),
-})
-
-export type IProductQueryInput = z.infer<typeof ProductsQueryInput>
 
 export function Sidebar() {
   const form = useForm<IProductQueryInput>({

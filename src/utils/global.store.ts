@@ -1,4 +1,4 @@
-import { type IProductQueryInput } from "@/components/sidebar"
+import { type IProductQueryInput } from "@/features/shop/model"
 import { createStore, withDevTools } from "@poly-state/core"
 import { useStore } from "@poly-state/react"
 
@@ -13,7 +13,6 @@ export const initialStore: GlobalStore = {
   totalProducts: 0,
   productsQueryDTO: {
     inStock: false,
-    // sizes: [],
   },
 }
 
