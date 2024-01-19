@@ -1,20 +1,20 @@
+import { OrderByOptions, type IOrderBy, type IProduct } from "../model"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuLabel,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import UserButton from "@/components/user-button"
 import { Sidebar } from "@/features/shop/view/sidebar"
-import { CartIcon, WishIcon } from "@/lib/icons"
+import { CartIcon, SortIcon, WishIcon } from "@/lib/icons"
 import Image from "next/image"
 import { Fragment, useEffect, useState } from "react"
 import { IoIosArrowDown, IoMdHeartEmpty } from "react-icons/io"
 import { IoCartOutline, IoGitCompareOutline } from "react-icons/io5"
 import { api } from "~/utils/api"
 import { globalStore, useGlobalStore } from "~/utils/global.store"
-import { OrderByOptions, type IOrderBy, type IProduct } from "../model"
 
 export function TopBar() {
   return (
@@ -188,36 +188,48 @@ function Breadcrumb() {
 }
 
 function formatOrderByText(orderBy: IOrderBy) {
-  let field = ""
-
-  switch (orderBy) {
-    case "createdAt_asc":
-      field = "Latest"
-      break
-
-    case "createdAt_desc":
-      field = "Oldest"
-      break
-
-    case "price_asc":
-      field = "Price: Low to High"
-      break
-
-    case "price_desc":
-      field = "Price: High to Low"
-      break
-
-    default:
-      break
+  const fields = {
+    createdAt_asc: "Newest",
+    createdAt_desc: "Oldest",
+    price_asc: "Price: Low to High",
+    price_desc: "Price: High to Low",
   }
 
-  return field
+  return fields[orderBy]
+}
+export function ColumnSizeIcon({ size = 5 }) {
+  return (
+    <span className="flex items-center gap-1.5">
+      <span className="text-sm leading-5 text-black">Columns:</span>
+      <span className="flex items-center gap-1.5">
+        {[2, 3, 4, 5].map((item, i) => (
+          <Button
+            key={i}
+            className={`w-10 h-8 flex gap-1 justify-center ${
+              size === item ? "bg-gray-900 text-white" : "bg-white text-black"
+            } text-sm  hover:bg-gray-900 hover:text-white px-2 py-0 rounded-md`}
+            onClick={() => globalStore.setColumnSize(item)}
+          >
+            {Array.from({ length: item }).map((_, i) => (
+              <span
+                key={i}
+                className={`w-[1px] h-4 rounded-full ${
+                  size === item ? "bg-white" : "bg-gray-900"
+                }`}
+              />
+            ))}
+          </Button>
+        ))}
+      </span>
+    </span>
+  )
 }
 
 function PageTitle() {
   const {
     productCounts,
-    productsQueryDTO: { sort },
+    productsQueryDTO: { sort, limit },
+    columnSize,
   } = useGlobalStore()
 
   function handleOrderByClick(orderBy: IOrderBy) {
@@ -234,26 +246,22 @@ function PageTitle() {
           Products
         </div>
         <span className="flex items-start justify-between gap-3.5 self-stretch">
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/bfa6f911ce29139cf7255bf1929f1292ae9c9619d76413ba568587e6c35ed1a8?apiKey=da85e7e8aa194b7592d4b6becf2fde0c&"
-            className="aspect-[3.81] w-20 max-w-full shrink-0 self-stretch overflow-hidden object-contain object-center"
-          />
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/84b8c8cff6604c1b46e27128a2b6760e65a4a18dacc915c36bf1b52f9e5432d5?apiKey=da85e7e8aa194b7592d4b6becf2fde0c&"
-            className="my-auto aspect-[1.6] w-4 max-w-full shrink-0 self-center overflow-hidden object-contain object-center"
-          />
+          <ColumnSizeIcon size={columnSize} />
+
           <div className="my-auto self-center text-center text-base leading-5 text-black">
             <DropdownMenu>
-              <DropdownMenuTrigger>
-                {formatOrderByText(sort ?? "createdAt_desc")} 
+              <DropdownMenuTrigger className="flex gap-3 border border-solid border-black border-opacity-10 bg-white px-3.5 py-1.5 text-center text-xs leading-3 text-black">
+                <SortIcon />
+                <span>{formatOrderByText(sort ?? "createdAt_desc")}</span>
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
+              <DropdownMenuContent className="p-0 border-none">
                 {OrderByOptions.map((item, i) => (
                   <DropdownMenuLabel
                     key={i}
                     onClick={() => handleOrderByClick(item)}
+                    className={`${
+                      sort === item ? "bg-gray-900 text-white" : "bg-white"
+                    } hover:bg-gray-900 hover:text-white hover:cursor-pointer `}
                   >
                     {formatOrderByText(item)}
                   </DropdownMenuLabel>
@@ -261,8 +269,36 @@ function PageTitle() {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          <div className="my-auto grow self-center whitespace-nowrap text-sm leading-5 text-black">
-            {productCounts.total ?? 0} products
+          <div className="my-auto grow self-center whitespace-nowrap text-base leading-5 text-black">
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                className="
+               border border-solid border-black border-opacity-10 bg-white px-3.5 py-1.5 text-center text-xs leading-3 text-black
+              "
+              >
+                Show {limit}
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                className="p-0 border-none"
+              >
+                {[10, 20, 50].map((item, i) => (
+                  <DropdownMenuLabel
+                    key={i}
+                    onClick={() =>
+                      globalStore.setProductsQueryDTO((s) => ({
+                        ...s,
+                        limit: item,
+                      }))
+                    }
+                    className={`${
+                      limit === item ? "bg-gray-900 text-white" : "bg-white"
+                    } hover:bg-gray-900 hover:text-white hover:cursor-pointer `}
+                  >
+                    {item}
+                  </DropdownMenuLabel>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </span>
       </span>
@@ -278,23 +314,23 @@ function ProductItem({ item }: { item: IProduct }) {
             loading="lazy"
             src={item.image ?? ""}
             alt={item.title ?? ""}
-            className="absolute object-cover object-center h-full"
+            className="absolute object-cover object-center h-full w-full"
             width={279}
             height={330}
           />
 
           <div className="flex flex-col w-full items-stretch border  pb-px pt-2.5">
             <div className="flex flex-col items-stretch px-3">
-              <span className="absolute mt-1  grid gap-3  items-stretch justify-center ">
+              <span className="absolute mt-1 grid gap-3  items-stretch justify-center ">
                 <span className="whitespace-nowrap rounded-md border border-solid border-white border-opacity-10 bg-neutral-900 px-3.5 py-1.5 text-center text-xs leading-3 text-white">
                   -21%
                 </span>
 
-                <span className="whitespace-nowrap justify-self-start  flex gap-4">
+                <span className="whitespace-nowrap justify-self-start  flex gap-4 flex-wrap max-w-[200px]">
                   {item.sizes.map((size, i: number) => (
                     <span
                       key={i}
-                      className="whitespace-nowrap rounded-md border border-solid border-white border-opacity-10 bg-neutral-900 px-3.5 py-1.5 text-center text-xs leading-3 text-white"
+                      className="whitespace-nowrap rounded-md border border-solid border-white border-opacity-10 bg-gray-200 px-1.5 py-1.5 text-center text-xs leading-3 shadow-md text-black font-bold"
                     >
                       {size.name}
                     </span>
@@ -302,7 +338,7 @@ function ProductItem({ item }: { item: IProduct }) {
                 </span>
                 {!item.inStock && (
                   <span className="whitespace-nowrap rounded-md border border-solid border-white border-opacity-10 bg-red-600 px-3.5 py-1.5 text-center text-xs leading-3 text-white">
-                    {"Not in Stock"}
+                    {"Out of Stock"}
                   </span>
                 )}
               </span>
@@ -347,7 +383,7 @@ function ProductItem({ item }: { item: IProduct }) {
 function ProductGrid() {
   const [data, setData] = useState<IProduct[]>([])
 
-  const { productsQueryDTO } = useGlobalStore()
+  const { productsQueryDTO, columnSize } = useGlobalStore()
   const query = api.product.infiniteProducts.useInfiniteQuery(
     productsQueryDTO,
     {
@@ -403,7 +439,7 @@ function ProductGrid() {
   return (
     <>
       <div className="w-full flex flex-col gap-10">
-        <div className="grid grid-cols-4 gap-8">
+        <div className={`grid grid-cols-${columnSize} gap-8`}>
           {data.map((item, i) => (
             <ProductItem key={i} item={item} />
           ))}

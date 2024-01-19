@@ -3,7 +3,7 @@
 
 import { ProductsQueryInput } from "@/features/shop/model"
 import { faker } from "@faker-js/faker"
-import { type Prisma, type Product } from "@prisma/client"
+import { type Product } from "@prisma/client"
 import { type inferAsyncReturnType } from "@trpc/server"
 import {
   createTRPCRouter,
@@ -107,12 +107,6 @@ export type CreateProductDTO = Pick<
   "title" | "description" | "image" | "inStock" | "userId" | "price"
 >
 
-export type ProductModel = Prisma.ProductGetPayload<{
-  include: {
-    sizes: true
-  }
-}>
-
 export function createRandomProducts(createdById: string): CreateProductDTO {
   return {
     title: faker.commerce.productName(),
@@ -136,7 +130,7 @@ async function addSizesToProducts(
         connectOrCreate: faker.helpers
           .arrayElements(["S", "L", "M", "XL"], {
             min: 1,
-            max: 2,
+            max: 4,
           })
           .map((size) => ({
             where: { name: size },

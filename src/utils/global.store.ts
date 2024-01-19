@@ -13,17 +13,20 @@ export type GlobalStore = {
       [key: string]: number
     }
   }
+  columnSize: number
 }
 
 export const initialStore: GlobalStore = {
   productsQueryDTO: {
-    sort: "createdAt_desc",
+    sort: "createdAt_asc",
+    limit: 20,
   },
   productCounts: {
     total: 0,
     inStock: 0,
     productsInSizesCounts: {},
   },
+  columnSize: 4,
 }
 
 export const globalStore = createStore(initialStore)
