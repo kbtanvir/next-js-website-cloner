@@ -1,6 +1,7 @@
 import {
   ProductsQueryInput,
   type CreateProductDTO,
+  type IProductPropCount,
   type IProductQueryInput,
 } from "@/features/shop/model"
 import { faker } from "@faker-js/faker"
@@ -46,6 +47,12 @@ export const productRouter = createTRPCRouter({
         orderBy.push({ [field as string]: order })
       }
 
+      if (input.wishlist) {
+        whereClause.wishlist = {
+          userId: ctx.session?.user.id,
+        }
+      }
+
       const data = await ctx.prisma.product.findMany({
         take: input.limit ? input.limit + 1 : undefined,
         cursor: input.cursor ? { createdAt_id: input.cursor } : undefined,
@@ -77,14 +84,56 @@ export const productRouter = createTRPCRouter({
         nextCursor,
       }
     }),
+  productPropCounts: publicProcedure
+    // .input(ProductPropCountSchema)
+    .query(async ({ ctx }) => {
+      const userId = ctx.session?.user.id
+
+      if (userId == null) {
+        throw new Error("You must be logged in to do this")
+      }
+      let data
+      const input: IProductPropCount = {}
+
+      input.inStock =
+        (await ctx.prisma.product.count({
+          where: { inStock: true },
+        })) ?? 0
+
+      // if (input.sizes?.length) {
+      //   // todo: fix this
+      // }
+
+      data = await ctx.prisma.product.count({
+        where: { wishlist: { userId } },
+      })
+
+      input.wishlist = data ?? 0
+
+      data = await ctx.prisma.product.count({
+        where: { cart: { userId } },
+      })
+
+      input.cart = data ?? 0
+
+      data = await ctx.prisma.product.count()
+
+      input.total = data ?? 0
+
+      return input
+    }),
   deleteAllProducts: publicProcedure.mutation(async ({ ctx }) => {
     await ctx.prisma.product.deleteMany()
 
     return true
   }),
-  updateWishList: publicProcedure
+  updateProduct: publicProcedure
     .input(
-      z.object({ productId: z.string(), action: z.enum(["add", "remove"]) })
+      z.object({
+        productId: z.string(),
+        wishlist: z.enum(["add", "remove"]).optional(),
+        cart: z.enum(["add", "remove"]).optional(),
+      })
     )
     .mutation(async ({ input, ctx }) => {
       const userId = ctx.session?.user.id
@@ -93,10 +142,11 @@ export const productRouter = createTRPCRouter({
         throw new Error("You must be logged in to do this")
       }
 
-      const wishListAction = {
+      const actions = {
         add: {
-          connect: {
-            id: input.productId,
+          connectOrCreate: {
+            where: { userId },
+            create: { userId },
           },
         },
         remove: {
@@ -106,21 +156,25 @@ export const productRouter = createTRPCRouter({
         },
       }
 
+      const data: { wishlist?: any; cart?: any } = {}
+
+      if (input.wishlist) {
+        data.wishlist = actions[input.wishlist]
+      }
+
+      if (input.cart) {
+        data.cart = actions[input.cart]
+      }
       // connect or create wishlist
+
       await ctx.prisma.product.update({
         where: { id: input.productId },
-        data: {
-          wishlist: {
-            connectOrCreate: {
-              where: { userId },
-              create: { userId },
-            },
-          },
-        },
+        data,
       })
 
       return true
     }),
+
   addFakeProducts: publicProcedure.mutation(async ({ ctx }) => {
     const userID = ctx.session?.user.id
     const productCount = 10
@@ -155,7 +209,7 @@ export function createRandomProducts(createdById: string): CreateProductDTO {
     userId: createdById,
   }
 }
-async function addSizesToProducts(
+export async function addSizesToProducts(
   ctx: inferAsyncReturnType<typeof createTRPCContext>,
   userID: string,
   productData: CreateProductDTO

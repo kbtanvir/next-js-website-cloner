@@ -1,5 +1,5 @@
-import { Breadcrumb } from "../../../components/header"
 import { OrderByOptions, type IOrderBy, type IProduct } from "../model"
+import { Breadcrumb } from "@/components/header"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -7,7 +7,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Sidebar } from "@/features/shop/view/sidebar"
 import { SortIcon } from "@/lib/icons"
 import Image from "next/image"
 import { useEffect, useState } from "react"
@@ -132,13 +131,26 @@ function PageTitle() {
     </div>
   )
 }
-function ProductItem({ item }: { item: IProduct }) {
-  const mutation = api.product.updateProduct.useMutation()
+function ProductItem({
+  item,
+  onWishRemove,
+}: {
+  item: IProduct
+  onWishRemove: (id: string) => void
+}) {
+  const mutation = api.product.updateProduct.useMutation({
+    onMutate: (data) => {
+      console.log(data)
+      if (data.wishlist === "remove") {
+        onWishRemove(item.id)
+      }
+    },
+  })
   const [inWishList, setinWishList] = useState(!!item.wishlistId)
   const [inCart, setinCart] = useState(!!item.cartId)
 
   return (
-    <div className="flex-col   w-full max-md:ml-0 max-md:w-full">
+    <div className="flex-col items-stretch w-full max-md:ml-0 max-md:w-full">
       <span className="flex flex-col items-stretch max-md:mt-9 ">
         <div className="relative flex  aspect-[2/2.5] w-full flex-col border-[1px] border-solid border-black ">
           <Image
@@ -239,18 +251,40 @@ function ProductItem({ item }: { item: IProduct }) {
     </div>
   )
 }
-function ProductGrid() {
-  const [data, setData] = useState<IProduct[]>([])
 
+function ProductGrid() {
   const { productsQueryDTO, columnSize } = useGlobalStore()
+  const [data, setdata] = useState<IProduct[]>([])
+  const [buttonPressed, setbuttonPressed] = useState(false)
+
   const query = api.product.infiniteProducts.useInfiniteQuery(
-    productsQueryDTO,
+    { ...productsQueryDTO, wishlist: true },
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
       refetchOnWindowFocus: false,
     }
   )
-  const countsQuery = api.product.productPropCounts.useQuery()
+  // const countsQuery = api.product.productPropCounts.useQuery()
+
+  function onWishRemove(id: string) {
+    const idx = data.findIndex((item) => item.id === id)
+
+    if (idx === -1) return
+
+    const newData = [...data]
+
+    newData.splice(idx, 1)
+
+    setdata(newData)
+  }
+
+  useEffect(() => {
+    console.log("running")
+    const d = (query.data?.pages.map((page) => page.products).flat() ??
+      []) as IProduct[]
+
+    setdata(d)
+  }, [query.data])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -265,17 +299,10 @@ function ProductGrid() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(productsQueryDTO)])
 
-  useEffect(() => {
-    const data = (query.data?.pages.map((page) => page.products).flat() ??
-      []) as IProduct[]
-    setData(data)
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query.data])
-
-  useEffect(() => {
-    globalStore.setProductCounts({ ...countsQuery.data })
-  }, [])
+  // useEffect(() => {
+  //   console.log(countsQuery.data)
+  //   globalStore.setProductCounts({ ...countsQuery.data })
+  // }, [])
 
   if (query.error) {
     return <div>{query.error.message}</div>
@@ -284,76 +311,48 @@ function ProductGrid() {
   if (query.isLoading) {
     return <div>Loading...</div>
   }
-
-  if (!query.data) {
+  if (!data.length) {
     return <div>No data</div>
   }
 
   return (
-    <>
-      <div className="w-full flex flex-col gap-10">
-        <div
-          className={`grid gap-8 w-full`}
-          style={{
-            gridTemplateColumns: `repeat(auto-fit, minmax(250px, 1fr))`,
+    <div className="w-full flex flex-col gap-10">
+      {/* TODO: fix col size issue */}
+      <div
+        className={`grid gap-8`}
+        style={{
+          gridTemplateColumns: `repeat(auto-fit, minmax(250px, 1fr))`,
+        }}
+      >
+        {data.map((item, i) => (
+          <ProductItem key={item.id} item={item} onWishRemove={onWishRemove} />
+        ))}
+      </div>
+      {query.hasNextPage && (
+        <Button
+          className="self-start"
+          onClick={async () => {
+            await query.fetchNextPage()
           }}
         >
-          {data.map((item, i) => (
-            <ProductItem key={i} item={item} />
-          ))}
-        </div>
-        {query.hasNextPage && (
-          <Button
-            className="self-start"
-            onClick={async () => {
-              await query.fetchNextPage()
-            }}
-          >
-            Loadmore
-          </Button>
-        )}
-        {/* TODO: add pagination */}
-      </div>
-    </>
+          Loadmore
+        </Button>
+      )}
+      {/* TODO: add pagination */}
+    </div>
   )
 }
-function Pagination() {
-  return (
-    <span className="w-full mt-20 flex  gap-5 self-start max-md:mt-10">
-      {[1, 2, 3, 4].map((_, i) => (
-        <span className="aspect-square bg-slate-100 w-10 flex-center" key={i}>
-          {_}
-        </span>
-      ))}
-    </span>
-  )
-}
-export function PageContent() {
+
+export function PageView() {
   return (
     <span className="mx-auto w-full">
       <Breadcrumb />
       <PageTitle />
       <div className="mt-20">
         <div className="flex max-w-[1500px] w-full mx-auto  justify-between gap-10">
-          <Sidebar />
-
           <ProductGrid />
         </div>
       </div>
     </span>
-  )
-}
-function RelatedProductSection() {
-  return (
-    <div className=" mx-auto max-w-[1500px] mt-20 px-px max-md:mr-2.5 max-md:mt-10 max-md:max-w-full">
-      <div className="mb-20 font-semibold mt-40 self-center whitespace-nowrap text-center text-4xl leading-10 text-zinc-800  ">
-        You may also like
-      </div>
-      <div className="flex gap-5 max-md:flex-col max-md:items-stretch max-md:gap-0">
-        {/* {[...Array<number>(4)].map((_, i) => (
-              <ProductItem key={i} />
-            ))} */}
-      </div>
-    </div>
   )
 }

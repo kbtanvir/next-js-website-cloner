@@ -1,3 +1,6 @@
+import { MainHeader, NavigationSection, TopBar } from "@/components/header"
+import { FooterSection } from "@/components/footer"
+
 interface LayoutProps {
   children: React.ReactNode
 }
@@ -5,8 +8,11 @@ interface LayoutProps {
 export function Layout({ children }: LayoutProps) {
   return (
     <>
-      {/* <SiteHeader /> */}
+      <TopBar />
+      <MainHeader />
+      <NavigationSection />
       <main className="">{children}</main>
+      <FooterSection />
     </>
   )
 }

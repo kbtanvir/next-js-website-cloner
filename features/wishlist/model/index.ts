@@ -1,6 +1,5 @@
-import { type Prisma, type Product } from "@prisma/client";
-import * as z from "zod";
-
+import { type Prisma, type Product } from "@prisma/client"
+import * as z from "zod"
 
 export const ProductSizes = ["S", "L", "M", "XL"] as const
 
@@ -29,7 +28,6 @@ export const ProductsQueryInput = z.object({
   sizes: z.enum(ProductSizes).array().optional(),
   sort: z.enum(OrderByOptions).optional(),
   OR: z.any().optional(),
-  wishlist: z.any().optional(),
 })
 
 export type IProductQueryInput = z.infer<typeof ProductsQueryInput>

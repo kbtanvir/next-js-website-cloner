@@ -1,4 +1,7 @@
-import { type IProductQueryInput } from "@/features/shop/model"
+import {
+  type IProductPropCount,
+  type IProductQueryInput,
+} from "@/features/shop/model"
 import { createStore, withDevTools } from "@poly-state/core"
 import { useStore } from "@poly-state/react"
 
@@ -6,13 +9,7 @@ import { useStore } from "@poly-state/react"
 
 export type GlobalStore = {
   productsQueryDTO: IProductQueryInput
-  productCounts: {
-    total: number
-    inStock: number
-    productsInSizesCounts: {
-      [key: string]: number
-    }
-  }
+  productCounts: IProductPropCount
   columnSize: number
 }
 
@@ -24,9 +21,12 @@ export const initialStore: GlobalStore = {
   productCounts: {
     total: 0,
     inStock: 0,
-    productsInSizesCounts: {},
+    sizes: {},
+    wishlist: 0,
+    cart: 0,
   },
   columnSize: 4,
+  
 }
 
 export const globalStore = createStore(initialStore)
