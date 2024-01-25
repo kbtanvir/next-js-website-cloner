@@ -76,12 +76,12 @@ export function MainHeader() {
             </div>
           </div>
         </Link>
-        <div className="relative">
+        <Link href={"/cart"} className="relative">
           <CartIcon />
           <div className="absolute right-[-5px] top-[-8px] flex h-4 w-4 items-center justify-center rounded-full bg-blue-600 align-middle text-[10px] text-white">
             {productCounts?.cart}
           </div>
-        </div>
+        </Link>
       </div>
     </div>
   )

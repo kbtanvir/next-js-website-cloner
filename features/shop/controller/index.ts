@@ -48,7 +48,9 @@ export const productRouter = createTRPCRouter({
 
       if (input.wishlist) {
         whereClause.wishlist = {
-          userId: ctx.session?.user.id,
+         'some':{
+            'userId':ctx.session?.user.id
+          }
         }
       }
 
@@ -58,7 +60,7 @@ export const productRouter = createTRPCRouter({
         orderBy,
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        where: whereClause,
+        where: {...whereClause, },
         include: {
           user: true,
           sizes: true,

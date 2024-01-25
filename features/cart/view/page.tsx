@@ -1,16 +1,28 @@
+import { Breadcrumb } from "../../../components/header"
 import { PageTitle } from "@/components/PageTitle"
-import { Breadcrumb } from "@/components/header"
-import { useEffect } from "react"
+import { ProductItem } from "@/components/ProductItem"
+import { Button } from "@/components/ui/button"
+import { type IProduct } from "@/features/shop/model"
+import { useEffect, useState } from "react"
 import { api } from "~/utils/api"
+import { useGlobalStore } from "~/utils/global.store"
 
-function ListGrid() {
-  const mutation = api.cart.update.useMutation()
-  const query = api.cart.listProductsInCart.useQuery({})
+function ProductGrid() {
+  const [data, setData] = useState<IProduct[]>([])
+
+  const { productsQueryDTO, columnSize } = useGlobalStore()
+  const infiniteQuery = api.product.infiniteProducts.useInfiniteQuery(
+    { ...productsQueryDTO, wishlist: true },
+    {
+      getNextPageParam: (lastPage) => lastPage.nextCursor,
+      refetchOnWindowFocus: false,
+    }
+  )
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await query.refetch()
+        await infiniteQuery.refetch()
       } catch (error) {
         console.error("Error fetching data:", error)
       }
@@ -18,86 +30,58 @@ function ListGrid() {
 
     void fetchData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(mutation.data)])
+  }, [JSON.stringify(productsQueryDTO)])
 
-  // useEffect(() => {
-  //   console.log(countsQuery.data)
-  //   globalStore.setProductCounts({ ...countsQuery.data })
-  // }, [])
+  useEffect(() => {
+    const data = (infiniteQuery.data?.pages
+      .map((page) => page.products)
+      .flat() ?? []) as IProduct[]
+    setData(data)
+    console.log(data)
 
-  if (query.error) {
-    return <div>{query.error.message}</div>
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [infiniteQuery.data])
+
+  if (infiniteQuery.error) {
+    return <div>{infiniteQuery.error.message}</div>
   }
 
-  if (query.isLoading) {
+  if (infiniteQuery.isLoading) {
     return <div>Loading...</div>
   }
 
-  if (!query.data?.cartItems) {
+  if (!infiniteQuery.data) {
     return <div>No data</div>
   }
 
   return (
-    <>
-      <div className="flex flex-col">
-        <div className="flex flex-row justify-between items-center">
-          <div className="flex flex-row gap-5">
-            <div className="w-12 h-12 bg-gray-200 rounded-md"></div>
-            <div className="flex flex-col">
-              <div className="text-lg font-semibold">Product name</div>
-              <div className="text-sm text-gray-500">Product description</div>
-            </div>
-          </div>
-          <div className="flex flex-row gap-5">
-            <div className="text-lg font-semibold">Price</div>
-            <div className="text-lg font-semibold">Quantity</div>
-            <div className="text-lg font-semibold">Total</div>
-          </div>
-        </div>
-        {query.data.cartItems?.map((p) => (
-          <div
-            key={p.id}
-            className="flex flex-row justify-between items-center mt-5"
-          >
-            <div className="flex flex-row gap-5">
-              <div className="w-12 h-12 bg-gray-200 rounded-md"></div>
-              <div className="flex flex-col">
-                <div className="text-lg font-semibold">{p.title}</div>
-                <div className="text-sm text-gray-500">{p.description}</div>
-                {/* add button, quanty, remove button */}
-                <button
-                  onClick={() => {
-                    mutation.mutate({
-                      productId: p.productId,
-                      quantity: 4,
-                      action: "update",
-                    })
-                  }}
-                >
-                  +
-                </button>
-                <div className="text-lg font-semibold">{p.quantity}</div>
-                <button
-                  onClick={() => {
-                    mutation.mutate({
-                      productId: 1,
-                      quantity: 1,
-                    })
-                  }}
-                >
-                  -
-                </button>
-              </div>
-            </div>
-            <div className="flex flex-row gap-5">
-              <div className="text-lg font-semibold">{p.price}</div>
-              <div className="text-lg font-semibold">{p.quantity}</div>
-              <div className="text-lg font-semibold">{p.price}</div>
-            </div>
-          </div>
+    <div className="w-full flex flex-col gap-10">
+      <div
+        className={`grid gap-8 w-full`}
+        style={{
+          gridTemplateColumns: `repeat(auto-fit, minmax(250px, 250px))`,
+        }}
+      >
+        {data.map((item) => (
+          <ProductItem
+            key={item.id}
+            item={item}
+            refetch={infiniteQuery.refetch}
+          />
         ))}
       </div>
-    </>
+      {infiniteQuery.hasNextPage && (
+        <Button
+          className="self-start"
+          onClick={async () => {
+            await infiniteQuery.fetchNextPage()
+          }}
+        >
+          Loadmore
+        </Button>
+      )}
+      {/* TODO: add pagination */}
+    </div>
   )
 }
 
@@ -108,7 +92,7 @@ export function PageView() {
       <PageTitle />
       <div className="mt-20">
         <div className="flex max-w-[1500px] w-full mx-auto  justify-between gap-10">
-          <ListGrid />
+          <ProductGrid />
         </div>
       </div>
     </span>

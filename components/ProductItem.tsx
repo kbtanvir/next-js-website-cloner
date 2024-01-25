@@ -1,15 +1,26 @@
-import { type IProduct } from "../model"
+import { type IProduct } from "../features/shop/model"
+import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import { useState } from "react"
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io"
 import { IoCartOutline, IoGitCompareOutline } from "react-icons/io5"
 import { api } from "~/utils/api"
 
-export function ProductItem({ item }: { item: IProduct }) {
-  const mutation = api.product.updateWishlist.useMutation()
-  const cartMutation = api.cart.update.useMutation()
-  const [inWishList, setinWishList] = useState(!!item.wishlistId)
-  const [inCart, setinCart] = useState(!!item.cartId)
+export function ProductItem({
+  item,
+  refetch,
+}: {
+  item: IProduct
+  refetch: () => void
+}) {
+  const wishMutation = api.product.updateWish.useMutation({
+    onSuccess: refetch,
+  })
+  const cartMutation = api.product.updateCart.useMutation({
+    onSuccess: refetch,
+  })
+  const [inCart, setinCart] = useState(item.cart.length ? true : false)
+  const [wished, setwished] = useState(item.wishlist.length ? true : false)
 
   return (
     <div className="flex-col   w-full max-md:ml-0 max-md:w-full">
@@ -48,52 +59,49 @@ export function ProductItem({ item }: { item: IProduct }) {
                 )}
               </span>
               <div className="absolute flex flex-col items-center gap-2.5 self-end">
-                <span>
-                  {mutation.isLoading ? (
-                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-900" />
+                <div
+                  className="flex place-content-center bg-white shadow-lg p-1.5 rounded-lg self-end h-9 aspect-square"
+                  onClick={async () => {
+                    await wishMutation.mutateAsync({
+                      productId: item.id,
+                      action: item.wishlist.length ? "remove" : "add",
+                    })
+                    setwished(!wished)
+                  }}
+                >
+                  {wishMutation.isLoading ? (
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-gray-900" />
+                  ) : wished === true ? (
+                    <IoMdHeart fontSize={25} />
                   ) : (
-                    <div
-                      className="flex bg-white shadow-lg p-1.5 rounded-lg self-end"
-                      onClick={async () => {
-                        await mutation.mutateAsync({
-                          productId: item.id,
-                          wishlist: !!item.wishlistId ? "remove" : "add",
-                        })
-                        setinWishList(!inWishList)
-                      }}
-                    >
-                      {inWishList ? (
-                        <IoMdHeart fontSize={25} />
-                      ) : (
-                        <IoMdHeartEmpty fontSize={25} />
-                      )}
-                    </div>
+                    <IoMdHeartEmpty fontSize={25} />
                   )}
-                </span>
-                {/* TODO: add quickview */}
+                </div>
+
                 <div className="flex bg-white shadow-lg p-1.5 rounded-lg self-end">
                   <IoGitCompareOutline fontSize={25} />
                 </div>
               </div>
             </div>
           </div>
-          <div className=" absolute bottom-0  flex-center w-full bg-black px-4 py-2.5 max-md:mt-10 max-md:px-5">
-            <span
-              className="flex items-center gap-5"
-              onClick={async () => {
-                await mutation.mutateAsync({
-                  productId: item.id,
-                  cart: !!item.cartId ? "remove" : "add",
-                })
-                setinCart(!inCart)
-              }}
-            >
+          <Button
+            disabled={cartMutation.isLoading}
+            className=" absolute bottom-0 focus:ring-offset-0 focus:ring-opacity-0 flex-center w-full bg-black px-4 py-2.5 max-md:mt-10 max-md:px-5"
+            onClick={async () => {
+              await cartMutation.mutateAsync({
+                productId: item.id,
+                action: item.cart.length ? "remove" : "add",
+              })
+              setinCart(!inCart)
+            }}
+          >
+            <span className="flex items-center gap-5">
               <IoCartOutline color="white" size="26" />
               <div className="my-auto text-base leading-5 text-white">
                 {inCart ? "Remove from cart" : "Add to cart"}
               </div>
             </span>
-          </div>
+          </Button>
         </div>
         <div className="mt-6 text-base leading-5 text-zinc-800">
           {item.title}

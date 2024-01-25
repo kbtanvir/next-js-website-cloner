@@ -1,17 +1,24 @@
-import { OrderByOptions, type IOrderBy } from "../features/wishlist/model"
-import {
-  ColumnSizeIcon,
-  formatOrderByText,
-} from "../features/wishlist/view/page"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { ColumnSizeIcon } from "@/components/ColumnSizeIcon"
+import { OrderByOptions, type IOrderBy } from "@/features/shop/model"
 import { SortIcon } from "@/lib/icons"
 import { globalStore, useGlobalStore } from "~/utils/global.store"
 
+function formatOrderByText(orderBy: IOrderBy) {
+  const fields = {
+    createdAt_asc: "Newest",
+    createdAt_desc: "Oldest",
+    price_asc: "Price: Low to High",
+    price_desc: "Price: High to Low",
+  }
+
+  return fields[orderBy]
+}
 export function PageTitle() {
   const {
     productCounts,
