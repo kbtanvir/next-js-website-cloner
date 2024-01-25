@@ -3,7 +3,7 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc"
 
 export const cartRouter = createTRPCRouter({
   deleteAll: publicProcedure.mutation(async ({ ctx }) => {
-    await ctx.prisma.product.deleteMany()
+    await ctx.prisma.products.deleteMany()
 
     return true
   }),

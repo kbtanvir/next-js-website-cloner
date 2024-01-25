@@ -1,8 +1,3 @@
-import {
-  ProductsQueryInput,
-  type CreateProductDTO,
-  type IProductQueryInput,
-} from "@/features/shop/model"
 import { faker } from "@faker-js/faker"
 import { type inferAsyncReturnType } from "@trpc/server"
 import { z } from "zod"
@@ -11,6 +6,11 @@ import {
   publicProcedure,
   type createTRPCContext,
 } from "~/server/api/trpc"
+import {
+  ProductsQueryInput,
+  type CreateProductDTO,
+  type IProductQueryInput,
+} from "../model"
 
 export const productRouter = createTRPCRouter({
   infiniteProducts: publicProcedure
@@ -52,7 +52,7 @@ export const productRouter = createTRPCRouter({
         }
       }
 
-      const data = await ctx.prisma.product.findMany({
+      const data = await ctx.prisma.products.findMany({
         take: input.limit ? input.limit + 1 : undefined,
         cursor: input.cursor ? { createdAt_id: input.cursor } : undefined,
         orderBy,
@@ -62,12 +62,18 @@ export const productRouter = createTRPCRouter({
         include: {
           user: true,
           sizes: true,
-          cartItem: {
+          cart: {
             where: {
               userId: ctx.session?.user.id,
             },
             select: {
               qty: true,
+            },
+            take: 1,
+          },
+          wishlist: {
+            where: {
+              userId: ctx.session?.user.id,
             },
             take: 1,
           },
@@ -94,11 +100,11 @@ export const productRouter = createTRPCRouter({
     }),
 
   deleteAll: publicProcedure.mutation(async ({ ctx }) => {
-    await ctx.prisma.product.deleteMany()
+    await ctx.prisma.products.deleteMany()
 
     return true
   }),
-  updateWishList: publicProcedure
+  updateWish: publicProcedure
     .input(
       z.object({
         productId: z.string(),
@@ -112,31 +118,34 @@ export const productRouter = createTRPCRouter({
         throw new Error("You must be logged in to do this")
       }
 
-      const actions = {
-        add: {
-          connectOrCreate: {
-            where: { userId },
-            create: { userId },
+       if(input.action === "add") {
+        await ctx.prisma.wishlist.create({
+          data: {
+            product: {
+              connect: {
+                id: input.productId,
+              },
+            },
+            user: {
+              connect: {
+                id: userId,
+              },
+            },
+          
           },
-        },
-        remove: {
-          disconnect: {
-            id: input.productId,
+        })
+
+        return true
+       }
+
+       await ctx.prisma.wishlist.delete({
+          where: {
+            userId_productId: {
+              userId,
+              productId: input.productId,
+            },
           },
-        },
-      }
-
-      const data: { wishlist?: any; cart?: any } = {}
-
-      if (input.action) {
-        data.wishlist = actions[input.action]
-      }
-
-      await ctx.prisma.product.update({
-        where: { id: input.productId },
-        data,
-      })
-
+        })
       return true
     }),
   updateCart: publicProcedure
@@ -157,7 +166,7 @@ export const productRouter = createTRPCRouter({
       // if cart item does not exist create
 
       if (input.action === "add") {
-        await ctx.prisma.cartItem.create({
+        await ctx.prisma.cart.create({
           data: {
             product: {
               connect: {
@@ -178,7 +187,7 @@ export const productRouter = createTRPCRouter({
       // if cart item exists update
 
       if (input.action === "update") {
-        await ctx.prisma.cartItem.update({
+        await ctx.prisma.cart.update({
           where: {
             userId_productId: {
               userId,
@@ -195,7 +204,7 @@ export const productRouter = createTRPCRouter({
       // if cart item exists delete
 
       if (input.action === "remove") {
-        await ctx.prisma.cartItem.delete({
+        await ctx.prisma.cart.delete({
           where: {
             userId_productId: {
               userId,
@@ -247,7 +256,7 @@ export async function addSizesToProducts(
   productData: CreateProductDTO
 ) {
   // Connect or create new sizes
-  const connectOrCreateSizes = ctx.prisma.product.create({
+  const connectOrCreateSizes = ctx.prisma.products.create({
     data: {
       ...productData,
       sizes: {

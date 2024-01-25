@@ -1,5 +1,3 @@
-import { Breadcrumb } from "../../../components/header"
-import { OrderByOptions, type IOrderBy, type IProduct } from "../model"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -15,6 +13,8 @@ import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io"
 import { IoCartOutline, IoGitCompareOutline } from "react-icons/io5"
 import { api } from "~/utils/api"
 import { globalStore, useGlobalStore } from "~/utils/global.store"
+import { Breadcrumb } from "../../../components/header"
+import { OrderByOptions, type IOrderBy, type IProduct } from "../model"
 
 function formatOrderByText(orderBy: IOrderBy) {
   const fields = {
@@ -139,16 +139,15 @@ function ProductItem({
   item: IProduct
   refetch: () => void
 }) {
-  const wishMutation = api.product.updateWishList.useMutation()
-  const cartMutation = api.product.updateCart.useMutation({
-    onSuccess: () => {
-      refetch()
-    },
+  const wishMutation = api.product.updateWish.useMutation({
+    onSuccess: refetch,
   })
-  const [inWishList, setinWishList] = useState(!!item.wishlistId)
-  const [inCart, setinCart] = useState(item.cartItem.length ? true : false)
+  const cartMutation = api.product.updateCart.useMutation({
+    onSuccess: refetch,
+  })
+  const [inCart, setinCart] = useState(item.cart.length ? true : false)
+  const [wished, setwished] = useState(item.wishlist.length ? true : false)
 
-  const [loading, setloading] = useState(false)
 
   return (
     <div className="flex-col   w-full max-md:ml-0 max-md:w-full">
@@ -192,14 +191,14 @@ function ProductItem({
                   onClick={async () => {
                     await wishMutation.mutateAsync({
                       productId: item.id,
-                      action: !!item.wishlistId ? "remove" : "add",
+                      action:  item.wishlist.length ? "remove" : "add",
                     })
-                    setinWishList(!inWishList)
+                    setwished(!wished)
                   }}
                 >
                   {wishMutation.isLoading ? (
                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-gray-900" />
-                  ) : inWishList ? (
+                  ) : wished===true ? (
                     <IoMdHeart fontSize={25} />
                   ) : (
                     <IoMdHeartEmpty fontSize={25} />
@@ -218,7 +217,7 @@ function ProductItem({
             onClick={async () => {
               await cartMutation.mutateAsync({
                 productId: item.id,
-                action: item.cartItem.length ? "remove" : "add",
+                action: item.cart.length ? "remove" : "add",
               })
               setinCart(!inCart)
             }}

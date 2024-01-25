@@ -52,10 +52,9 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
-    wishlist      Wishlist?
-    wishlistId    String?
-    products      Product[]
-    cartItem      CartItem[]
+    wishlist      Wishlist[]
+    products      Products[]
+    cart          Cart[]
 }
 
 model VerificationToken {
@@ -66,7 +65,7 @@ model VerificationToken {
     @@unique([identifier, token])
 }
 
-model Product {
+model Products {
     id          String     @id @default(cuid())
     title       String
     description String
@@ -79,43 +78,42 @@ model Product {
     user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
     inStock     Boolean
     sizes       Size[]
-    wishlistId  String?
-    wishlist    Wishlist?  @relation(fields: [wishlistId], references: [id])
-    cartItem    CartItem[]
+    wishlist    Wishlist[]
+    cart        Cart[]
 
     @@unique([createdAt, id])
     @@index([userId])
-    @@index([wishlistId])
 }
 
 model Size {
-    id          String    @id @default(cuid())
+    id          String     @id @default(cuid())
     name        String
     description String?
-    products    Product[]
+    products    Products[]
 
     @@unique([name])
 }
 
 model Wishlist {
-    id        String    @id @default(cuid())
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @updatedAt
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId    String
-    products  Product[]
-    User      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    product   Products @relation(fields: [productId], references: [id], onDelete: Cascade)
+    productId String
 
-    @@unique([userId])
+    @@id([userId, productId])
+    @@index([productId])
     @@index([userId])
 }
 
-model CartItem {
+model Cart {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-    product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-    productId String
     user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId    String
+    product   Products @relation(fields: [productId], references: [id], onDelete: Cascade)
+    productId String
     qty       Int
 
     @@id([userId, productId])

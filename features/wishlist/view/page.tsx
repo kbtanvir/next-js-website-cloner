@@ -1,11 +1,10 @@
-import { OrderByOptions, type IOrderBy, type IProduct } from "../model"
 import { Breadcrumb } from "@/components/header"
 import { Button } from "@/components/ui/button"
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuLabel,
+    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { SortIcon } from "@/lib/icons"
 import Image from "next/image"
@@ -14,6 +13,7 @@ import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io"
 import { IoCartOutline, IoGitCompareOutline } from "react-icons/io5"
 import { api } from "~/utils/api"
 import { globalStore, useGlobalStore } from "~/utils/global.store"
+import { OrderByOptions, type IOrderBy, type IProduct } from "../model"
 
 function formatOrderByText(orderBy: IOrderBy) {
   const fields = {
@@ -138,7 +138,7 @@ function ProductItem({
   item: IProduct
   onWishRemove: (id: string) => void
 }) {
-  const mutation = api.product.updateWishList.useMutation({
+  const mutation = api.product.updateWish.useMutation({
     onMutate: (data) => {
       console.log(data)
       if (data.action === "remove") {
