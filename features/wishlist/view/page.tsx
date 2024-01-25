@@ -138,10 +138,10 @@ function ProductItem({
   item: IProduct
   onWishRemove: (id: string) => void
 }) {
-  const mutation = api.product.updateProduct.useMutation({
+  const mutation = api.product.updateWishList.useMutation({
     onMutate: (data) => {
       console.log(data)
-      if (data.wishlist === "remove") {
+      if (data.action === "remove") {
         onWishRemove(item.id)
       }
     },
@@ -195,7 +195,7 @@ function ProductItem({
                       onClick={async () => {
                         await mutation.mutateAsync({
                           productId: item.id,
-                          wishlist: !!item.wishlistId ? "remove" : "add",
+                          action: !!item.wishlistId ? "remove" : "add",
                         })
                         setinWishList(!inWishList)
                       }}

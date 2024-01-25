@@ -1,7 +1,6 @@
 import {
   ProductsQueryInput,
   type CreateProductDTO,
-  type IProductPropCount,
   type IProductQueryInput,
 } from "@/features/shop/model"
 import { faker } from "@faker-js/faker"
@@ -63,6 +62,15 @@ export const productRouter = createTRPCRouter({
         include: {
           user: true,
           sizes: true,
+          cartItem: {
+            where: {
+              userId: ctx.session?.user.id,
+            },
+            select: {
+              qty: true,
+            },
+            take: 1,
+          },
         },
       })
 
@@ -84,55 +92,17 @@ export const productRouter = createTRPCRouter({
         nextCursor,
       }
     }),
-  productPropCounts: publicProcedure
-    // .input(ProductPropCountSchema)
-    .query(async ({ ctx }) => {
-      const userId = ctx.session?.user.id
 
-      if (userId == null) {
-        throw new Error("You must be logged in to do this")
-      }
-      let data
-      const input: IProductPropCount = {}
-
-      input.inStock =
-        (await ctx.prisma.product.count({
-          where: { inStock: true },
-        })) ?? 0
-
-      // if (input.sizes?.length) {
-      //   // todo: fix this
-      // }
-
-      data = await ctx.prisma.product.count({
-        where: { wishlist: { userId } },
-      })
-
-      input.wishlist = data ?? 0
-
-      data = await ctx.prisma.product.count({
-        where: { cart: { userId } },
-      })
-
-      input.cart = data ?? 0
-
-      data = await ctx.prisma.product.count()
-
-      input.total = data ?? 0
-
-      return input
-    }),
-  deleteAllProducts: publicProcedure.mutation(async ({ ctx }) => {
+  deleteAll: publicProcedure.mutation(async ({ ctx }) => {
     await ctx.prisma.product.deleteMany()
 
     return true
   }),
-  updateProduct: publicProcedure
+  updateWishList: publicProcedure
     .input(
       z.object({
         productId: z.string(),
-        wishlist: z.enum(["add", "remove"]).optional(),
-        cart: z.enum(["add", "remove"]).optional(),
+        action: z.enum(["add", "remove"]).optional(),
       })
     )
     .mutation(async ({ input, ctx }) => {
@@ -158,14 +128,9 @@ export const productRouter = createTRPCRouter({
 
       const data: { wishlist?: any; cart?: any } = {}
 
-      if (input.wishlist) {
-        data.wishlist = actions[input.wishlist]
+      if (input.action) {
+        data.wishlist = actions[input.action]
       }
-
-      if (input.cart) {
-        data.cart = actions[input.cart]
-      }
-      // connect or create wishlist
 
       await ctx.prisma.product.update({
         where: { id: input.productId },
@@ -173,6 +138,73 @@ export const productRouter = createTRPCRouter({
       })
 
       return true
+    }),
+  updateCart: publicProcedure
+    .input(
+      z.object({
+        productId: z.string(),
+        action: z.enum(["add", "update", "remove"]).optional(),
+        quantity: z.number().min(0).optional(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const userId = ctx.session?.user.id as string
+
+      if (userId == null) {
+        throw new Error("You must be logged in to do this")
+      }
+
+      // if cart item does not exist create
+
+      if (input.action === "add") {
+        await ctx.prisma.cartItem.create({
+          data: {
+            product: {
+              connect: {
+                id: input.productId,
+              },
+            },
+            user: {
+              connect: {
+                id: userId,
+              },
+            },
+            qty: 1,
+          },
+        })
+        return true
+      }
+
+      // if cart item exists update
+
+      if (input.action === "update") {
+        await ctx.prisma.cartItem.update({
+          where: {
+            userId_productId: {
+              userId,
+              productId: input.productId,
+            },
+          },
+          data: {
+            qty: input.quantity,
+          },
+        })
+        return true
+      }
+
+      // if cart item exists delete
+
+      if (input.action === "remove") {
+        await ctx.prisma.cartItem.delete({
+          where: {
+            userId_productId: {
+              userId,
+              productId: input.productId,
+            },
+          },
+        })
+        return true
+      }
     }),
 
   addFakeProducts: publicProcedure.mutation(async ({ ctx }) => {

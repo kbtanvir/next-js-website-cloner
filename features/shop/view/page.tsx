@@ -132,10 +132,23 @@ function PageTitle() {
     </div>
   )
 }
-function ProductItem({ item }: { item: IProduct }) {
-  const mutation = api.product.updateProduct.useMutation()
+function ProductItem({
+  item,
+  refetch,
+}: {
+  item: IProduct
+  refetch: () => void
+}) {
+  const wishMutation = api.product.updateWishList.useMutation()
+  const cartMutation = api.product.updateCart.useMutation({
+    onSuccess: () => {
+      refetch()
+    },
+  })
   const [inWishList, setinWishList] = useState(!!item.wishlistId)
-  const [inCart, setinCart] = useState(!!item.cartId)
+  const [inCart, setinCart] = useState(item.cartItem.length ? true : false)
+
+  const [loading, setloading] = useState(false)
 
   return (
     <div className="flex-col   w-full max-md:ml-0 max-md:w-full">
@@ -174,52 +187,49 @@ function ProductItem({ item }: { item: IProduct }) {
                 )}
               </span>
               <div className="absolute flex flex-col items-center gap-2.5 self-end">
-                <span>
-                  {mutation.isLoading ? (
-                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-900" />
+                <div
+                  className="flex place-content-center bg-white shadow-lg p-1.5 rounded-lg self-end h-9 aspect-square"
+                  onClick={async () => {
+                    await wishMutation.mutateAsync({
+                      productId: item.id,
+                      action: !!item.wishlistId ? "remove" : "add",
+                    })
+                    setinWishList(!inWishList)
+                  }}
+                >
+                  {wishMutation.isLoading ? (
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-gray-900" />
+                  ) : inWishList ? (
+                    <IoMdHeart fontSize={25} />
                   ) : (
-                    <div
-                      className="flex bg-white shadow-lg p-1.5 rounded-lg self-end"
-                      onClick={async () => {
-                        await mutation.mutateAsync({
-                          productId: item.id,
-                          wishlist: !!item.wishlistId ? "remove" : "add",
-                        })
-                        setinWishList(!inWishList)
-                      }}
-                    >
-                      {inWishList ? (
-                        <IoMdHeart fontSize={25} />
-                      ) : (
-                        <IoMdHeartEmpty fontSize={25} />
-                      )}
-                    </div>
+                    <IoMdHeartEmpty fontSize={25} />
                   )}
-                </span>
-                {/* TODO: add quickview */}
+                </div>
+
                 <div className="flex bg-white shadow-lg p-1.5 rounded-lg self-end">
                   <IoGitCompareOutline fontSize={25} />
                 </div>
               </div>
             </div>
           </div>
-          <div className=" absolute bottom-0  flex-center w-full bg-black px-4 py-2.5 max-md:mt-10 max-md:px-5">
-            <span
-              className="flex items-center gap-5"
-              onClick={async () => {
-                await mutation.mutateAsync({
-                  productId: item.id,
-                  cart: !!item.cartId ? "remove" : "add",
-                })
-                setinCart(!inCart)
-              }}
-            >
+          <Button
+            disabled={cartMutation.isLoading}
+            className=" absolute bottom-0 focus:ring-offset-0 flex-center w-full bg-black px-4 py-2.5 max-md:mt-10 max-md:px-5"
+            onClick={async () => {
+              await cartMutation.mutateAsync({
+                productId: item.id,
+                action: item.cartItem.length ? "remove" : "add",
+              })
+              setinCart(!inCart)
+            }}
+          >
+            <span className="flex items-center gap-5">
               <IoCartOutline color="white" size="26" />
               <div className="my-auto text-base leading-5 text-white">
                 {inCart ? "Remove from cart" : "Add to cart"}
               </div>
             </span>
-          </div>
+          </Button>
         </div>
         <div className="mt-6 text-base leading-5 text-zinc-800">
           {item.title}
@@ -243,19 +253,18 @@ function ProductGrid() {
   const [data, setData] = useState<IProduct[]>([])
 
   const { productsQueryDTO, columnSize } = useGlobalStore()
-  const query = api.product.infiniteProducts.useInfiniteQuery(
+  const infiniteQuery = api.product.infiniteProducts.useInfiniteQuery(
     productsQueryDTO,
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
       refetchOnWindowFocus: false,
     }
   )
-  const countsQuery = api.product.productPropCounts.useQuery()
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await query.refetch()
+        await infiniteQuery.refetch()
       } catch (error) {
         console.error("Error fetching data:", error)
       }
@@ -266,55 +275,55 @@ function ProductGrid() {
   }, [JSON.stringify(productsQueryDTO)])
 
   useEffect(() => {
-    const data = (query.data?.pages.map((page) => page.products).flat() ??
-      []) as IProduct[]
+    const data = (infiniteQuery.data?.pages
+      .map((page) => page.products)
+      .flat() ?? []) as IProduct[]
     setData(data)
+    console.log(data)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query.data])
+  }, [infiniteQuery.data])
 
-  useEffect(() => {
-    globalStore.setProductCounts({ ...countsQuery.data })
-  }, [])
-
-  if (query.error) {
-    return <div>{query.error.message}</div>
+  if (infiniteQuery.error) {
+    return <div>{infiniteQuery.error.message}</div>
   }
 
-  if (query.isLoading) {
+  if (infiniteQuery.isLoading) {
     return <div>Loading...</div>
   }
 
-  if (!query.data) {
+  if (!infiniteQuery.data) {
     return <div>No data</div>
   }
 
   return (
-    <>
-      <div className="w-full flex flex-col gap-10">
-        <div
-          className={`grid gap-8 w-full`}
-          style={{
-            gridTemplateColumns: `repeat(auto-fit, minmax(250px, 1fr))`,
+    <div className="w-full flex flex-col gap-10">
+      <div
+        className={`grid gap-8 w-full`}
+        style={{
+          gridTemplateColumns: `repeat(auto-fit, minmax(250px, 1fr))`,
+        }}
+      >
+        {data.map((item, i) => (
+          <ProductItem
+            key={item.id}
+            item={item}
+            refetch={infiniteQuery.refetch}
+          />
+        ))}
+      </div>
+      {infiniteQuery.hasNextPage && (
+        <Button
+          className="self-start"
+          onClick={async () => {
+            await infiniteQuery.fetchNextPage()
           }}
         >
-          {data.map((item, i) => (
-            <ProductItem key={i} item={item} />
-          ))}
-        </div>
-        {query.hasNextPage && (
-          <Button
-            className="self-start"
-            onClick={async () => {
-              await query.fetchNextPage()
-            }}
-          >
-            Loadmore
-          </Button>
-        )}
-        {/* TODO: add pagination */}
-      </div>
-    </>
+          Loadmore
+        </Button>
+      )}
+      {/* TODO: add pagination */}
+    </div>
   )
 }
 function Pagination() {

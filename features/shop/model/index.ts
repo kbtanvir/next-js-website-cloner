@@ -38,6 +38,7 @@ export type IProduct = Prisma.ProductGetPayload<{
   include: {
     sizes: true
     // wishlist: true
+    cartItem: true
   }
 }>
 export type CreateProductDTO = Pick<

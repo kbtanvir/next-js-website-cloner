@@ -12,7 +12,7 @@ export function useInfiniteProductQuery() {
   )
 }
 export function useDeleteAllQuery() {
-  return api.product.deleteAllProducts.useMutation()
+  return api.product.deleteAll.useMutation()
 }
 export function useAddFakeQuery() {
   return api.product.addFakeProducts.useMutation()

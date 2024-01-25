@@ -11,7 +11,7 @@ export default function ShopPage() {
       await query.refetch()
     },
   })
-  const deleteAll = api.product.deleteAllProducts.useMutation({
+  const deleteAll = api.product.deleteAll.useMutation({
     onSuccess: async () => {
       await query.refetch()
     },

@@ -45,18 +45,17 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
+    id            String     @id @default(cuid())
     name          String?
-    email         String?   @unique
+    email         String?    @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]
     sessions      Session[]
     wishlist      Wishlist?
     wishlistId    String?
-    cart          Cart?
-    cartId        String?
     products      Product[]
+    cartItem      CartItem[]
 }
 
 model VerificationToken {
@@ -81,8 +80,8 @@ model Product {
     inStock     Boolean
     sizes       Size[]
     wishlistId  String?
-    cartItem    CartItem[]
     wishlist    Wishlist?  @relation(fields: [wishlistId], references: [id])
+    cartItem    CartItem[]
 
     @@unique([createdAt, id])
     @@index([userId])
@@ -110,28 +109,16 @@ model Wishlist {
     @@index([userId])
 }
 
-model Cart {
-    id        String     @id @default(cuid())
-    createdAt DateTime   @default(now())
-    updatedAt DateTime   @updatedAt
-    userId    String
-    user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-    cartItems CartItem[]
-
-    @@unique([userId])
-    @@index([userId])
-}
-
 model CartItem {
-    id        String   @id @default(cuid())
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-    cartId    String
-    cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
     product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
     productId String
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId    String
+    qty       Int
 
-    @@unique([cartId, productId])
-    @@index([cartId])
+    @@id([userId, productId])
     @@index([productId])
+    @@index([userId])
 }

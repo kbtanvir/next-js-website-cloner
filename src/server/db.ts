@@ -1,11 +1,7 @@
 import { Client } from "@planetscale/database"
 import { PrismaPlanetScale } from "@prisma/adapter-planetscale"
 import { PrismaClient } from "@prisma/client"
-
-declare const env: {
-  DATABASE_URL: string
-  NODE_ENV: string
-}
+import { env } from "~/env.mjs"
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined
