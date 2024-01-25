@@ -43,7 +43,8 @@
     "**/*.cjs",
     "**/*.mjs",
     "src/pages/tictactoe.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "**/*.js"
   ],
   "exclude": [
     "node_modules"

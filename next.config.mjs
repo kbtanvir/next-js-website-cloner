@@ -1,7 +1,4 @@
-import asd from "@next/bundle-analyzer";
-
-
-await import("./src/env/server.mjs")
+await import("./src/env.mjs")
 
 /**
  * Don't be scared of the generics here.
@@ -11,15 +8,8 @@ await import("./src/env/server.mjs")
  * @param {T} config - A generic parameter that flows through to the return type
  * @constraint {{import('next').NextConfig}}
  */
-function defineNextConfig(config) {
-  return withBundleAnalyzer(config)
-}
 
-const withBundleAnalyzer = asd({
-  enabled: process.env.ANALYZE === "true",
-})
-
-export default defineNextConfig({
+const config = {
   reactStrictMode: true,
 
   /**
@@ -43,4 +33,6 @@ export default defineNextConfig({
       "cdn.builder.io",
     ],
   },
-})
+}
+
+export default config

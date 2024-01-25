@@ -2,41 +2,33 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
+    provider        = "prisma-client-js"
+    previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
-    provider     = "mysql"
-    // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-    // Further reading:
-    // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-    // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
-    url          = env("DATABASE_URL")
-    relationMode = "prisma"
-}
+    provider = "mysql"
+    url      = env("DATABASE_URL")
 
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    // Do not use foreign keys (PlanetScale does not support them)
+    relationMode = "prisma"
 }
 
 // Necessary for Next auth
 model Account {
-    id                       String  @id @default(cuid())
-    userId                   String
-    type                     String
-    provider                 String
-    providerAccountId        String
-    refresh_token            String? @db.Text
-    access_token             String? @db.Text
-    expires_at               Int?
-    token_type               String?
-    scope                    String?
-    id_token                 String? @db.Text
-    session_state            String?
-    refresh_token_expires_in Int?
-    user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    id                String  @id @default(cuid())
+    userId            String
+    type              String
+    provider          String
+    providerAccountId String
+    refresh_token     String? @db.Text
+    access_token      String? @db.Text
+    expires_at        Int?
+    token_type        String?
+    scope             String?
+    id_token          String? @db.Text
+    session_state     String?
+    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@unique([provider, providerAccountId])
     @@index([userId])
@@ -53,16 +45,18 @@ model Session {
 }
 
 model User {
-    id            String     @id @default(cuid())
+    id            String    @id @default(cuid())
     name          String?
-    email         String?    @unique
+    email         String?   @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]
     sessions      Session[]
+    wishlist      Wishlist?
+    wishlistId    String?
+    cart          Cart?
+    cartId        String?
     products      Product[]
-    Wishlist      Wishlist[]
-    Cart          Cart?
 }
 
 model VerificationToken {
@@ -71,6 +65,28 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Product {
+    id          String     @id @default(cuid())
+    title       String
+    description String
+    price       Float
+    image       String
+    createdAt   DateTime   @default(now())
+    updatedAt   DateTime   @updatedAt
+    isDeleted   Boolean    @default(false)
+    userId      String
+    user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+    inStock     Boolean
+    sizes       Size[]
+    wishlistId  String?
+    cartItem    CartItem[]
+    wishlist    Wishlist?  @relation(fields: [wishlistId], references: [id])
+
+    @@unique([createdAt, id])
+    @@index([userId])
+    @@index([wishlistId])
 }
 
 model Size {
@@ -82,50 +98,40 @@ model Size {
     @@unique([name])
 }
 
-model Product {
-    id          String    @id @default(cuid())
-    title       String
-    description String
-    price       Float
-    image       String
-    createdAt   DateTime  @default(now())
-    updatedAt   DateTime  @updatedAt
-    isDeleted   Boolean   @default(false)
-    userId      String
-    user        User      @relation(map: "createdBy", fields: [userId], references: [id], onDelete: Cascade)
-    inStock     Boolean
-    sizes       Size[]
-    wishlist    Wishlist? @relation(fields: [wishlistId], references: [id])
-    wishlistId  String?
-    cart        Cart?     @relation(fields: [cartId], references: [id])
-    cartId      String?
-
-    @@unique([createdAt, id])
-    @@index([userId])
-    @@index([wishlistId])
-    @@index([cartId])
-}
-
 model Wishlist {
     id        String    @id @default(cuid())
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
     userId    String
-    user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
     products  Product[]
+    User      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@unique([userId])
     @@index([userId])
 }
 
 model Cart {
-    id        String    @id @default(cuid())
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @updatedAt
+    id        String     @id @default(cuid())
+    createdAt DateTime   @default(now())
+    updatedAt DateTime   @updatedAt
     userId    String
-    user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-    products  Product[]
+    user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+    cartItems CartItem[]
 
     @@unique([userId])
     @@index([userId])
+}
+
+model CartItem {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    cartId    String
+    cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+    product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+    productId String
+
+    @@unique([cartId, productId])
+    @@index([cartId])
+    @@index([productId])
 }

@@ -1,19 +1,24 @@
-import { PrismaClient } from "@prisma/client";
-import { env } from "~/env/server.mjs"
+import { Client } from "@planetscale/database"
+import { PrismaPlanetScale } from "@prisma/adapter-planetscale"
+import { PrismaClient } from "@prisma/client"
 
-
-declare global {
-  // eslint-disable-next-line no-var, vars-on-top
-  var prisma: PrismaClient | undefined
+declare const env: {
+  DATABASE_URL: string
+  NODE_ENV: string
 }
 
-// eslint-disable-next-line import/prefer-default-export
+const globalForPrisma = globalThis as unknown as {
+  prisma: PrismaClient | undefined
+}
+
+const client = new Client({ url: env.DATABASE_URL })
+
 export const prisma =
-  global.prisma ||
+  globalForPrisma.prisma ??
   new PrismaClient({
-    log: ["query"],
+    log:
+      env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
+    adapter: new PrismaPlanetScale(client),
   })
 
-if (env.NODE_ENV !== "production") {
-  global.prisma = prisma
-}
+if (env.NODE_ENV !== "production") globalForPrisma.prisma = prisma

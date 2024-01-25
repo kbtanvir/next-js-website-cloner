@@ -1,5 +1,5 @@
 import { createNextApiHandler } from "@trpc/server/adapters/next"
-import { env } from "~/env/server.mjs"
+import { env } from "~/env.mjs"
 import { appRouter } from "~/server/api/router"
 import { createTRPCContext } from "~/server/api/trpc"
 
@@ -8,6 +8,7 @@ export default createNextApiHandler({
   router: appRouter,
   createContext: createTRPCContext,
   onError:
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     env.NODE_ENV === "development"
       ? ({ path, error }) => {
           console.error(

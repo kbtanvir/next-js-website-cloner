@@ -49,7 +49,7 @@ const UserButton: React.FC = () => {
     )
 
   return (
-    <Button variant="outline" onClick={() => void signIn()}>
+    <Button variant="outline" onClick={async () => await signIn("google")}>
       Sign In
     </Button>
   )
