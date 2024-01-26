@@ -1,4 +1,6 @@
+import { ProductsQueryInput, type CreateProductDTO } from "../model"
 import { faker } from "@faker-js/faker"
+import { type Prisma } from "@prisma/client"
 import { type inferAsyncReturnType } from "@trpc/server"
 import { z } from "zod"
 import {
@@ -6,18 +8,15 @@ import {
   publicProcedure,
   type createTRPCContext,
 } from "~/server/api/trpc"
-import {
-  ProductsQueryInput,
-  type CreateProductDTO,
-  type IProductQueryInput,
-} from "../model"
 
 export const productRouter = createTRPCRouter({
   infiniteProducts: publicProcedure
     .input(ProductsQueryInput)
     .query(async ({ input, ctx }) => {
-      const whereClause: IProductQueryInput = {}
+      const whereClause: Prisma.ProductsWhereInput = {}
+
       let orderBy
+
       if (input.inStock === true) {
         whereClause.inStock = true
       }
@@ -48,9 +47,16 @@ export const productRouter = createTRPCRouter({
 
       if (input.wishlist) {
         whereClause.wishlist = {
-         'some':{
-            'userId':ctx.session?.user.id
-          }
+          some: {
+            userId: ctx.session?.user.id,
+          },
+        }
+      }
+      if (input.inCart) {
+        whereClause.cart = {
+          some: {
+            userId: ctx.session?.user.id,
+          },
         }
       }
 
@@ -58,9 +64,7 @@ export const productRouter = createTRPCRouter({
         take: input.limit ? input.limit + 1 : undefined,
         cursor: input.cursor ? { createdAt_id: input.cursor } : undefined,
         orderBy,
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        where: {...whereClause, },
+        where: { ...whereClause },
         include: {
           user: true,
           sizes: true,
@@ -120,7 +124,7 @@ export const productRouter = createTRPCRouter({
         throw new Error("You must be logged in to do this")
       }
 
-       if(input.action === "add") {
+      if (input.action === "add") {
         await ctx.prisma.wishlist.create({
           data: {
             product: {
@@ -133,23 +137,23 @@ export const productRouter = createTRPCRouter({
                 id: userId,
               },
             },
-          
           },
         })
 
         return true
-       }
+      }
 
-       await ctx.prisma.wishlist.delete({
-          where: {
-            userId_productId: {
-              userId,
-              productId: input.productId,
-            },
+      await ctx.prisma.wishlist.delete({
+        where: {
+          userId_productId: {
+            userId,
+            productId: input.productId,
           },
-        })
+        },
+      })
       return true
     }),
+
   updateCart: publicProcedure
     .input(
       z.object({
@@ -168,8 +172,20 @@ export const productRouter = createTRPCRouter({
       // if cart item does not exist create
 
       if (input.action === "add") {
-        await ctx.prisma.cart.create({
-          data: {
+        await ctx.prisma.cart.upsert({
+          where: {
+            userId_productId: {
+              userId,
+              productId: input.productId,
+            },
+          },
+          update: {
+            qty: {
+              increment: 1,
+            },
+          },
+          create: {
+            qty: 1,
             product: {
               connect: {
                 id: input.productId,
@@ -180,7 +196,6 @@ export const productRouter = createTRPCRouter({
                 id: userId,
               },
             },
-            qty: 1,
           },
         })
         return true

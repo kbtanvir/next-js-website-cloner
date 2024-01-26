@@ -1,5 +1,5 @@
 import { productRouter } from "../../../features/shop/controller"
-import { wishlistRouter } from "@/features/wishlist/controller"
+import { cartRouter } from "@/features/cart/controller"
 import { createTRPCRouter } from "~/server/api/trpc"
 
 /**
@@ -9,7 +9,7 @@ import { createTRPCRouter } from "~/server/api/trpc"
  */
 export const appRouter = createTRPCRouter({
   product: productRouter,
-  // wishlist: wishlistRouter,
+  cart: cartRouter,
 })
 
 // export type definition of API

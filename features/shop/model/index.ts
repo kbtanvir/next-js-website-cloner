@@ -29,6 +29,7 @@ export const ProductsQueryInput = z.object({
   sort: z.enum(OrderByOptions).optional(),
   OR: z.any().optional(),
   wishlist: z.any().optional(),
+  inCart: z.any().optional(),
 })
 
 export type IProductQueryInput = z.infer<typeof ProductsQueryInput>
@@ -45,14 +46,5 @@ export type CreateProductDTO = Pick<
   "title" | "description" | "image" | "inStock" | "userId" | "price" | "id"
 >
 
-export const ProductPropCountSchema = z
-  .object({
-    total: z.number().optional(),
-    inStock: z.number().optional(),
-    sizes: z.any().optional(),
-    wishlist: z.number().optional(),
-    cart: z.number().optional(),
-  })
-  .optional()
-
-export type IProductPropCount = z.infer<typeof ProductPropCountSchema>
+ 
+ 

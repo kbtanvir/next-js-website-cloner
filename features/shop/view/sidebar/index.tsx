@@ -18,7 +18,6 @@ import { useForm } from "react-hook-form"
 import { globalStore, useGlobalStore } from "~/utils/global.store"
 
 function AvaibilityFilter() {
-  const { productCounts } = useGlobalStore()
   return (
     <div className="flex flex-col justify-between gap-5">
       <div className="flex justify-between">
@@ -38,7 +37,7 @@ function AvaibilityFilter() {
             In Stock
           </label>
         </div>
-        {productCounts.inStock}
+        0
       </div>
     </div>
   )

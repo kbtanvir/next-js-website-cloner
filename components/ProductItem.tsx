@@ -19,7 +19,6 @@ export function ProductItem({
   const cartMutation = api.product.updateCart.useMutation({
     onSuccess: refetch,
   })
-  const [inCart, setinCart] = useState(item.cart.length ? true : false)
   const [wished, setwished] = useState(item.wishlist.length ? true : false)
 
   return (
@@ -59,8 +58,9 @@ export function ProductItem({
                 )}
               </span>
               <div className="absolute flex flex-col items-center gap-2.5 self-end">
-                <div
+                <Button
                   className="flex place-content-center bg-white shadow-lg p-1.5 rounded-lg self-end h-9 aspect-square"
+                  disabled={wishMutation.isLoading}
                   onClick={async () => {
                     await wishMutation.mutateAsync({
                       productId: item.id,
@@ -70,13 +70,13 @@ export function ProductItem({
                   }}
                 >
                   {wishMutation.isLoading ? (
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-gray-900" />
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 text-black border-gray-900" />
                   ) : wished === true ? (
-                    <IoMdHeart fontSize={25} />
+                    <IoMdHeart fontSize={25} color="black" />
                   ) : (
-                    <IoMdHeartEmpty fontSize={25} />
+                    <IoMdHeartEmpty fontSize={25} color="black" />
                   )}
-                </div>
+                </Button>
 
                 <div className="flex bg-white shadow-lg p-1.5 rounded-lg self-end">
                   <IoGitCompareOutline fontSize={25} />
@@ -90,15 +90,14 @@ export function ProductItem({
             onClick={async () => {
               await cartMutation.mutateAsync({
                 productId: item.id,
-                action: item.cart.length ? "remove" : "add",
+                action: "add",
               })
-              setinCart(!inCart)
             }}
           >
             <span className="flex items-center gap-5">
               <IoCartOutline color="white" size="26" />
               <div className="my-auto text-base leading-5 text-white">
-                {inCart ? "Remove from cart" : "Add to cart"}
+                {"Add to cart"}
               </div>
             </span>
           </Button>

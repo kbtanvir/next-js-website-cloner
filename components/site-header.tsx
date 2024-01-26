@@ -2,7 +2,7 @@ import UserButton from "./user-button"
 import { MainNav } from "@/components/main-nav"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { siteConfig } from "@/config/site"
-import { useCartStore } from "@/lib/persist/cart"
+import { useCartStore } from "@/features/cart/controller/store"
 
 export function SiteHeader() {
   return (
