@@ -1,36 +1,16 @@
 import { Breadcrumb } from "../../../components/header"
 import { PageTitle } from "@/components/PageTitle"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import { type Cart, type Products, type Size } from "@prisma/client"
+import { debounce } from "lodash"
+import { Trash } from "lucide-react"
 import Image from "next/image"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { api } from "~/utils/api"
 
 function ProductGrid() {
-  const [data, setData] = useState([])
-
   const query = api.cart.getIninite.useQuery()
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       await query.refetch()
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error)
-  //     }
-  //   }
-
-  //   void fetchData()
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [JSON.stringify(productsQueryDTO)])
-
-  // useEffect(() => {
-  //   const data = query.data?.pages.map((page) => page.products).flat() ?? []
-  //   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  //   setData(data)
-  //   console.log(data)
-
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [query.data])
 
   if (query.error) {
     return <div>{query.error.message}</div>
@@ -45,21 +25,22 @@ function ProductGrid() {
   }
 
   return (
-    <div className="w-full flex flex-col gap-10">
+    <div className="w-full flex flex-col gap-10 max-w-[1100px]">
       <div
-        className={`grid gap-8 w-full grid-cols-3`}
+        className={`grid gap-8 w-full grid-cols-3 gap-y-12 `}
         // style={{
         //   gridTemplateColumns: `repeat(auto-fit, minmax(3fr, 3fr))`,
         // }}
       >
         <div>Product</div>
-        <div>Quantity</div>
-        <div>Total</div>
+        <div className="justify-self-end">Quantity</div>
+        <div className="justify-self-end">Total</div>
 
         {query.data.map((item) => (
           <CartItem key={item.productId} item={item} refetch={query.refetch} />
         ))}
       </div>
+      <Button className="bg-black text-white self-end">Checkout</Button>
     </div>
   )
 }
@@ -72,10 +53,28 @@ export function CartItem({
   refetch: () => void
 }) {
   const updateCart = api.cart.updateCart.useMutation()
+
+  const [itemTotal, setitemTotal] = useState(item.product.price * item.qty)
+
+  // calculate item total with useEffect
+
+  useEffect(() => {
+    setitemTotal(item.product.price * item.qty)
+  }, [item.product.price, item.qty])
+
+  function handleQtyChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value
+    if (value === "") return
+    updateCart.mutate({
+      productId: item.productId,
+      qty: parseInt(value),
+    })
+    refetch()
+  }
   return (
     <>
       {/* product details */}
-      <div className="flex gap-5">
+      <div className="flex gap-10">
         <Image
           loading="lazy"
           src={item.product.image}
@@ -83,32 +82,51 @@ export function CartItem({
           width={80}
           height={80}
         />
-        <div className="">
-          <div className="text-xl font-bold pb-5">{item.product.title}</div>
+        <div className="grid gap-4">
+          <div className="text-lg font-light ">{item.product.title}</div>
           <div>
+            <span className="text-gray-500">Price: </span>
+            <span>${item.product.price}</span>
+          </div>
+          <div className="flex gap-1">
             {item.product.sizes.map((size) => (
-              <span key={size.id}>{size.name} ,</span>
+              <span
+                className="  border flex flex-center  w-8 aspect-square"
+                key={size.id}
+              >
+                {size.name}
+              </span>
             ))}
           </div>
         </div>
       </div>
       {/* qty input  */}
-      <div>
-        <input
+      <div className="flex gap-5 justify-self-end items-start">
+        <Input
           type="number"
-          value={item.qty}
-          onChange={async (e) => {
+          defaultValue={item.qty}
+          onChange={debounce(handleQtyChange, 500)}
+          className="w-20"
+          min={0}
+        />
+        {/* delete icon */}
+        <Button
+          className="flex place-content-center bg-white shadow-lg p-1.5 rounded-lg  h-9 aspect-square"
+          disabled={updateCart.isLoading}
+          onClick={async () => {
             await updateCart.mutateAsync({
               productId: item.productId,
-              quantity: parseInt(e.target.value),
+              action: "remove",
             })
             refetch()
           }}
-        />
+        >
+          <Trash fontSize={25} color="black" />
+        </Button>
       </div>
       {/* price * qty */}
-      <div>
-        <span>{item.product.price * item.qty}</span>
+      <div className="justify-self-end">
+        <span>${itemTotal}</span>
       </div>
     </>
   )

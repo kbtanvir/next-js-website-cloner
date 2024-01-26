@@ -30,7 +30,7 @@ export const cartRouter = createTRPCRouter({
       z.object({
         productId: z.string(),
         action: z.enum(["add", "remove"]).optional(),
-        quantity: z.number().min(0).optional(),
+        qty: z.number().min(0).optional(),
       })
     )
     .mutation(async ({ input, ctx }) => {
@@ -41,7 +41,7 @@ export const cartRouter = createTRPCRouter({
       }
 
       // if cart item does not exist create
-      if (input.quantity) {
+      if (input.qty) {
         await ctx.prisma.cart.update({
           where: {
             userId_productId: {
@@ -50,7 +50,7 @@ export const cartRouter = createTRPCRouter({
             },
           },
           data: {
-            qty: input.quantity,
+            qty: input.qty,
           },
         })
         return true
@@ -97,5 +97,40 @@ export const cartRouter = createTRPCRouter({
         })
         return true
       }
+    }),
+  updateMany: publicProcedure
+    .input(
+      z.array(
+        z.object({
+          productId: z.string(),
+          qty: z.number().min(0),
+        })
+      )
+    )
+    .mutation(async ({ input, ctx }) => {
+      const userId = ctx.session?.user.id as string
+
+      if (userId == null) {
+        throw new Error("You must be logged in to do this")
+      }
+      await ctx.prisma.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          cart: {
+            updateMany: input.map((item) => ({
+              where: {
+                productId: item.productId,
+              },
+              data: {
+                qty: item.qty,
+              },
+            })),
+          },
+        },
+      })
+
+      return true
     }),
 })
