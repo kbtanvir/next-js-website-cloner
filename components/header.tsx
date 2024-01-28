@@ -1,9 +1,9 @@
 import UserButton from "@/components/user-button"
+import { useCartStore } from "@/features/cart/controller/store"
 import { CartIcon, WishIcon } from "@/lib/icons"
 import Link from "next/link"
 import { Fragment } from "react"
 import { IoIosArrowDown } from "react-icons/io"
-import { useGlobalStore } from "~/utils/global.store"
 
 export function TopBar() {
   return (
@@ -43,7 +43,8 @@ export function TopBar() {
   )
 }
 export function MainHeader() {
-  const { productCounts } = useGlobalStore()
+  const { total } = useCartStore()
+
   return (
     <div
       className={`mx-auto py-9 flex max-w-[1500px] items-center justify-between gap-15 max-xl:px-8 max-md:flex-wrap`}
@@ -72,14 +73,14 @@ export function MainHeader() {
           <div className="relative">
             <WishIcon />
             <div className="absolute right-[-5px] top-[-8px] flex h-4 w-4 items-center justify-center rounded-full bg-blue-600 align-middle text-[10px] text-white">
-              {productCounts?.wishlist}
+              0
             </div>
           </div>
         </Link>
         <Link href={"/cart"} className="relative">
           <CartIcon />
-          <div className="absolute right-[-5px] top-[-8px] flex h-4 w-4 items-center justify-center rounded-full bg-blue-600 align-middle text-[10px] text-white">
-            {productCounts?.cart}
+          <div className="absolute right-[-10px] top-[-8px] flex h-4  px-1 items-center justify-center rounded-full bg-blue-600 align-middle text-[10px] text-white">
+            {total}
           </div>
         </Link>
       </div>
@@ -145,11 +146,11 @@ export function NavigationSection() {
 }
 export function Breadcrumb() {
   return (
-    <span className="flex max-w-[1500px] mx-auto py-5 gap-5 self-start">
+    <div className="flex max-w-[1500px] mx-auto py-5 gap-5 self-start">
       <div className="text-base leading-7 text-zinc-800">Home</div>
       <div className="text-sm leading-7 text-zinc-800 text-opacity-80">
         / Products
       </div>
-    </span>
+    </div>
   )
 }

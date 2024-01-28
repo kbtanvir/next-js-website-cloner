@@ -1,75 +1,60 @@
+"use client"
+
 import { Breadcrumb } from "../../../components/header"
+import { cartService } from "../controller/service"
+import { useCartStore, type ICartItem } from "../controller/store"
 import { PageTitle } from "@/components/PageTitle"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { type Cart, type Products, type Size } from "@prisma/client"
 import { debounce } from "lodash"
 import { Trash } from "lucide-react"
 import Image from "next/image"
 import { useEffect, useState } from "react"
-import { api } from "~/utils/api"
 
 function ProductGrid() {
-  const query = api.cart.getIninite.useQuery()
-
-  if (query.error) {
-    return <div>{query.error.message}</div>
-  }
-
-  if (query.isLoading) {
-    return <div>Loading...</div>
-  }
-
-  if (!query.data) {
-    return <div>No data</div>
-  }
+  const { total, cart } = useCartStore()
 
   return (
     <div className="w-full flex flex-col gap-10 max-w-[1100px]">
-      <div
-        className={`grid gap-8 w-full grid-cols-3 gap-y-12 `}
-        // style={{
-        //   gridTemplateColumns: `repeat(auto-fit, minmax(3fr, 3fr))`,
-        // }}
-      >
+      <div className={`grid gap-8 w-full grid-cols-3 gap-y-12 `}>
         <div>Product</div>
         <div className="justify-self-end">Quantity</div>
         <div className="justify-self-end">Total</div>
-
-        {query.data.map((item) => (
-          <CartItem key={item.productId} item={item} refetch={query.refetch} />
-        ))}
+        {cart.map((item) => <CartItem key={item.id} item={item} />) || (
+          <div>No data</div>
+        )}
       </div>
-      <Button className="bg-black text-white self-end">Checkout</Button>
+      <div
+        className="max-w-[300px] w-full self-end bg-gray-50 
+      flex justify-between items-center p-5 rounded-lg shadow-lg"
+      >
+        <div className="text-lg font-semibold">Total</div>
+        <div className="text-lg font-semibold">${total}</div>
+      </div>
+      <Button className="bg-black text-xl px-10 py-5 text-white self-end">
+        Checkout
+      </Button>
     </div>
   )
 }
 
-export function CartItem({
-  item,
-  refetch,
-}: {
-  item: Cart & { product: Products & { sizes: Size[] } }
-  refetch: () => void
-}) {
-  const updateCart = api.cart.updateCart.useMutation()
-
-  const [itemTotal, setitemTotal] = useState(item.product.price * item.qty)
-
+export function CartItem({ item }: { item: ICartItem }) {
   // calculate item total with useEffect
+  const [itemTotal, setitemTotal] = useState(item.qty * item.product.price)
 
   useEffect(() => {
-    setitemTotal(item.product.price * item.qty)
+    setitemTotal(item.qty * item.product.price)
   }, [item.product.price, item.qty])
 
   function handleQtyChange(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value
     if (value === "") return
-    updateCart.mutate({
-      productId: item.productId,
-      qty: parseInt(value),
-    })
-    refetch()
+    cartService.updateQty(
+      {
+        id: item.product.id,
+      },
+      Number(value)
+    )
   }
   return (
     <>
@@ -88,16 +73,6 @@ export function CartItem({
             <span className="text-gray-500">Price: </span>
             <span>${item.product.price}</span>
           </div>
-          <div className="flex gap-1">
-            {item.product.sizes.map((size) => (
-              <span
-                className="  border flex flex-center  w-8 aspect-square"
-                key={size.id}
-              >
-                {size.name}
-              </span>
-            ))}
-          </div>
         </div>
       </div>
       {/* qty input  */}
@@ -106,19 +81,18 @@ export function CartItem({
           type="number"
           defaultValue={item.qty}
           onChange={debounce(handleQtyChange, 500)}
-          className="w-20"
+          className="w-20 caret-transparent"
+          onKeyDown={(e) => {
+            e.preventDefault()
+          }}
+          
           min={0}
         />
         {/* delete icon */}
         <Button
           className="flex place-content-center bg-white shadow-lg p-1.5 rounded-lg  h-9 aspect-square"
-          disabled={updateCart.isLoading}
-          onClick={async () => {
-            await updateCart.mutateAsync({
-              productId: item.productId,
-              action: "remove",
-            })
-            refetch()
+          onClick={() => {
+            cartService.removeFromCart({ id: item.id })
           }}
         >
           <Trash fontSize={25} color="black" />
@@ -134,7 +108,7 @@ export function CartItem({
 
 export function PageView() {
   return (
-    <span className="mx-auto w-full">
+    <div className="mx-auto w-full">
       <Breadcrumb />
       <PageTitle />
       <div className="mt-20">
@@ -142,6 +116,6 @@ export function PageView() {
           <ProductGrid />
         </div>
       </div>
-    </span>
+    </div>
   )
 }

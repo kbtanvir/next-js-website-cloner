@@ -1,11 +1,13 @@
-import { Breadcrumb } from "../../../components/header"
-import { PageTitle } from "@/components/PageTitle"
-import { ProductItem } from "@/components/ProductItem"
-import { Button } from "@/components/ui/button"
-import { type IProduct } from "@/features/shop/model"
-import { useEffect, useState } from "react"
-import { api } from "~/utils/api"
-import { useGlobalStore } from "~/utils/global.store"
+import { Breadcrumb } from "../../../components/header";
+import { PageTitle } from "@/components/PageTitle";
+import { ProductItem } from "@/components/ProductItem";
+import { Button } from "@/components/ui/button";
+import { type IProduct } from "@/features/shop/model";
+import { Products } from "@prisma/client";
+import { useEffect, useState } from "react";
+import { api } from "~/utils/api";
+import { useGlobalStore } from "~/utils/global.store";
+
 
 function ProductGrid() {
   const [data, setData] = useState<IProduct[]>([])
@@ -35,7 +37,7 @@ function ProductGrid() {
   useEffect(() => {
     const data = (infiniteQuery.data?.pages
       .map((page) => page.products)
-      .flat() ?? []) as IProduct[]
+      .flat() ?? []) as Products[]
     setData(data)
     console.log(data)
 

@@ -4,12 +4,13 @@ import { type IProduct } from "../model"
 import { PageTitle } from "@/components/PageTitle"
 import { Button } from "@/components/ui/button"
 import { Sidebar } from "@/features/shop/view/sidebar"
+import { type Products } from "@prisma/client"
 import { useEffect, useState } from "react"
 import { api } from "~/utils/api"
 import { useGlobalStore } from "~/utils/global.store"
 
 function ProductGrid() {
-  const [data, setData] = useState<IProduct[]>([])
+  const [data, setData] = useState<Products[]>([])
 
   const { productsQueryDTO, columnSize } = useGlobalStore()
   const infiniteQuery = api.product.infiniteProducts.useInfiniteQuery(
@@ -34,9 +35,8 @@ function ProductGrid() {
   }, [JSON.stringify(productsQueryDTO)])
 
   useEffect(() => {
-    const data = (infiniteQuery.data?.pages
-      .map((page) => page.products)
-      .flat() ?? []) as IProduct[]
+    const data =
+      infiniteQuery.data?.pages.map((page) => page.products).flat() ?? []
     setData(data)
     console.log(data)
 
@@ -60,13 +60,13 @@ function ProductGrid() {
       <div
         className={`grid gap-8 w-full`}
         style={{
-          gridTemplateColumns: `repeat(auto-fit, minmax(250px, 1fr))`,
+          gridTemplateColumns: `repeat(auto-fit, minmax(250px, 250px))`,
         }}
       >
         {data.map((item, i) => (
           <ProductItem
             key={item.id}
-            item={item}
+            item={item as IProduct}
             refetch={infiniteQuery.refetch}
           />
         ))}

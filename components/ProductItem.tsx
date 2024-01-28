@@ -1,5 +1,6 @@
-import { type IProduct } from "../features/shop/model"
 import { Button } from "@/components/ui/button"
+import { cartService } from "@/features/cart/controller/service"
+import { type IProduct } from "@/features/shop/model"
 import Image from "next/image"
 import { useState } from "react"
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io"
@@ -86,11 +87,11 @@ export function ProductItem({
           </div>
           <Button
             disabled={cartMutation.isLoading}
-            className=" absolute bottom-0 focus:ring-offset-0 focus:ring-opacity-0 flex-center w-full bg-black px-4 py-2.5 max-md:mt-10 max-md:px-5"
-            onClick={async () => {
-              await cartMutation.mutateAsync({
-                productId: item.id,
-                action: "add",
+            className=" absolute bottom-0 rounded-none focus:ring-offset-0 focus:ring-opacity-0 flex-center w-full bg-black px-4 py-2.5 max-md:mt-10 max-md:px-5"
+            onClick={() => {
+              cartService.addToCart({
+                id: item.id,
+                product: item,
               })
             }}
           >

@@ -1,10 +1,16 @@
 import { withDevToolsExtention } from "../../../lib/persist/withDevtoolExtension"
 import { createStore } from "@poly-state/poly-state"
 import { useStore } from "@poly-state/react"
-import { type Cart } from "@prisma/client"
+import { type Products } from "@prisma/client"
+
+export type ICartItem = {
+  id: string
+  qty: number
+  product: Products
+}
 
 export type ICartStore = {
-  cart: Cart[]
+  cart: ICartItem[]
   total: number
 }
 

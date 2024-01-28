@@ -115,6 +115,7 @@ model Cart {
     product   Products @relation(fields: [productId], references: [id], onDelete: Cascade)
     productId String
     qty       Int
+    price     Float
 
     @@id([userId, productId])
     @@index([productId])

@@ -11,7 +11,7 @@ export function Layout({ children }: LayoutProps) {
       <TopBar />
       <MainHeader />
       <NavigationSection />
-      <main className="">{children}</main>
+      <div  >{children}</div>
       <FooterSection />
     </>
   )
