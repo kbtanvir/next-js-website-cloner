@@ -1,9 +1,13 @@
 "use client"
 
-import { Breadcrumb } from "../../../components/header"
 import { cartService } from "../controller/service"
-import { useCartStore, type ICartItem } from "../controller/store"
-import { PageTitle } from "@/components/PageTitle"
+import {
+  useCartStore,
+  type ICartItem,
+  type ICartStore,
+} from "../controller/store"
+import { PageTitle } from "@/components/header/PageTitle"
+import { Breadcrumb } from "@/components/header/header"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { debounce } from "lodash"
@@ -12,24 +16,35 @@ import Image from "next/image"
 import { useEffect, useState } from "react"
 
 function ProductGrid() {
-  const { total, cart } = useCartStore()
+  const cstate = useCartStore()
+
+  const [{ total, cart }, setcState] = useState<ICartStore>({
+    total: 0,
+    cart: [] as ICartItem[],
+  })
+
+  useEffect(() => {
+    setcState(cstate)
+  }, [cstate])
 
   return (
     <div className="w-full flex flex-col gap-10 max-w-[1100px]">
-      <div className={`grid gap-8 w-full grid-cols-3 gap-y-12 `}>
-        <div>Product</div>
-        <div className="justify-self-end">Quantity</div>
-        <div className="justify-self-end">Total</div>
-        {cart.map((item) => <CartItem key={item.id} item={item} />) || (
-          <div>No data</div>
-        )}
+      <div className={`grid gap-8 w-full grid-cols-3 gap-y-12 bg-gray-50 p-5`}>
+        <span>Product</span>
+        <span className="justify-self-end">Quantity</span>
+        <span className="justify-self-end">Total</span>
+        <>
+          {cart.map((item) => <CartItem key={item.id} item={item} />) || (
+            <span>No data</span>
+          )}
+        </>
       </div>
       <div
-        className="max-w-[300px] w-full self-end bg-gray-50 
-      flex justify-between items-center p-5 rounded-lg shadow-lg"
+        className="max-w-[300px] w-full self-end bg-gray-100 
+      flex justify-between items-center p-5 rounded-lg "
       >
-        <div className="text-lg font-semibold">Total</div>
-        <div className="text-lg font-semibold">${total}</div>
+        <span className="text-lg font-semibold">Total</span>
+        <span className="text-lg font-semibold">${total}</span>
       </div>
       <Button className="bg-black text-xl px-10 py-5 text-white self-end">
         Checkout
@@ -82,18 +97,13 @@ export function CartItem({ item }: { item: ICartItem }) {
           defaultValue={item.qty}
           onChange={debounce(handleQtyChange, 500)}
           className="w-20 caret-transparent"
-          onKeyDown={(e) => {
-            e.preventDefault()
-          }}
-          
+          onKeyDown={(e) => e.preventDefault()}
           min={0}
         />
         {/* delete icon */}
         <Button
           className="flex place-content-center bg-white shadow-lg p-1.5 rounded-lg  h-9 aspect-square"
-          onClick={() => {
-            cartService.removeFromCart({ id: item.id })
-          }}
+          onClick={() => cartService.removeFromCart({ id: item.id })}
         >
           <Trash fontSize={25} color="black" />
         </Button>

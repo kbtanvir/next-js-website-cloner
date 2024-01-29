@@ -17,9 +17,7 @@ export function ProductItem({
   const wishMutation = api.product.updateWish.useMutation({
     onSuccess: refetch,
   })
-  const cartMutation = api.product.updateCart.useMutation({
-    onSuccess: refetch,
-  })
+
   const [wished, setwished] = useState(item.wishlist.length ? true : false)
 
   return (
@@ -86,7 +84,6 @@ export function ProductItem({
             </div>
           </div>
           <Button
-            disabled={cartMutation.isLoading}
             className=" absolute bottom-0 rounded-none focus:ring-offset-0 focus:ring-opacity-0 flex-center w-full bg-black px-4 py-2.5 max-md:mt-10 max-md:px-5"
             onClick={() => {
               cartService.addToCart({

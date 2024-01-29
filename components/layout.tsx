@@ -1,4 +1,5 @@
-import { MainHeader, NavigationSection, TopBar } from "@/components/header"
+import MainHeader from "./header/MainHeader"
+import { NavigationSection, TopBar } from "./header/header"
 import { FooterSection } from "@/components/footer"
 
 interface LayoutProps {
@@ -11,7 +12,7 @@ export function Layout({ children }: LayoutProps) {
       <TopBar />
       <MainHeader />
       <NavigationSection />
-      <div  >{children}</div>
+      <>{children}</>
       <FooterSection />
     </>
   )

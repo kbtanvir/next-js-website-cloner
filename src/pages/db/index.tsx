@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { useInfiniteProductQuery } from "@/hooks/query"
-import { type Product } from "@prisma/client"
-import Image from "next/image"
+import { type Products } from "@prisma/client"
 import { api } from "~/utils/api"
 
 export default function ShopPage() {
@@ -58,17 +57,9 @@ function ProductFetcher({
   data,
   query,
 }: {
-  data: Partial<Product>[]
+  data: Partial<Products>[]
   query: ReturnType<typeof useInfiniteProductQuery>
 }) {
-  // const [d, setdata] = useState<Partial<Product>>([])
-
-  // useEffect(() => {
-  //   const second = fakeProducts
-
-  //   setdata(second)
-  // }, [])
-
   if (query.error) {
     return <div>{query.error.message}</div>
   }
@@ -92,55 +83,8 @@ function ProductFetcher({
       >
         {/* {fakeProducts.length} */}
         {/* {JSON.stringify(query.data, null, 2)} */}
-        {data.map((item) => (
-          <ProductItem key={item.id} item={item} />
-        ))}
+        {data.length}
       </div>
-    </div>
-  )
-}
-
-function ProductItem({ item }: { item: Partial<Product> }) {
-  return (
-    <div className="grid gap-4 place-items-center ">
-      <div className={"h-64 w-full relative"}>
-        <Image
-          src={item.image as string}
-          alt={item.title as string}
-          layout="fill"
-          className={"image"}
-          objectFit="cover"
-        />
-      </div>
-      {/* <Image
-        src={item.image as string}
-        alt={item.title as string}
-        width="500"
-        height="300"
-      /> */}
-      <h2>{item.title}</h2>
-      <p className="text-teal-200 text-[20px] ">${item.price}</p>
-      <Button
-        className="w-full sm:w-60 "
-        onClick={
-          () => console.log("")
-          // cartStore.setState((data: ICartStore) => {
-          //   console.log(data.cartItems)
-          //   const newData = data.cartItems.concat(item)
-          //   const total = newData.reduce((acc, item) => {
-          //     return acc + Number(item.price)
-          //   }, 0)
-          //   console.log(total)
-          //   return {
-          //     ...data,
-          //     cartItems: newData,
-          //     total,
-          //   }
-          // })
-        }
-      >
-        Add to cart
-      </Button>
     </div>
   )
 }

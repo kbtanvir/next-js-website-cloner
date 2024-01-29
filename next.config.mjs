@@ -11,6 +11,7 @@ await import("./src/env.mjs")
 
 const config = {
   reactStrictMode: true,
+  
 
   /**
    * If you have the "experimental: { appDir: true }" setting enabled, then you
