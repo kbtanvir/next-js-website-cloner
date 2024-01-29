@@ -1,5 +1,3 @@
-"use client"
-
 import UserButton from "@/components/user-button"
 import { useCartStore } from "@/features/cart/controller/store"
 import { CartIcon, WishIcon } from "@/lib/icons"

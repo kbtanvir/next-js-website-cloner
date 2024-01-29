@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input"
 import { debounce } from "lodash"
 import { Trash } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
 import { useEffect, useState } from "react"
 
 function ProductGrid() {
@@ -46,9 +47,11 @@ function ProductGrid() {
         <span className="text-lg font-semibold">Total</span>
         <span className="text-lg font-semibold">${total}</span>
       </div>
-      <Button className="bg-black text-xl px-10 py-5 text-white self-end">
-        Checkout
-      </Button>
+      <Link href="/checkout">
+        <Button className="bg-black text-xl px-10 py-5 text-white self-end">
+          Checkout
+        </Button>
+      </Link>
     </div>
   )
 }

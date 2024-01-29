@@ -115,7 +115,7 @@ export function Sidebar() {
                     <Input
                       min={0}
                       type={"number"}
-                      placeholder="Min "
+                      placeholder="Min"
                       onChange={(e) => {
                         form.setValue("price.gte", parseFloat(e.target.value))
                       }}
