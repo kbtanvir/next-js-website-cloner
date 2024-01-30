@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { useInfiniteProductQuery } from "@/hooks/query"
-import { type Products } from "@prisma/client"
+import { type Product } from "@prisma/client"
 import { api } from "~/utils/api"
 
 export default function ShopPage() {
@@ -57,7 +57,7 @@ function ProductFetcher({
   data,
   query,
 }: {
-  data: Partial<Products>[]
+  data: Partial<Product>[]
   query: ReturnType<typeof useInfiniteProductQuery>
 }) {
   if (query.error) {

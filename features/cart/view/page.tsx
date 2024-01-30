@@ -47,8 +47,8 @@ function ProductGrid() {
         <span className="text-lg font-semibold">Total</span>
         <span className="text-lg font-semibold">${total}</span>
       </div>
-      <Link href="/checkout">
-        <Button className="bg-black text-xl px-10 py-5 text-white self-end">
+      <Link className="self-end" href="/checkout">
+        <Button className="bg-black text-base px-10 py-5 h-12 text-white">
           Checkout
         </Button>
       </Link>
@@ -95,6 +95,12 @@ export function CartItem({ item }: { item: ICartItem }) {
       </div>
       {/* qty input  */}
       <div className="flex gap-5 justify-self-end items-start">
+        <Button
+          className="flex place-content-center bg-white shadow-lg p-1.5 rounded-lg  h-9 aspect-square"
+          onClick={() => cartService.removeFromCart({ id: item.id })}
+        >
+          <Trash fontSize={25} color="black" />
+        </Button>
         <Input
           type="number"
           defaultValue={item.qty}
@@ -103,13 +109,6 @@ export function CartItem({ item }: { item: ICartItem }) {
           onKeyDown={(e) => e.preventDefault()}
           min={0}
         />
-        {/* delete icon */}
-        <Button
-          className="flex place-content-center bg-white shadow-lg p-1.5 rounded-lg  h-9 aspect-square"
-          onClick={() => cartService.removeFromCart({ id: item.id })}
-        >
-          <Trash fontSize={25} color="black" />
-        </Button>
       </div>
       {/* price * qty */}
       <div className="justify-self-end">

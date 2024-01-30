@@ -2,14 +2,14 @@ import { Breadcrumb } from "../../../components/header/header"
 import { ProductItem } from "@/components/ProductItem"
 import { PageTitle } from "@/components/header/PageTitle"
 import { Button } from "@/components/ui/button"
-import { IProduct } from "@/features/shop/model"
-import { type Products } from "@prisma/client"
+import { type IProduct } from "@/features/shop/model"
+import { type Product } from "@prisma/client"
 import { useEffect, useState } from "react"
 import { api } from "~/utils/api"
 import { useGlobalStore } from "~/utils/global.store"
 
 function ProductGrid() {
-  const [data, setData] = useState<Products[]>([])
+  const [data, setData] = useState<Product[]>([])
 
   const { productsQueryDTO, columnSize } = useGlobalStore()
   const infiniteQuery = api.product.infiniteProducts.useInfiniteQuery(
@@ -36,7 +36,7 @@ function ProductGrid() {
   useEffect(() => {
     const data = (infiniteQuery.data?.pages
       .map((page) => page.products)
-      .flat() ?? []) as Products[]
+      .flat() ?? []) as Product[]
     setData(data)
     console.log(data)
 

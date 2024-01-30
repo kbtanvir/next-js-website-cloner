@@ -4,13 +4,13 @@ import { type IProduct } from "../model"
 import { PageTitle } from "@/components/header/PageTitle"
 import { Button } from "@/components/ui/button"
 import { Sidebar } from "@/features/shop/view/sidebar"
-import { type Products } from "@prisma/client"
+import { type Product } from "@prisma/client"
 import { useEffect, useState } from "react"
 import { api } from "~/utils/api"
 import { useGlobalStore } from "~/utils/global.store"
 
 function ProductGrid() {
-  const [data, setData] = useState<Products[]>([])
+  const [data, setData] = useState<Product[]>([])
 
   const { productsQueryDTO, columnSize } = useGlobalStore()
   const infiniteQuery = api.product.infiniteProducts.useInfiniteQuery(

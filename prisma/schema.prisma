@@ -53,26 +53,26 @@ model User {
     accounts      Account[]
     sessions      Session[]
     wishlist      Wishlist[]
-    products      Products[]
-    cart          Cart[]
-    UserAddress   UserAddress[]
+    products      Product[]
+    userAddress   UserAddress[]
 }
 
 model UserAddress {
+    user      User     @relation(fields: [email], references: [email], onDelete: Cascade)
     name      String
+    email     String
     address   String
     city      String
     state     String
     country   String
     zipcode   String
     phone     String
-    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId    String   @unique
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+    orders    Order[]
 
-    @@id([userId])
-    @@index([userId])
+    @@id([email])
+    @@index([email])
 }
 
 model VerificationToken {
@@ -83,7 +83,7 @@ model VerificationToken {
     @@unique([identifier, token])
 }
 
-model Products {
+model Product {
     id          String     @id @default(cuid())
     title       String
     description String
@@ -97,17 +97,17 @@ model Products {
     inStock     Boolean
     sizes       Size[]
     wishlist    Wishlist[]
-    cart        Cart[]
+    cartItem    CartItem[]
 
     @@unique([createdAt, id])
     @@index([userId])
 }
 
 model Size {
-    id          String     @id @default(cuid())
-    name        String
+    id          String    @default(cuid())
+    name        String    @id
     description String?
-    products    Products[]
+    products    Product[]
 
     @@unique([name])
 }
@@ -117,7 +117,7 @@ model Wishlist {
     updatedAt DateTime @updatedAt
     user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId    String
-    product   Products @relation(fields: [productId], references: [id], onDelete: Cascade)
+    product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
     productId String
 
     @@id([userId, productId])
@@ -125,39 +125,33 @@ model Wishlist {
     @@index([userId])
 }
 
-model Cart {
-    createdAt DateTime @unique @default(now())
+model Order {
+    id             String      @id @default(cuid())
+    createdAt      DateTime    @default(now())
+    updatedAt      DateTime    @updatedAt
+    total          Float
+    status         String
+    billingAddress UserAddress @relation(fields: [email], references: [email])
+    email          String
+    items          CartItem[]
+
+    @@index([email])
+}
+
+model CartItem {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId    String
-    product   Products @relation(fields: [productId], references: [id], onDelete: Cascade)
-    productId String
     qty       Int
     price     Float
-    // Order     Order?   @relation(fields: [orderId], references: [id])
+    order     Order?   @relation(fields: [orderId], references: [id], onDelete: Cascade)
     orderId   String?
+    product   Product  @relation(fields: [productId], references: [id])
+    productId String
 
-    @@id([userId, productId])
     @@index([productId])
-    @@index([userId])
     @@index([orderId])
 }
-
-// model Order {
-//     id          String   @id @default(cuid())
-//     createdAt   DateTime @default(now())
-//     updatedAt   DateTime @updatedAt
-//     user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-//     userId      String
-//     cartItems   Cart[]
-//     totalAmount Float
-//     status      String
-//     paymentId   String
-//     // payment     Payment  @relation(fields: [paymentId], references: [id])
-
-//     @@index([userId])
-//     @@index([paymentId])
-// }
 
 // model Payment {
 //     id            String      @id @default(cuid())

@@ -1,4 +1,3 @@
-import { ProductsQueryInput, type CreateProductDTO } from "../model"
 import { faker } from "@faker-js/faker"
 import { type Prisma } from "@prisma/client"
 import { type inferAsyncReturnType } from "@trpc/server"
@@ -8,12 +7,13 @@ import {
   publicProcedure,
   type createTRPCContext,
 } from "~/server/api/trpc"
+import { ProductsQueryInput, type CreateProductDTO } from "../model"
 
 export const productRouter = createTRPCRouter({
   infiniteProducts: publicProcedure
     .input(ProductsQueryInput)
     .query(async ({ input, ctx }) => {
-      const whereClause: Prisma.ProductsWhereInput = {}
+      const whereClause: Prisma.ProductWhereInput = {}
 
       let orderBy
 
@@ -52,15 +52,9 @@ export const productRouter = createTRPCRouter({
           },
         }
       }
-      if (input.inCart) {
-        whereClause.cart = {
-          some: {
-            userId: ctx.session?.user.id,
-          },
-        }
-      }
+    
 
-      const data = await ctx.prisma.products.findMany({
+      const data = await ctx.prisma.product.findMany({
         take: input.limit ? input.limit + 1 : undefined,
         cursor: input.cursor ? { createdAt_id: input.cursor } : undefined,
         orderBy,
@@ -68,15 +62,6 @@ export const productRouter = createTRPCRouter({
         include: {
           user: true,
           sizes: true,
-          cart: {
-            where: {
-              userId: ctx.session?.user.id,
-            },
-            select: {
-              qty: true,
-            },
-            take: 1,
-          },
           wishlist: {
             where: {
               userId: ctx.session?.user.id,
@@ -106,7 +91,7 @@ export const productRouter = createTRPCRouter({
     }),
 
   deleteAll: publicProcedure.mutation(async ({ ctx }) => {
-    await ctx.prisma.products.deleteMany()
+    await ctx.prisma.product.deleteMany()
 
     return true
   }),
@@ -169,7 +154,7 @@ export const productRouter = createTRPCRouter({
 
     // Use bulk promise to update all products with sizes
     const updatePromises = PRODUCTS.map((productData) =>
-      addSizesToProducts(ctx, userID, productData)
+      addSizesToProducts(ctx,productData)
     )
     await Promise.all(updatePromises)
 
@@ -190,11 +175,10 @@ export function createRandomProducts(createdById: string): CreateProductDTO {
 }
 export async function addSizesToProducts(
   ctx: inferAsyncReturnType<typeof createTRPCContext>,
-  userID: string,
   productData: CreateProductDTO
 ) {
   // Connect or create new sizes
-  const connectOrCreateSizes = ctx.prisma.products.create({
+  await ctx.prisma.product.create({
     data: {
       ...productData,
       sizes: {
@@ -211,8 +195,7 @@ export async function addSizesToProducts(
     },
   })
 
-  // Transaction to ensure either BOTH operations happen or NONE of them happen
-  await ctx.prisma.$transaction([connectOrCreateSizes])
+  return true
 }
 
 // async function addToWishList(

@@ -3,22 +3,25 @@ import { PageTitle } from "@/components/header/PageTitle"
 import { Breadcrumb } from "@/components/header/header"
 // import { Form, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { useCartStore } from "@/features/cart/controller/store"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Fragment } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 import { z } from "zod"
+import { api } from "~/utils/api"
 
-const formSchema = z.object({
+export const userAddressFormSchema = z.object({
   name: z.string().min(3).max(255),
   email: z.string().email(),
   phone: z.string(),
   address: z.string(),
   city: z.string(),
+  country: z.string(),
   state: z.string(),
-  zip: z.string(),
+  zipcode: z.string(),
 })
 
-export type IFormSchema = z.infer<typeof formSchema>
+export type IFormSchema = z.infer<typeof userAddressFormSchema>
 
 type IFormFields = ({
   name: keyof IFormSchema
@@ -65,19 +68,37 @@ const formFields: IFormFields = [
     placeholder: "Your state",
   },
   {
-    name: "zip",
+    name: "zipcode",
     label: "Zip",
     type: "text",
     placeholder: "Your zip",
   },
+
+  {
+    name: "country",
+    label: "Country",
+    type: "text",
+    placeholder: "Your country",
+  },
 ]
 
 function UserAddressForm() {
+  const { cart, total } = useCartStore()
+  const mutation = api.order.createOrder.useMutation()
   const form = useForm<IFormSchema>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(userAddressFormSchema),
   })
-  function onSubmit(data: IFormSchema) {
-    console.log(data)
+  function onSubmit(userAddress: IFormSchema) {
+    mutation.mutate({
+      total,
+      userAddress,
+      items: cart.map((item) => ({
+        id: item.id,
+        qty: item.qty,
+        price: item.product.price,
+        status: "pending",
+      })),
+    })
   }
 
   return (

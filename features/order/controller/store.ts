@@ -1,28 +1,28 @@
 import { withDevToolsExtention } from "@/lib/persist/withDevtoolExtension"
 import { createStore } from "@poly-state/poly-state"
 import { useStore } from "@poly-state/react"
-import { type Products } from "@prisma/client"
+import { type Product } from "@prisma/client"
 
-export type ICartItem = {
+export type IOrderItem = {
   id: string
   qty: number
-  product: Products
+  product: Product
 }
 
-export type ICartStore = {
-  cart: ICartItem[]
+export type IOrderStore = {
+  Order: IOrderItem[]
   total: number
 }
 
-export const initialState: ICartStore = {
-  cart: [],
+export const initialState: IOrderStore = {
+  Order: [],
   total: 0,
 }
 
-export const cartStore = createStore<ICartStore>(initialState)
+export const orderStore = createStore<IOrderStore>(initialState)
 
-export const useCartStore = () => useStore<ICartStore>(cartStore)
+export const useOrderStore = () => useStore<IOrderStore>(orderStore)
 
 if (process.env.NODE_ENV === "development") {
-  withDevToolsExtention(cartStore, "CART")
+  withDevToolsExtention(orderStore, "CART")
 }

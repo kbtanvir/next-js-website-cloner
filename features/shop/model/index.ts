@@ -1,4 +1,4 @@
-import { type Prisma, type Products } from "@prisma/client"
+import { type Prisma, type Product } from "@prisma/client"
 import * as z from "zod"
 
 export const ProductSizes = ["S", "L", "M", "XL"] as const
@@ -34,7 +34,7 @@ export const ProductsQueryInput = z.object({
 
 export type IProductQueryInput = z.infer<typeof ProductsQueryInput>
 
-export type IProduct = Prisma.ProductsGetPayload<{
+export type IProduct = Prisma.ProductGetPayload<{
   include: {
     sizes: true
     wishlist: true
@@ -42,9 +42,6 @@ export type IProduct = Prisma.ProductsGetPayload<{
   }
 }>
 export type CreateProductDTO = Pick<
-  Products,
+  Product,
   "title" | "description" | "image" | "inStock" | "userId" | "price" | "id"
 >
-
- 
- 
