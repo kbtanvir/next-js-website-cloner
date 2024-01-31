@@ -1,6 +1,10 @@
 import { userAddressFormSchema } from "../view/Page"
 import { z } from "zod"
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc"
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "~/server/api/trpc"
 import { prisma } from "~/server/db"
 
 export const CreateOrderInput = z.object({
@@ -16,10 +20,14 @@ export const CreateOrderInput = z.object({
 })
 
 export const orderRouter = createTRPCRouter({
-  createOrder: publicProcedure
+  createOrder: protectedProcedure
     .input(CreateOrderInput)
     .mutation(async ({ input, ctx }) => {
-      //   const userId = ctx.session?.user.id
+      const userId = ctx.session?.user.id
+
+      if (!userId) {
+        throw new Error("You must be logged in to create an order")
+      }
 
       await prisma.order.create({
         data: {
@@ -30,6 +38,11 @@ export const orderRouter = createTRPCRouter({
               },
               create: {
                 ...input.userAddress,
+                user: {
+                  connect: {
+                    id: userId,
+                  },
+                },
               },
             },
           },
@@ -49,4 +62,19 @@ export const orderRouter = createTRPCRouter({
 
       return true
     }),
+  getAll: publicProcedure.query(async ({ ctx }) => {
+    // const userId = ctx.session?.user.id
+
+    const orders = await prisma.order.findMany({
+      // where: {
+      //   userId,
+      // },
+      include: {
+        items: true,
+        billingAddress: true,
+      },
+    })
+
+    return orders
+  }),
 })

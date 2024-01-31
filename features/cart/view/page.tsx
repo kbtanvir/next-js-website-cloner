@@ -29,7 +29,7 @@ function ProductGrid() {
   }, [cstate])
 
   return (
-    <div className="w-full flex flex-col gap-10 max-w-[1100px]">
+    <div className="mx-auto w-full flex gap-10  ">
       <div className={`grid gap-8 w-full grid-cols-3 gap-y-12 bg-gray-50 p-5`}>
         <span>Product</span>
         <span className="justify-self-end">Quantity</span>
@@ -41,17 +41,21 @@ function ProductGrid() {
         </>
       </div>
       <div
-        className="max-w-[300px] w-full self-end bg-gray-100 
-      flex justify-between items-center p-5 rounded-lg "
+        className="max-w-[300px] w-full self-start bg-gray-100 
+      grid  p-5 rounded-lg gap-5"
       >
-        <span className="text-lg font-semibold">Total</span>
-        <span className="text-lg font-semibold">${total}</span>
+        <div className="grid grid-cols-2 w-full bg-gray-200 p-5 rounded-lg">
+          <span className="text-lg font-semibold">Subtotal</span>
+          <span className="text-lg font-semibold justify-self-end">
+            ${total}
+          </span>
+        </div>
+        <Link className="self-end" href="/checkout">
+          <Button className="bg-black text-base px-10 py-5 h-12 text-white">
+            Checkout
+          </Button>
+        </Link>
       </div>
-      <Link className="self-end" href="/checkout">
-        <Button className="bg-black text-base px-10 py-5 h-12 text-white">
-          Checkout
-        </Button>
-      </Link>
     </div>
   )
 }

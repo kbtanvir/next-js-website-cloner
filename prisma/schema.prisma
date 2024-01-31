@@ -58,7 +58,8 @@ model User {
 }
 
 model UserAddress {
-    user      User     @relation(fields: [email], references: [email], onDelete: Cascade)
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId    String
     name      String
     email     String
     address   String
@@ -72,7 +73,7 @@ model UserAddress {
     orders    Order[]
 
     @@id([email])
-    @@index([email])
+    @@index([userId])
 }
 
 model VerificationToken {
@@ -99,7 +100,6 @@ model Product {
     wishlist    Wishlist[]
     cartItem    CartItem[]
 
-    @@unique([createdAt, id])
     @@index([userId])
 }
 
