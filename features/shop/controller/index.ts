@@ -1,13 +1,8 @@
+import { ProductsQueryInput, type CreateProductDTO } from "../model"
 import { faker } from "@faker-js/faker"
 import { type Prisma } from "@prisma/client"
-import { type inferAsyncReturnType } from "@trpc/server"
 import { z } from "zod"
-import {
-  createTRPCRouter,
-  publicProcedure,
-  type createTRPCContext,
-} from "~/server/api/trpc"
-import { ProductsQueryInput, type CreateProductDTO } from "../model"
+import { createTRPCRouter, publicProcedure } from "~/server/api/trpc"
 
 export const productRouter = createTRPCRouter({
   infiniteProducts: publicProcedure
@@ -52,10 +47,10 @@ export const productRouter = createTRPCRouter({
           },
         }
       }
-    
 
       const data = await ctx.prisma.product.findMany({
         take: input.limit ? input.limit + 1 : undefined,
+
         cursor: input.cursor ? { createdAt_id: input.cursor } : undefined,
         orderBy,
         where: { ...whereClause },
@@ -153,8 +148,24 @@ export const productRouter = createTRPCRouter({
     )
 
     // Use bulk promise to update all products with sizes
-    const updatePromises = PRODUCTS.map((productData) =>
-      addSizesToProducts(ctx,productData)
+    const updatePromises = PRODUCTS.map(
+      async (productData) =>
+        await ctx.prisma.product.create({
+          data: {
+            ...productData,
+            sizes: {
+              connectOrCreate: faker.helpers
+                .arrayElements(["S", "L", "M", "XL"], {
+                  min: 1,
+                  max: 4,
+                })
+                .map((size) => ({
+                  where: { name: size },
+                  create: { name: size },
+                })),
+            },
+          },
+        })
     )
     await Promise.all(updatePromises)
 
@@ -164,7 +175,7 @@ export const productRouter = createTRPCRouter({
 
 export function createRandomProducts(createdById: string): CreateProductDTO {
   return {
-    id: faker.string.uuid(),
+    // id: faker.string.uuid(),
     title: faker.commerce.productName(),
     description: faker.commerce.productDescription(),
     price: parseFloat(faker.commerce.price()),
@@ -172,30 +183,6 @@ export function createRandomProducts(createdById: string): CreateProductDTO {
     inStock: faker.datatype.boolean({ probability: 0.5 }),
     userId: createdById,
   }
-}
-export async function addSizesToProducts(
-  ctx: inferAsyncReturnType<typeof createTRPCContext>,
-  productData: CreateProductDTO
-) {
-  // Connect or create new sizes
-  await ctx.prisma.product.create({
-    data: {
-      ...productData,
-      sizes: {
-        connectOrCreate: faker.helpers
-          .arrayElements(["S", "L", "M", "XL"], {
-            min: 1,
-            max: 4,
-          })
-          .map((size) => ({
-            where: { name: size },
-            create: { name: size },
-          })),
-      },
-    },
-  })
-
-  return true
 }
 
 // async function addToWishList(

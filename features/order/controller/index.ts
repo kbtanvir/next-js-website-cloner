@@ -7,14 +7,13 @@ import {
 } from "~/server/api/trpc"
 import { prisma } from "~/server/db"
 
+export const CartItemSchema = z.object({
+  productId: z.string(),
+  qty: z.number(),
+})
+
 export const CreateOrderInput = z.object({
-  items: z.array(
-    z.object({
-      id: z.string(),
-      qty: z.number(),
-      price: z.number(),
-    })
-  ),
+  items: z.array(CartItemSchema),
   data: checkoutFormSchema,
 })
 
@@ -38,51 +37,21 @@ export const orderRouter = createTRPCRouter({
         throw new Error("You must be logged in to create an order")
       }
 
-      const total = input.items.reduce((acc, item) => {
-        return acc + item.price * item.qty
-      }, 0)
+      const total = await calculatePrice(input.items)
 
       const { paymentMethod, ...userAdress } = input.data
 
-      const payment = () => {
-        if (paymentMethod === PaymentMethodEnum.COD) {
-          return {
-            create: {
-              status: PaymentStatus.UNPAID,
-              provider: PaymentMethodEnum.COD,
-              amount: total,
-            },
-          }
-        }
-        return {
-          create: {
-            status: PaymentStatus.PAID,
-            provider: PaymentMethodEnum.CREDIT_CARD,
-            amount: total,
-          },
-        }
-      }
-
       await prisma.order.create({
         data: {
-          payment: (() => {
-            if (paymentMethod === PaymentMethodEnum.COD) {
-              return {
-                create: {
-                  status: PaymentStatus.UNPAID,
-                  provider: PaymentMethodEnum.COD,
-                  amount: total,
-                },
-              }
-            }
-            return {
-              create: {
-                status: PaymentStatus.PAID,
-                provider: PaymentMethodEnum.CREDIT_CARD,
-                amount: total,
-              },
-            }
-          })(),
+          payment: {
+            create: {
+              status: PaymentMethodEnum.COD
+                ? PaymentStatus.UNPAID
+                : PaymentStatus.PAID,
+              provider: paymentMethod,
+              amount: total,
+            },
+          },
           billingAddress: {
             connectOrCreate: {
               where: {
@@ -104,8 +73,7 @@ export const orderRouter = createTRPCRouter({
             createMany: {
               data: input.items.map((item) => ({
                 qty: item.qty,
-                price: item.price,
-                productId: item.id,
+                productId: item.productId,
               })),
             },
           },
@@ -130,3 +98,27 @@ export const orderRouter = createTRPCRouter({
     return orders
   }),
 })
+
+async function calculatePrice(
+  items: z.infer<typeof CartItemSchema>[]
+): Promise<number> {
+  let total = 0
+
+  const products = await prisma.product.findMany({
+    where: {
+      id: {
+        in: items.map((item) => item.productId),
+      },
+    },
+  })
+
+  items.forEach((item) => {
+    const product = products.find((product) => product.id === item.productId)
+    if (!product) {
+      throw new Error(`Product with id not found`)
+    }
+    total += product.price * item.qty
+  })
+
+  return total
+}

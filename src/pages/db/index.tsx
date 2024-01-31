@@ -5,6 +5,7 @@ import { api } from "~/utils/api"
 
 export default function ShopPage() {
   const query = useInfiniteProductQuery()
+
   const actionQuery = api.product.addFakeProducts.useMutation({
     onSuccess: async () => {
       await query.refetch()
@@ -13,6 +14,7 @@ export default function ShopPage() {
   const deleteAll = api.product.deleteAll.useMutation({
     onSuccess: async () => {
       await query.refetch()
+      // await cartSyncQuery.refetch()
     },
   })
 

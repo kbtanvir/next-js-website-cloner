@@ -15,6 +15,7 @@ import { Trash } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import { IoBagOutline } from "react-icons/io5"
 
 function ProductGrid() {
   const cstate = useCartStore()
@@ -30,16 +31,25 @@ function ProductGrid() {
 
   return (
     <div className="mx-auto w-full flex gap-10  ">
-      <div className={`grid gap-8 w-full grid-cols-3 gap-y-12 bg-gray-50 p-5`}>
-        <span>Product</span>
-        <span className="justify-self-end">Quantity</span>
-        <span className="justify-self-end">Total</span>
-        <>
-          {cart.map((item) => <CartItem key={item.id} item={item} />) || (
-            <span>No data</span>
-          )}
-        </>
-      </div>
+      {cart.length === 0 ? (
+        <div className="w-full gap-5   border-[20px] border-gray-100  border- rounded-lg text-lg font-light text-center ap-y-12 bg-gray-200 p-5 flex-center">
+          <IoBagOutline size="30" /> Your cart is empty
+        </div>
+      ) : (
+        <div
+          className={`grid gap-8 w-full grid-cols-3 gap-y-12 bg-gray-50 p-5`}
+        >
+          <span>Product</span>
+          <span className="justify-self-end">Quantity</span>
+          <span className="justify-self-end">Total</span>
+          <>
+            {cart.map((item) => <CartItem key={item.id} item={item} />) || (
+              <span>No data</span>
+            )}
+          </>
+        </div>
+      )}
+
       <div
         className="max-w-[300px] w-full self-start bg-gray-100 
       grid  p-5 rounded-lg gap-5"
@@ -50,11 +60,13 @@ function ProductGrid() {
             ${total}
           </span>
         </div>
-        <Link className="self-end" href="/checkout">
-          <Button className="bg-black text-base px-10 py-5 h-12 text-white">
-            Checkout
-          </Button>
-        </Link>
+        {cart.length > 0 && (
+          <Link className="self-end" href="/checkout">
+            <Button className="bg-black text-base px-10 py-5 h-12 text-white">
+              Checkout
+            </Button>
+          </Link>
+        )}
       </div>
     </div>
   )

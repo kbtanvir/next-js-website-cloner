@@ -1,6 +1,28 @@
 import { cartStore, type ICartItem } from "./store"
+import { type Product } from "@prisma/client"
 
 export class CartService {
+  syncCart(products: Product[]) {
+    const { cart } = cartStore.getState()
+
+    if (products.length === 0) return this.clearCart()
+
+    products.forEach((product) => {
+      const index = cart.findIndex((item) => item.id === product.id)
+      // if product id is not matched, remove the product from cart
+      // else update the product
+      cartStore.setCart((state) => {
+        if (index === -1) {
+          console.log("removing product", product)
+          return state.filter((item) => item.id !== product.id)
+        }
+        console.log("updating product", product)
+        return state.map((item) =>
+          item.id === product.id ? { ...item, product } : item
+        )
+      })
+    })
+  }
   setCartTotal() {
     cartStore.setState((state) => ({
       ...state,
@@ -43,6 +65,14 @@ export class CartService {
     })
 
     this.setCartTotal()
+  }
+
+  clearCart() {
+    cartStore.setState((state) => ({
+      ...state,
+      cart: [],
+      total: 0,
+    }))
   }
 }
 

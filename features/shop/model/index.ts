@@ -43,5 +43,5 @@ export type IProduct = Prisma.ProductGetPayload<{
 }>
 export type CreateProductDTO = Pick<
   Product,
-  "title" | "description" | "image" | "inStock" | "userId" | "price" | "id"
+  "title" | "description" | "image" | "inStock" | "userId" | "price"
 >

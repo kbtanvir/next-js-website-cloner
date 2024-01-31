@@ -100,6 +100,7 @@ model Product {
     wishlist    Wishlist[]
     cartItem    CartItem[]
 
+    @@unique([createdAt,id ])
     @@index([userId])
 }
 
@@ -129,12 +130,11 @@ model CartItem {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-    qty       Int
-    price     Float
     order     Order?   @relation(fields: [orderId], references: [id], onDelete: Cascade)
     orderId   String?
+    qty       Int
     productId String
-    product   Product? @relation(fields: [productId], references: [id])
+    product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
 
     @@index([productId])
     @@index([orderId])
@@ -149,7 +149,7 @@ model Order {
     status         String?
     billingAddress UserAddress @relation(fields: [email], references: [email])
     items          CartItem[]
-    payment        Payment    @relation(fields: [paymentId], references: [id])
+    payment        Payment     @relation(fields: [paymentId], references: [id])
     paymentId      String
 
     @@index([email])
