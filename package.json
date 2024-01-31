@@ -5,14 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
+    "prisma:studio": "npx prisma studio",
+    "prisma:push": "npx prisma db push --preview-feature & yarn",
+    "prisma:push-reset": "npx prisma db push --force-reset & yarn",
+    "lint": "next lint",
     "build": "next build",
     "postinstall": "prisma generate",
-    "lint": "next lint",
     "start": "next start",
-    "start-db": "powershell -ExecutionPolicy Bypass -File ./scripts/db-start.ps1",
-    "prisma:populate": "tsc ./prisma/populate && node ./prisma/populate.js && rm ./prisma/populate.js",
-    "prisma:studio": "npx prisma studio",
-    "prisma:push": "npx prisma db push --preview-feature &ik yarn"
+    "start-db": "powershell -ExecutionPolicy Bypass -File ./scripts/db-start.ps1"
   },
   "dependencies": {
     "@faker-js/faker": "^8.0.2",

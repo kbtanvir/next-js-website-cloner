@@ -125,19 +125,6 @@ model Wishlist {
     @@index([userId])
 }
 
-model Order {
-    id             String      @id @default(cuid())
-    createdAt      DateTime    @default(now())
-    updatedAt      DateTime    @updatedAt
-    total          Float
-    status         String
-    billingAddress UserAddress @relation(fields: [email], references: [email])
-    email          String
-    items          CartItem[]
-
-    @@index([email])
-}
-
 model CartItem {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
@@ -146,30 +133,38 @@ model CartItem {
     price     Float
     order     Order?   @relation(fields: [orderId], references: [id], onDelete: Cascade)
     orderId   String?
-    product   Product  @relation(fields: [productId], references: [id])
     productId String
+    product   Product? @relation(fields: [productId], references: [id])
 
     @@index([productId])
     @@index([orderId])
 }
 
-// model Payment {
-//     id            String      @id @default(cuid())
-//     createdAt     DateTime    @default(now())
-//     updatedAt     DateTime    @updatedAt
-//     order         Order[]
-//     orderId       String
-//     status        String
-//     amount        Float
-//     method        String
-//     currency      String
-//     receipt       String
-//     email         String
-//     contact       String
-//     notes         String?
-//     address       UserAddress @relation(fields: [userAddressId], references: [id])
-//     userAddressId String
+model Order {
+    id             String      @id @default(cuid())
+    email          String
+    createdAt      DateTime    @default(now())
+    updatedAt      DateTime    @updatedAt
+    total          Float?
+    status         String?
+    billingAddress UserAddress @relation(fields: [email], references: [email])
+    items          CartItem[]
+    payment        Payment    @relation(fields: [paymentId], references: [id])
+    paymentId      String
 
-//     @@index([orderId])
-//     @@index([userAddressId])
-// }
+    @@index([email])
+    @@index([paymentId])
+}
+
+model Payment {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    order     Order[]
+    orderId   String?
+    status    String
+    amount    Float
+    provider  String
+
+    @@index([orderId])
+}

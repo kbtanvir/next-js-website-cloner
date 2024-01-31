@@ -1,4 +1,4 @@
-import { userAddressFormSchema } from "../view/Page"
+import { PaymentMethodEnum, checkoutFormSchema } from "../view/Page"
 import { z } from "zod"
 import {
   createTRPCRouter,
@@ -15,9 +15,18 @@ export const CreateOrderInput = z.object({
       price: z.number(),
     })
   ),
-  total: z.number(),
-  userAddress: userAddressFormSchema,
+  data: checkoutFormSchema,
 })
+
+export enum OrderStatus {
+  PENDING = "PENDING",
+  COMPLETED = "COMPLETED",
+  CANCELLED = "CANCELLED",
+}
+export enum PaymentStatus {
+  PAID = "PAID",
+  UNPAID = "UNPAID",
+}
 
 export const orderRouter = createTRPCRouter({
   createOrder: protectedProcedure
@@ -29,15 +38,58 @@ export const orderRouter = createTRPCRouter({
         throw new Error("You must be logged in to create an order")
       }
 
+      const total = input.items.reduce((acc, item) => {
+        return acc + item.price * item.qty
+      }, 0)
+
+      const { paymentMethod, ...userAdress } = input.data
+
+      const payment = () => {
+        if (paymentMethod === PaymentMethodEnum.COD) {
+          return {
+            create: {
+              status: PaymentStatus.UNPAID,
+              provider: PaymentMethodEnum.COD,
+              amount: total,
+            },
+          }
+        }
+        return {
+          create: {
+            status: PaymentStatus.PAID,
+            provider: PaymentMethodEnum.CREDIT_CARD,
+            amount: total,
+          },
+        }
+      }
+
       await prisma.order.create({
         data: {
+          payment: (() => {
+            if (paymentMethod === PaymentMethodEnum.COD) {
+              return {
+                create: {
+                  status: PaymentStatus.UNPAID,
+                  provider: PaymentMethodEnum.COD,
+                  amount: total,
+                },
+              }
+            }
+            return {
+              create: {
+                status: PaymentStatus.PAID,
+                provider: PaymentMethodEnum.CREDIT_CARD,
+                amount: total,
+              },
+            }
+          })(),
           billingAddress: {
             connectOrCreate: {
               where: {
-                email: input.userAddress.email,
+                email: input.data.email,
               },
               create: {
-                ...input.userAddress,
+                ...userAdress,
                 user: {
                   connect: {
                     id: userId,
@@ -46,8 +98,8 @@ export const orderRouter = createTRPCRouter({
               },
             },
           },
-          total: input.total,
-          status: "PENDING",
+          total,
+          status: OrderStatus.PENDING,
           items: {
             createMany: {
               data: input.items.map((item) => ({
