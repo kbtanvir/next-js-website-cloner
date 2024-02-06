@@ -56,16 +56,16 @@ function ProductGrid() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query])
 
-  if (infiniteQuery.error) {
-    return <div>{infiniteQuery.error.message}</div>
-  }
+  // if (infiniteQuery.error) {
+  //   return <div>{infiniteQuery.error.message}</div>
+  // }
 
   if (infiniteQuery.isLoading) {
     return <div>Loading...</div>
   }
 
-  if (!infiniteQuery.data) {
-    return <div>No data</div>
+  if (!data.length) {
+    return <div className="self-start w-full">Nothing found</div>
   }
 
   return (

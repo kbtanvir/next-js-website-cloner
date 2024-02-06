@@ -39,6 +39,7 @@ export type IProduct = Prisma.ProductGetPayload<{
     wishlist: true
     cart: true
     categories: true
+    discount: true
   }
 }>
 export type CreateProductDTO = Partial<IProduct>

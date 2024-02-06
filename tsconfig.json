@@ -45,7 +45,7 @@
     "src/pages/tictactoe.tsx",
     ".next/types/**/*.ts",
     "**/*.js"
-  ],
+, "prisma/seed.ts"  ],
   "exclude": [
     "node_modules"
   ]

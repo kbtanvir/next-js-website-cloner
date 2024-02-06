@@ -2,7 +2,6 @@
   "name": "zlide",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "next dev",
     "prisma:studio": "npx prisma studio",
@@ -12,7 +11,9 @@
     "build": "next build",
     "postinstall": "prisma generate",
     "start": "next start",
-    "start-db": "powershell -ExecutionPolicy Bypass -File ./scripts/db-start.ps1"
+    "start-db": "powershell -ExecutionPolicy Bypass -File ./scripts/db-start.ps1",
+    "popuplate-db":"tsc ./prisma/seed && node ./prisma/seed.js && rm ./prisma/seed.js"
+    
   },
   "dependencies": {
     "@faker-js/faker": "^8.0.2",

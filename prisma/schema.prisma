@@ -85,27 +85,27 @@ model VerificationToken {
 }
 
 model Product {
-    id          String     @id @default(cuid())
-    title       String
-    description String
-    price       Float
-    image       String
-    createdAt   DateTime   @default(now())
-    updatedAt   DateTime   @updatedAt
-    isDeleted   Boolean    @default(false)
-    userId      String
-    user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-    inStock     Boolean
-    sizes       Size[]
-    wishlist    Wishlist[]
-    cartItem    CartItem[]
-    categories  Category[]
-    discount    Discount?  @relation(fields: [discountId], references: [id])
-    discountId  String?
+    id           String     @id @default(cuid())
+    title        String
+    description  String
+    price        Float
+    image        String
+    createdAt    DateTime   @default(now())
+    updatedAt    DateTime   @updatedAt
+    isDeleted    Boolean    @default(false)
+    userId       String
+    user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+    inStock      Boolean
+    sizes        Size[]
+    wishlist     Wishlist[]
+    cartItem     CartItem[]
+    categories   Category[]
+    discount     Discount?  @relation(fields: [discountCode], references: [code])
+    discountCode String?
 
     @@unique([createdAt, id])
     @@index([userId])
-    @@index([discountId])
+    @@index([discountCode])
 }
 
 model Category {

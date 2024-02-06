@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button"
 import { cartService } from "@/features/cart/controller/service"
 import { type IProduct } from "@/features/shop/model"
 import Image from "next/image"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io"
 import { IoCartOutline, IoGitCompareOutline } from "react-icons/io5"
 import { api } from "~/utils/api"
@@ -19,6 +19,20 @@ export function ProductItem({
   })
 
   const [wished, setwished] = useState(item.wishlist.length ? true : false)
+  const [discountPercentage, setdiscountPercentage] = useState<string>("")
+  const [discountPrice, setdiscountPrice] = useState<number>(0)
+
+  useEffect(() => {
+    if (!item.discount) {
+      return
+    }
+    const discount = item.discount.amount
+    const price = item.price
+    const discountPrice = price - price * discount
+    const percent = Math.floor(discount * 100)
+    setdiscountPrice(discountPrice)
+    setdiscountPercentage(`-${percent}%`)
+  }, [item.discount, item.price])
 
   return (
     <div className="flex-col   w-full max-md:ml-0 max-md:w-full">
@@ -36,9 +50,11 @@ export function ProductItem({
           <div className="flex flex-col w-full items-stretch border  pb-px pt-2.5">
             <div className="flex flex-col items-stretch px-3">
               <span className="absolute mt-1 grid gap-3  items-stretch justify-center ">
-                <span className="whitespace-nowrap justify-self-start rounded-md border border-solid border-white border-opacity-10 bg-neutral-900 px-3.5 py-1.5 text-center text-xs leading-3 text-white">
-                  -21%
-                </span>
+                {item.discount && (
+                  <span className="whitespace-nowrap justify-self-start rounded-md border border-solid border-white border-opacity-10 bg-neutral-900 px-3.5 py-1.5 text-center text-xs leading-3 text-white">
+                    {discountPercentage}
+                  </span>
+                )}
 
                 <span className="whitespace-nowrap justify-self-start  flex gap-4 flex-wrap max-w-[200px]">
                   {item.sizes.map((size, i: number) => (
@@ -105,9 +121,9 @@ export function ProductItem({
         </div>
         <span className="mt-4 flex items-stretch gap-3 self-start">
           <div className="text-base text-zinc-800 text-opacity-80 line-through">
-            $70.00
+            ${item.price}
           </div>
-          <div className="text-base text-zinc-800">${item.price}</div>
+          <div className="text-base text-zinc-800">${discountPrice}</div>
         </span>
         {/* <img
                   loading="lazy"

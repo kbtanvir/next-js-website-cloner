@@ -72,6 +72,7 @@ export const productRouter = createTRPCRouter({
             },
             take: 1,
           },
+          discount: true,
         },
       })
 
@@ -168,14 +169,17 @@ export const productRouter = createTRPCRouter({
     }),
 
   addFakeProducts: publicProcedure.mutation(async ({ ctx }) => {
+    const productCount = 30
     const userID = ctx.session?.user.id
-    const productCount = 10
 
     if (userID == null) {
       throw new Error("You must be logged in to do this")
     }
 
-    // await ctx.prisma.product.deleteMany()
+    await ctx.prisma.product.deleteMany()
+    // await ctx.prisma.size.deleteMany()
+    // await ctx.prisma.category.deleteMany()
+    await ctx.prisma.discount.deleteMany()
 
     // await ctx.prisma.size.createMany({
     //   data: ["S", "L", "M", "XL"].map((size) => ({
@@ -188,45 +192,65 @@ export const productRouter = createTRPCRouter({
     //     name: category,
     //   })),
     // })
+    await ctx.prisma.discount.createMany({
+      data: [
+        {
+          code: "DISCOUNT10",
+          amount: 0.1,
+          expires: new Date("2022-12-12"),
+        },
+        {
+          code: "NEWYEAR20",
+          amount: 0.2,
+          expires: new Date("2022-12-12"),
+        },
+      ].map((item) => ({
+        ...item,
+      })) as Prisma.DiscountCreateManyInput[],
+    })
 
     // Create new products without sizes
-    const PRODUCTS = Array.from({ length: productCount }).map(() => ({
-      // id: faker.string.uuid(),
-      title: faker.commerce.productName(),
-      description: faker.commerce.productDescription(),
-      price: parseFloat(faker.commerce.price()),
-      image: faker.image.url(),
-      inStock: faker.datatype.boolean({ probability: 0.5 }),
-      userId: userID,
-      sizes: {
-        connectOrCreate: faker.helpers
-          .arrayElements(["S", "L", "M", "XL"], {
-            min: 1,
-            max: 4,
-          })
-          .map((size) => ({
-            where: { name: size },
-            create: { name: size },
-          })),
-      },
-      categories: {
-        connectOrCreate: faker.helpers
-          .arrayElements(["men", "women", "kids"], {
-            min: 1,
-            max: 4,
-          })
-          .map((categories) => ({
-            where: { name: categories },
-            create: { name: categories },
-          })),
-      },
-    }))
+    const PRODUCTS = Array.from({ length: productCount }).map(
+      () =>
+        ({
+          // id: faker.string.uuid(),
+          title: faker.commerce.productName(),
+          description: faker.commerce.productDescription(),
+          price: parseFloat(faker.commerce.price()),
+          image: faker.image.url(),
+          inStock: faker.datatype.boolean({ probability: 0.5 }),
+          userId: userID,
+          sizes: {
+            connectOrCreate: faker.helpers
+              .arrayElements(["S", "L", "M", "XL"], {
+                min: 1,
+                max: 4,
+              })
+              .map((size) => ({
+                where: { name: size },
+                create: { name: size },
+              })),
+          },
+          categories: {
+            connectOrCreate: faker.helpers
+              .arrayElements(["men", "women", "kids"], {
+                min: 1,
+                max: 4,
+              })
+              .map((categories) => ({
+                where: { name: categories },
+                create: { name: categories },
+              })),
+          },
+          discountCode: Math.random() > 0.5 ? "DISCOUNT10" : "NEWYEAR20",
+        } as Partial<Prisma.ProductCreateInput>)
+    )
 
     // Use bulk promise to update all products with sizes
     const updatePromises = PRODUCTS.map(
       async (productData) =>
         await ctx.prisma.product.create({
-          data: productData,
+          data: productData as Prisma.ProductCreateInput,
         })
     )
     await Promise.all(updatePromises)
