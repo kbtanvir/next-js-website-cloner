@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbo",
     "prisma:studio": "npx prisma studio",
     "prisma:push": "npx prisma db push --preview-feature & yarn",
     "prisma:push-reset": "npx prisma db push --force-reset & yarn",

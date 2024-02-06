@@ -7,7 +7,6 @@ import {
   type ICartStore,
 } from "../controller/store"
 import { PageTitle } from "@/components/header/PageTitle"
-import { Breadcrumb } from "@/components/header/header"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { debounce } from "lodash"
@@ -137,7 +136,6 @@ export function CartItem({ item }: { item: ICartItem }) {
 export function PageView() {
   return (
     <div className="mx-auto w-full">
-      <Breadcrumb />
       <PageTitle />
       <div className="mt-20">
         <div className="flex max-w-[1500px] w-full mx-auto  justify-between gap-10">

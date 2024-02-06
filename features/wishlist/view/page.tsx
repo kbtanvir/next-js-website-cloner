@@ -1,4 +1,3 @@
-import { Breadcrumb } from "../../../components/header/header"
 import { ProductItem } from "@/components/ProductItem"
 import { PageTitle } from "@/components/header/PageTitle"
 import { Button } from "@/components/ui/button"
@@ -89,7 +88,6 @@ function ProductGrid() {
 export function PageView() {
   return (
     <span className="mx-auto w-full">
-      <Breadcrumb />
       <PageTitle />
       <div className="mt-20">
         <div className="flex max-w-[1500px] w-full mx-auto  justify-between gap-10">

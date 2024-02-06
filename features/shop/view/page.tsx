@@ -1,5 +1,4 @@
 import { ProductItem } from "../../../components/ProductItem"
-import { Breadcrumb } from "../../../components/header/header"
 import { type IProduct } from "../model"
 import { PageTitle } from "@/components/header/PageTitle"
 import { Button } from "@/components/ui/button"
@@ -112,8 +111,7 @@ function Pagination() {
 export function PageContent() {
   return (
     <span className="mx-auto w-full">
-      <Breadcrumb />
-      <PageTitle />
+      <PageTitle title="" />
       <div className="mt-20">
         <div className="flex max-w-[1500px] w-full mx-auto  justify-between gap-10">
           <Sidebar />

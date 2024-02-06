@@ -1,5 +1,7 @@
 import { ToyBrickIcon } from "lucide-react"
 import Link from "next/link"
+import { useRouter } from "next/router"
+import { useEffect, useState } from "react"
 import { IoFemale, IoMale } from "react-icons/io5"
 
 export function TopBar() {
@@ -95,11 +97,23 @@ export function NavigationSection() {
   )
 }
 export function Breadcrumb() {
+  const [text, settext] = useState("")
+  const router = useRouter()
+
+  useEffect(() => {
+    if (router.query.category) {
+      settext((router.query.category as string).toLocaleUpperCase())
+      return
+    }
+    settext(router.pathname.split("/").pop()?.toLocaleUpperCase() ?? "")
+  }, [router.pathname, router.query.category])
+
   return (
-    <div className="flex max-w-[1500px] mx-auto py-5 gap-5 self-start">
-      <div className="text-base leading-7 text-zinc-800">Home</div>
+    <div className="flex    gap-5 self-start">
+      <div className="text-base leading-7 text-zinc-800">HOME</div>
+      <div className="text-base leading-7 text-zinc-800">/</div>
       <div className="text-sm leading-7 text-zinc-800 text-opacity-80">
-        / Products
+        {text}
       </div>
     </div>
   )
