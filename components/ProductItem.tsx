@@ -73,7 +73,7 @@ export function ProductItem({
                 )}
               </span>
               <div className="absolute flex flex-col items-center gap-2.5 self-end">
-                <Button
+                {/* <Button
                   className="flex place-content-center bg-white shadow-lg p-1.5 rounded-lg self-end h-9 aspect-square"
                   disabled={wishMutation.isLoading}
                   onClick={async () => {
@@ -91,11 +91,11 @@ export function ProductItem({
                   ) : (
                     <IoMdHeartEmpty fontSize={25} color="black" />
                   )}
-                </Button>
+                </Button> */}
 
-                <div className="flex bg-white shadow-lg p-1.5 rounded-lg self-end">
+                {/* <div className="flex bg-white shadow-lg p-1.5 rounded-lg self-end">
                   <IoGitCompareOutline fontSize={25} />
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

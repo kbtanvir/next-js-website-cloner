@@ -46,12 +46,12 @@ export default function MainHeader() {
         <div className="relative">
           <UserButton />
         </div>
-        <Link href="/wishlist" className="relative">
+        {/* <Link href="/wishlist" className="relative">
           <div className="relative">
             <WishIcon />
             <WishCount />
           </div>
-        </Link>
+        </Link> */}
         <Link href={"/cart"} className="relative">
           <CartIcon />
           <div className="absolute right-[-10px] top-[-8px] flex h-4  px-1 items-center justify-center rounded-full bg-blue-600 align-middle text-[10px] text-white">

@@ -39,7 +39,7 @@ export function PageTitle() {
           Products
         </div>
         <span className="flex items-start justify-between gap-3.5 self-stretch">
-          <ColumnSizeIcon size={columnSize} />
+          {/* <ColumnSizeIcon size={columnSize} /> */}
 
           <div className="my-auto self-center text-center text-base leading-5 text-black">
             <DropdownMenu>

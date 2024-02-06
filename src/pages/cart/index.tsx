@@ -1,4 +1,4 @@
-import { PageView } from "@/features/cart/view/Page";
+import { PageView } from "@/features/cart/view/page";
 
  
 export default function ThePage() {

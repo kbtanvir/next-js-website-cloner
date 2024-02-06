@@ -47,7 +47,11 @@ const UserButton: React.FC = () => {
     )
 
   return (
-    <Button variant="outline" onClick={async () => await signIn("google")}>
+    <Button
+      variant="outline"
+      onClick={async () => await signIn("google")}
+      className="w-20"
+    >
       Sign In
     </Button>
   )
