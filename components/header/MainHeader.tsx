@@ -1,3 +1,6 @@
+"use client"
+
+import { SearchProducts } from "./SearchProducts"
 import UserButton from "@/components/user-button"
 import { useCartStore } from "@/features/cart/controller/store"
 import { CartIcon, WishIcon } from "@/lib/icons"
@@ -18,19 +21,7 @@ export default function MainHeader() {
       <Link href="/">
         <h1 className="text-[30px] font-bold uppercase">E-shoper</h1>
       </Link>
-      <div className="flex w-full  max-w-[750px] items-stretch justify-between gap-0 self-stretch max-md:max-w-full max-md:flex-wrap">
-        <input
-          type="text"
-          className="h-[50px] w-full border border-solid border-zinc-800 border-opacity-10 pl-4"
-        />
-        <span className="absolute">
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/2eedb4369e4c6c5540db074793bc03e0566864459364db450b723fea7a4985fa?apiKey=da85e7e8aa194b7592d4b6becf2fde0c&"
-            className="aspect-[1.1] w-[55px] max-w-full overflow-hidden object-contain object-center"
-          />
-        </span>
-      </div>
+      <SearchProducts />
       <div className="flex w-full max-w-[116px] justify-end gap-5 items-center">
         <div className="relative">
           <UserButton />

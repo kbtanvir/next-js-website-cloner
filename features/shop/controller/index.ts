@@ -50,7 +50,6 @@ export const productRouter = createTRPCRouter({
 
       const data = await ctx.prisma.product.findMany({
         take: input.limit ? input.limit + 1 : undefined,
-
         cursor: input.cursor ? { createdAt_id: input.cursor } : undefined,
         orderBy,
         where: { ...whereClause },
@@ -90,6 +89,29 @@ export const productRouter = createTRPCRouter({
 
     return true
   }),
+  searchProducts: publicProcedure
+    .input(z.string())
+    .mutation(async ({ input, ctx }) => {
+      const data = await ctx.prisma.product.findMany({
+        take: 10,
+        where: {
+          OR: [
+            {
+              title: {
+                contains: input,
+              },
+            },
+            {
+              description: {
+                contains: input,
+              },
+            },
+          ],
+        },
+      })
+
+      return data
+    }),
   updateWish: publicProcedure
     .input(
       z.object({

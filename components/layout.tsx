@@ -16,7 +16,9 @@ export function Layout({ children }: LayoutProps) {
   const cartState = useCartStore()
 
   const query = api.cart.syncCart.useQuery(
-    cartState.cart.map((item) => item.id)
+    cartState.cart.map((item) => item.id),{
+      refetchOnMount: true,
+    }
   )
 
   useEffect(() => {

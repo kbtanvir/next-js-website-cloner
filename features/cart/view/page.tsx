@@ -30,9 +30,9 @@ function ProductGrid() {
   }, [cstate])
 
   return (
-    <div className="mx-auto w-full flex gap-10  ">
+    <div className="mx-auto w-full flex gap-10">
       {cart.length === 0 ? (
-        <div className="w-full gap-5   border-[20px] border-gray-100  border- rounded-lg text-lg font-light text-center ap-y-12 bg-gray-200 p-5 flex-center">
+        <div className="w-full gap-5 border-[20px] border-gray-100  border-rounded-lg text-lg font-light text-center ap-y-12 bg-gray-200 p-5 flex-center">
           <IoBagOutline size="30" /> Your cart is empty
         </div>
       ) : (
