@@ -5,13 +5,15 @@ import { PageTitle } from "@/components/header/PageTitle"
 import { Button } from "@/components/ui/button"
 import { Sidebar } from "@/features/shop/view/sidebar"
 import { type Product } from "@prisma/client"
+import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { api } from "~/utils/api"
-import { useGlobalStore } from "~/utils/global.store"
+import { globalStore, useGlobalStore } from "~/utils/global.store"
 
 function ProductGrid() {
   const [data, setData] = useState<Product[]>([])
 
+  const router = useRouter()
   const { productsQueryDTO, columnSize } = useGlobalStore()
   const infiniteQuery = api.product.infiniteProducts.useInfiniteQuery(
     productsQueryDTO,
@@ -38,10 +40,21 @@ function ProductGrid() {
     const data =
       infiniteQuery.data?.pages.map((page) => page.products).flat() ?? []
     setData(data)
-    console.log(data)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [infiniteQuery.data])
+
+  useEffect(() => {
+    const { category } = router.query
+    const categories = category ? [category as string] : undefined
+
+    return globalStore.setProductsQueryDTO({
+      ...productsQueryDTO,
+      categories,
+    })
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.query])
 
   if (infiniteQuery.error) {
     return <div>{infiniteQuery.error.message}</div>

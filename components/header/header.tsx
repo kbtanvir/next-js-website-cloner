@@ -1,5 +1,6 @@
-import { Fragment } from "react"
-import { IoIosArrowDown } from "react-icons/io"
+import { FileQuestion, ToyBrickIcon } from "lucide-react"
+import Link from "next/link"
+import { IoFemale, IoMale } from "react-icons/io5"
 
 export function TopBar() {
   return (
@@ -52,33 +53,32 @@ export function NavigationSection() {
             All Categories
           </div>
         </span>
-        <span className="my-auto flex items-start justify-between gap-2 self-center max-md:max-w-full max-md:flex-wrap">
+        <span className="my-auto flex items-start justify-between gap-4 self-center max-md:max-w-full max-md:flex-wrap">
           {[
             {
               text: "Men",
               url: "?category=men",
+              icon: <IoMale size={22} />,
             },
             {
               text: "Women",
-              url: "/category=women",
+              url: "?category=women",
+              icon: <IoFemale size={22} />,
             },
             {
               text: "Kids",
-              url: "/category=kids",
+              url: "?category=kids",
               hasChildren: false,
+              icon: <ToyBrickIcon />,
             },
-            {
-              text: "FAQs",
-              url: "/category=kids",
-              hasChildren: false,
-            },
+            
           ].map((item, i) => (
-            <Fragment key={i}>
+            <Link key={i} href={item.url} className="flex-center gap-3">
+              {item.icon}
               <div className="grow self-start whitespace-nowrap text-lg leading-5 text-zinc-800">
                 {item.text}
               </div>
-              <IoIosArrowDown />
-            </Fragment>
+            </Link>
           ))}
         </span>
         <span className="my-auto flex items-stretch gap-2.5 self-center">

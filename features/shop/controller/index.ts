@@ -1,4 +1,4 @@
-import { ProductsQueryInput, type CreateProductDTO } from "../model"
+import { productsQueryInput } from "../model"
 import { faker } from "@faker-js/faker"
 import { type Prisma } from "@prisma/client"
 import { z } from "zod"
@@ -6,7 +6,7 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc"
 
 export const productRouter = createTRPCRouter({
   infiniteProducts: publicProcedure
-    .input(ProductsQueryInput)
+    .input(productsQueryInput)
     .query(async ({ input, ctx }) => {
       const whereClause: Prisma.ProductWhereInput = {}
 
@@ -44,6 +44,16 @@ export const productRouter = createTRPCRouter({
         whereClause.wishlist = {
           some: {
             userId: ctx.session?.user.id,
+          },
+        }
+      }
+
+      if (input.categories) {
+        whereClause.categories = {
+          some: {
+            name: {
+              in: input.categories,
+            },
           },
         }
       }
@@ -112,6 +122,7 @@ export const productRouter = createTRPCRouter({
 
       return data
     }),
+
   updateWish: publicProcedure
     .input(
       z.object({
@@ -164,29 +175,58 @@ export const productRouter = createTRPCRouter({
       throw new Error("You must be logged in to do this")
     }
 
+    // await ctx.prisma.product.deleteMany()
+
+    // await ctx.prisma.size.createMany({
+    //   data: ["S", "L", "M", "XL"].map((size) => ({
+    //     name: size,
+    //   })),
+    // })
+
+    // await ctx.prisma.category.createMany({
+    //   data: ["men", "women", "kids"].map((category) => ({
+    //     name: category,
+    //   })),
+    // })
+
     // Create new products without sizes
-    const PRODUCTS = Array.from({ length: productCount }).map(() =>
-      createRandomProducts(userID)
-    )
+    const PRODUCTS = Array.from({ length: productCount }).map(() => ({
+      // id: faker.string.uuid(),
+      title: faker.commerce.productName(),
+      description: faker.commerce.productDescription(),
+      price: parseFloat(faker.commerce.price()),
+      image: faker.image.url(),
+      inStock: faker.datatype.boolean({ probability: 0.5 }),
+      userId: userID,
+      sizes: {
+        connectOrCreate: faker.helpers
+          .arrayElements(["S", "L", "M", "XL"], {
+            min: 1,
+            max: 4,
+          })
+          .map((size) => ({
+            where: { name: size },
+            create: { name: size },
+          })),
+      },
+      categories: {
+        connectOrCreate: faker.helpers
+          .arrayElements(["men", "women", "kids"], {
+            min: 1,
+            max: 4,
+          })
+          .map((categories) => ({
+            where: { name: categories },
+            create: { name: categories },
+          })),
+      },
+    }))
 
     // Use bulk promise to update all products with sizes
     const updatePromises = PRODUCTS.map(
       async (productData) =>
         await ctx.prisma.product.create({
-          data: {
-            ...productData,
-            sizes: {
-              connectOrCreate: faker.helpers
-                .arrayElements(["S", "L", "M", "XL"], {
-                  min: 1,
-                  max: 4,
-                })
-                .map((size) => ({
-                  where: { name: size },
-                  create: { name: size },
-                })),
-            },
-          },
+          data: productData,
         })
     )
     await Promise.all(updatePromises)
@@ -194,37 +234,3 @@ export const productRouter = createTRPCRouter({
     // await addToWishList(ctx, userID, PRODUCTS)
   }),
 })
-
-export function createRandomProducts(createdById: string): CreateProductDTO {
-  return {
-    // id: faker.string.uuid(),
-    title: faker.commerce.productName(),
-    description: faker.commerce.productDescription(),
-    price: parseFloat(faker.commerce.price()),
-    image: faker.image.url(),
-    inStock: faker.datatype.boolean({ probability: 0.5 }),
-    userId: createdById,
-  }
-}
-
-// async function addToWishList(
-//   ctx: inferAsyncReturnType<typeof createTRPCContext>,
-//   userID: string,
-//   products: CreateProductDTO[]
-// ) {
-//   const ids = products.slice(0, 5).map((product) => ({ id: product.id }))
-//   //  add to wishlist
-
-//   const createWishList = ctx.prisma.wishlist.create({
-//     data: {
-//       userId: userID,
-//       products: {
-//         connect: ids,
-//       },
-//     },
-//   })
-
-//   // Transaction to ensure either BOTH operations happen or NONE of them happen
-
-//   await ctx.prisma.$transaction([createWishList])
-// }

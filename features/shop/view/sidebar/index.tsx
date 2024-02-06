@@ -1,7 +1,7 @@
 import { Button } from "../../../../components/ui/button"
 import {
   ProductSizes,
-  ProductsQueryInput,
+  productsQueryInput,
   type IProductQueryInput,
 } from "../../model"
 import {
@@ -15,7 +15,7 @@ import { Form } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { globalStore, useGlobalStore } from "~/utils/global.store"
+import { globalStore } from "~/utils/global.store"
 
 function AvaibilityFilter() {
   return (
@@ -80,7 +80,7 @@ function SizesFilter() {
 
 export function Sidebar() {
   const form = useForm<IProductQueryInput>({
-    resolver: zodResolver(ProductsQueryInput),
+    resolver: zodResolver(productsQueryInput),
   })
   function onSubmit(data: IProductQueryInput) {
     globalStore.setProductsQueryDTO((state) => ({ ...state, ...data }))

@@ -99,9 +99,21 @@ model Product {
     sizes       Size[]
     wishlist    Wishlist[]
     cartItem    CartItem[]
+    categories  Category[]
+    discount    Discount?  @relation(fields: [discountId], references: [id])
+    discountId  String?
 
-    @@unique([createdAt,id ])
+    @@unique([createdAt, id])
     @@index([userId])
+    @@index([discountId])
+}
+
+model Category {
+    id       String    @id @default(cuid())
+    name     String
+    products Product[]
+
+    @@unique([name])
 }
 
 model Size {
@@ -111,6 +123,18 @@ model Size {
     products    Product[]
 
     @@unique([name])
+}
+
+model Discount {
+    id        String    @id @default(cuid())
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    code      String
+    amount    Float
+    expires   DateTime
+    products  Product[]
+
+    @@unique([code])
 }
 
 model Wishlist {

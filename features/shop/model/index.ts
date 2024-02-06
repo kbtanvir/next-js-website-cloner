@@ -1,4 +1,4 @@
-import { type Prisma, type Product } from "@prisma/client"
+import { type Prisma } from "@prisma/client"
 import * as z from "zod"
 
 export const ProductSizes = ["S", "L", "M", "XL"] as const
@@ -14,8 +14,8 @@ export const OrderByOptions = [
 
 export type IOrderBy = (typeof OrderByOptions)[number]
 
-export const ProductsQueryInput = z.object({
-  category: z.string().optional(),
+export const productsQueryInput = z.object({
+  categories: z.string().array().optional(),
   limit: z.number().min(10).optional(),
   cursor: z.object({ id: z.string(), createdAt: z.date() }).optional(),
   inStock: z.boolean().optional(),
@@ -29,19 +29,16 @@ export const ProductsQueryInput = z.object({
   sort: z.enum(OrderByOptions).optional(),
   OR: z.any().optional(),
   wishlist: z.any().optional(),
-  inCart: z.any().optional(),
 })
 
-export type IProductQueryInput = z.infer<typeof ProductsQueryInput>
+export type IProductQueryInput = z.infer<typeof productsQueryInput>
 
 export type IProduct = Prisma.ProductGetPayload<{
   include: {
     sizes: true
     wishlist: true
     cart: true
+    categories: true
   }
 }>
-export type CreateProductDTO = Pick<
-  Product,
-  "title" | "description" | "image" | "inStock" | "userId" | "price"
->
+export type CreateProductDTO = Partial<IProduct>
