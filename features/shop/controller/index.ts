@@ -123,7 +123,19 @@ export const productRouter = createTRPCRouter({
 
       return data
     }),
+  getWishListCount: publicProcedure.query(async ({ ctx }) => {
+    const userId = ctx.session?.user.id
 
+    if (userId == null) {
+      throw new Error("You must be logged in to do this")
+    }
+
+    return await ctx.prisma.wishlist.count({
+      where: {
+        userId,
+      },
+    })
+  }),
   updateWish: publicProcedure
     .input(
       z.object({

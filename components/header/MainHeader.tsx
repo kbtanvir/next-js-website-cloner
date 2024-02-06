@@ -6,6 +6,26 @@ import { useCartStore } from "@/features/cart/controller/store"
 import { CartIcon, WishIcon } from "@/lib/icons"
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import { api } from "~/utils/api"
+import { globalStore, useGlobalStore } from "~/utils/global.store"
+
+function WishCount() {
+  const { wishlistTotal } = useGlobalStore()
+
+  const query = api.product.getWishListCount.useQuery()
+
+  useEffect(() => {
+    if (query.data) {
+      globalStore.setWishlistTotal(query.data)
+    }
+  }, [query.data])
+
+  return (
+    <div className="absolute right-[-5px] top-[-8px] flex h-4 w-4 items-center justify-center rounded-full bg-blue-600 align-middle text-[10px] text-white">
+      {wishlistTotal}
+    </div>
+  )
+}
 
 export default function MainHeader() {
   const { total } = useCartStore()
@@ -29,9 +49,7 @@ export default function MainHeader() {
         <Link href="/wishlist" className="relative">
           <div className="relative">
             <WishIcon />
-            <div className="absolute right-[-5px] top-[-8px] flex h-4 w-4 items-center justify-center rounded-full bg-blue-600 align-middle text-[10px] text-white">
-              0
-            </div>
+            <WishCount />
           </div>
         </Link>
         <Link href={"/cart"} className="relative">

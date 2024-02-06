@@ -1,4 +1,4 @@
-import { FileQuestion, ToyBrickIcon } from "lucide-react"
+import { ToyBrickIcon } from "lucide-react"
 import Link from "next/link"
 import { IoFemale, IoMale } from "react-icons/io5"
 
@@ -43,7 +43,7 @@ export function NavigationSection() {
   return (
     <div className="flex flex-col border-y-2 py-4">
       <div className="mx-auto w-full flex max-w-[1500px] items-center justify-between gap-15 max-xl:px-8 max-md:flex-wrap ">
-        <span className="flex items-stretch justify-between gap-3">
+        {/* <span className="flex items-stretch justify-between gap-3">
           <img
             loading="lazy"
             src="https://cdn.builder.io/api/v1/image/assets/TEMP/10ee5ad50561b854f62cf8cd05183ec228a0548a5b88abaa897f13240c2f1994?apiKey=da85e7e8aa194b7592d4b6becf2fde0c&"
@@ -52,8 +52,8 @@ export function NavigationSection() {
           <div className="my-auto grow self-center whitespace-nowrap text-center text-base leading-7 text-zinc-800">
             All Categories
           </div>
-        </span>
-        <span className="my-auto flex items-start justify-between gap-4 self-center max-md:max-w-full max-md:flex-wrap">
+        </span> */}
+        <span className="my-auto flex self-center place-items-center justify-between gap-4   max-md:max-w-full max-md:flex-wrap">
           {[
             {
               text: "Men",
@@ -71,7 +71,6 @@ export function NavigationSection() {
               hasChildren: false,
               icon: <ToyBrickIcon />,
             },
-            
           ].map((item, i) => (
             <Link key={i} href={item.url} className="flex-center gap-3">
               {item.icon}
