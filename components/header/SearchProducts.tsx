@@ -1,13 +1,12 @@
-"use client";
+"use client"
 
-import { Input } from "../ui/input";
-import { Popover, PopoverContent } from "@/components/ui/popover";
-import { type Product } from "@prisma/client";
-import { PopoverTrigger } from "@radix-ui/react-popover";
-import { debounce } from "lodash";
-import { useEffect, useState } from "react";
-import { api } from "~/utils/api";
-
+import { Input } from "../ui/input"
+import { Popover, PopoverContent } from "@/components/ui/popover"
+import { type Product } from "@prisma/client"
+import { PopoverTrigger } from "@radix-ui/react-popover"
+import { debounce } from "lodash"
+import { useEffect, useState } from "react"
+import { api } from "~/utils/api"
 
 function ListItem({ product }: { product: Product }) {
   return (
@@ -31,6 +30,30 @@ function ListItem({ product }: { product: Product }) {
   )
 }
 
+function List({
+  products,
+  isLoading,
+}: {
+  products: Product[]
+  isLoading: boolean
+}) {
+  if (isLoading) {
+    return <div className="text-center p-5">Loading...</div>
+  }
+
+  if (products.length === 0) {
+    return <div className="text-center p-5">No products found</div>
+  }
+
+  return (
+    <div className="">
+      {products.map((product) => (
+        <ListItem key={product.id} product={product} />
+      ))}
+    </div>
+  )
+}
+
 export function SearchProducts() {
   const [search, setSearch] = useState("")
   const [products, setProducts] = useState<Product[]>([])
@@ -39,8 +62,11 @@ export function SearchProducts() {
   const muation = api.product.searchProducts.useMutation()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!isOpen) setisOpen(true)
+    if (isOpen || e.target.value === "") {
+      return
+    }
     setProducts([])
+    setisOpen(true)
     setSearch(e.target.value)
     muation.mutate(search)
   }
@@ -57,7 +83,7 @@ export function SearchProducts() {
         <PopoverTrigger className="flex w-full relative  max-w-[750px] items-stretch justify-between gap-0 self-stretch max-md:max-w-full max-md:flex-wrap">
           <Input
             onChange={debounce(handleChange, 500)}
-            className="h-[50px] w-full border border-solid border-zinc-800 border-opacity-10 pl-20"
+            className="h-[50px] w-full border border-solid border-zinc-800 border-opacity-10 pl-20   focus:ring-opacity-0"
             placeholder="Search for products"
           />
           <span className="absolute">
@@ -75,17 +101,7 @@ export function SearchProducts() {
           onPointerDownOutside={() => setisOpen(false)}
           className="w-[500px] bg-gray-50 z-10 shadow-md"
         >
-          <div className="">
-            {products.length === 0 ? (
-              <>
-                <div className="text-center p-5">No products found</div>
-              </>
-            ) : (
-              products.map((product) => (
-                <ListItem key={product.id} product={product} />
-              ))
-            )}
-          </div>
+          <List products={products} isLoading={muation.isLoading} />
         </PopoverContent>
       </Popover>
     </>
