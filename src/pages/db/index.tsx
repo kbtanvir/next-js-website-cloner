@@ -20,22 +20,22 @@ export default function ShopPage() {
 
   return (
     <div className="container">
-      <Button
+      {/* <Button
         className="mb-20"
         onClick={async () => {
           await actionQuery.mutateAsync()
         }}
       >
         Add fake data
-      </Button>
-      <Button
+      </Button> */}
+      {/* <Button
         className="mb-20"
         onClick={async () => {
           await deleteAll.mutateAsync()
         }}
       >
         Delete all
-      </Button>
+      </Button> */}
 
       <ProductFetcher
         query={query}
