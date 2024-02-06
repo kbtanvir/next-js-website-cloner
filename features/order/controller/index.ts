@@ -1,10 +1,6 @@
 import { PaymentMethodEnum, checkoutFormSchema } from "../view/Page"
 import { z } from "zod"
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from "~/server/api/trpc"
+import { createTRPCRouter, publicProcedure } from "~/server/api/trpc"
 import { prisma } from "~/server/db"
 
 export const CartItemSchema = z.object({
@@ -28,15 +24,9 @@ export enum PaymentStatus {
 }
 
 export const orderRouter = createTRPCRouter({
-  createOrder: protectedProcedure
+  createOrder: publicProcedure
     .input(CreateOrderInput)
     .mutation(async ({ input, ctx }) => {
-      const userId = ctx.session?.user.id
-
-      if (!userId) {
-        throw new Error("You must be logged in to create an order")
-      }
-
       const total = await calculatePrice(input.items)
 
       const { paymentMethod, ...userAdress } = input.data
@@ -59,11 +49,6 @@ export const orderRouter = createTRPCRouter({
               },
               create: {
                 ...userAdress,
-                user: {
-                  connect: {
-                    id: userId,
-                  },
-                },
               },
             },
           },

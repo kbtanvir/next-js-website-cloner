@@ -1,21 +1,20 @@
-import { FormErrorMessage } from "../../../components/FormMessage";
-import { Button } from "@/components/ui/button";
+import { FormErrorMessage } from "../../../components/FormMessage"
+import { Button } from "@/components/ui/button"
 // import { Form, FormMessage } from "@/components/ui/form"
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useToast } from "@/components/ui/use-toast";
-import { cartService } from "@/features/cart/controller/service";
-import { useCartStore } from "@/features/cart/controller/store";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useSession } from "next-auth/react";
-import Link from "next/link";
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { useToast } from "@/components/ui/use-toast"
+import { cartService } from "@/features/cart/controller/service"
+import { useCartStore } from "@/features/cart/controller/store"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useSession } from "next-auth/react"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { Fragment, useEffect, useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
-import { z } from "zod";
-import { api } from "~/utils/api";
-
+import { Fragment, useEffect, useState } from "react"
+import { FormProvider, useForm } from "react-hook-form"
+import { z } from "zod"
+import { api } from "~/utils/api"
 
 export const PaymentMethodEnum = {
   COD: "cod",
@@ -316,17 +315,15 @@ function TotalAmount({ handleSubmit }: { handleSubmit: () => void }) {
           <span className="text-base font-bold">Total</span>
           <span className="text-base font-bold justify-self-end">${total}</span>
         </div>
-        {sessionData && (
-          <Link className="self-end" href="/checkout">
-            <Button
-              type="submit"
-              className="bg-black text-base px-10 py-5 h-12 text-white"
-              onClick={handleSubmit}
-            >
-              Confirm Order
-            </Button>
-          </Link>
-        )}
+        <Link className="self-end" href="/checkout">
+          <Button
+            type="submit"
+            className="bg-black text-base px-10 py-5 h-12 text-white"
+            onClick={handleSubmit}
+          >
+            Confirm Order
+          </Button>
+        </Link>
       </div>
     </>
   )
