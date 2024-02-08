@@ -3,7 +3,7 @@
 import { SearchProducts } from "./SearchProducts"
 import UserButton from "@/components/user-button"
 import { useCartStore } from "@/features/cart/controller/store"
-import { CartIcon, WishIcon } from "@/lib/icons"
+import { CartIcon } from "@/lib/icons"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { api } from "~/utils/api"
@@ -36,13 +36,13 @@ export default function MainHeader() {
 
   return (
     <div
-      className={`mx-auto py-9 flex max-w-[1500px] items-center justify-between gap-15 max-xl:px-8 max-md:flex-wrap`}
+      className={`mx-auto py-9 flex max-w-[1500px] items-center justify-between gap-15 max-xl:px-8 max-md:flex-wrap max-lg:justify-between gap-5 w-full px-10`}
     >
-      <Link href="/">
-        <h1 className="text-[30px] font-bold uppercase">E-shoper</h1>
+      <Link href="/" className=" text-nowrap max-md:order-1 max-md:self-start">
+        <h1 className=" text-[30px] font-bold uppercase">E-shoper</h1>
       </Link>
       <SearchProducts />
-      <div className="flex w-full max-w-[116px] justify-end gap-5 items-center">
+      <div className="max-md:order-2 max-md:self-end flex w-full max-w-[116px] justify-end gap-5 items-center">
         <div className="relative">
           <UserButton />
         </div>

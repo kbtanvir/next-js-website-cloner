@@ -6,7 +6,7 @@ import { IoFemale, IoMale } from "react-icons/io5"
 
 export function TopBar() {
   return (
-    <div className=" flex flex-col items-stretch bg-blue-800 p-3.5 ">
+    <div className="flex flex-col bg-blue-800 py-3.5 px-10">
       <span
         className={`mx-auto flex w-full max-w-[1500px] items-stretch justify-between gap-5 max-md:flex-wrap`}
       >

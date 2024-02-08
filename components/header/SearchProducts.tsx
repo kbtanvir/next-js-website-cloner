@@ -78,32 +78,30 @@ export function SearchProducts() {
   }, [muation.data, muation.isSuccess])
 
   return (
-    <>
-      <Popover open={isOpen}>
-        <PopoverTrigger className="flex w-full relative  max-w-[750px] items-stretch justify-between gap-0 self-stretch max-md:max-w-full max-md:flex-wrap">
-          <Input
-            onChange={debounce(handleChange, 500)}
-            className="h-[50px] w-full border border-solid border-zinc-800 border-opacity-10 pl-20   focus:ring-opacity-0"
-            placeholder="Search for products"
+    <Popover open={isOpen}>
+      <PopoverTrigger className="flex w-full relative max-md:order-3  max-w-[750px]  justify-between gap-0   max-md:max-w-full max-md:flex-wrap">
+        <Input
+          onChange={debounce(handleChange, 500)}
+          className="h-[50px] w-full border border-solid border-zinc-800 border-opacity-10 pl-20   focus:ring-opacity-0"
+          placeholder="Search for products"
+        />
+        <span className="absolute">
+          <img
+            loading="lazy"
+            src="https://cdn.builder.io/api/v1/image/assets/TEMP/2eedb4369e4c6c5540db074793bc03e0566864459364db450b723fea7a4985fa?apiKey=da85e7e8aa194b7592d4b6becf2fde0c&"
+            className="aspect-[1.1] w-[55px] max-w-full overflow-hidden object-contain object-center"
           />
-          <span className="absolute">
-            <img
-              loading="lazy"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/2eedb4369e4c6c5540db074793bc03e0566864459364db450b723fea7a4985fa?apiKey=da85e7e8aa194b7592d4b6becf2fde0c&"
-              className="aspect-[1.1] w-[55px] max-w-full overflow-hidden object-contain object-center"
-            />
-          </span>
-        </PopoverTrigger>
+        </span>
+      </PopoverTrigger>
 
-        <PopoverContent
-          // avoidCollisions={true}
-          // side={"left"}
-          onPointerDownOutside={() => setisOpen(false)}
-          className="w-[500px] bg-gray-50 z-10 shadow-md"
-        >
-          <List products={products} isLoading={muation.isLoading} />
-        </PopoverContent>
-      </Popover>
-    </>
+      <PopoverContent
+        // avoidCollisions={true}
+        // side={"left"}
+        onPointerDownOutside={() => setisOpen(false)}
+        className="w-[500px] bg-gray-50 z-10 shadow-md"
+      >
+        <List products={products} isLoading={muation.isLoading} />
+      </PopoverContent>
+    </Popover>
   )
 }

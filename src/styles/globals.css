@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  html {
+    width: 100%;
+  }
+  body {
+    display: grid;
+  }
+}
 @layer components {
   .flex-center {
     display: flex;
