@@ -16,4 +16,13 @@
     justify-content: center;
     align-items: center;
   }
+  .autofit-grid-250 {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+
+  @media screen and (max-width: 768px) {
+    .autofit-grid-250 {
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+  }
 }

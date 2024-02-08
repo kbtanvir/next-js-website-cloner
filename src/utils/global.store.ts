@@ -11,6 +11,7 @@ export type GlobalStore = {
   sizesTotal: Record<string, number>
   wishlistTotal: number
   cartTotal: number
+  showSidebar: boolean
 }
 
 export const initialStore: GlobalStore = {
@@ -23,6 +24,7 @@ export const initialStore: GlobalStore = {
   sizesTotal: {},
   wishlistTotal: 0,
   cartTotal: 0,
+  showSidebar: false,
 }
 
 export const globalStore = createStore(initialStore)

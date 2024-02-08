@@ -92,11 +92,11 @@ function FooterTop() {
 
 export function FooterSection() {
   return (
-    <div className="mt-20  flex w-full flex-col items-stretch bg-slate-50 px-12  max-md:mt-10 max-md:max-w-full max-md:px-5">
-      <div className="max-w-[1500px] mx-auto w-full">
+    <div className="mt-20  flex w-full flex-col items-stretch max-md:items-center bg-slate-50     max-md:max-w-full px-10">
+      <div className="max-w-[1500px] max-md:mx-auto max-md:flex-center mx-auto w-full">
         {/* <FooterTop /> */}
         <div className=" flex h-px shrink-0 flex-col bg-zinc-800 bg-opacity-10 max-md:mt-10 max-md:max-w-full" />
-        <span className=" py-11 flex items-center relative justify-between gap-5 w-full max-md:flex-wrap">
+        <span className="py-11 flex items-center relative max-md:justify-center justify-between gap-5 w-full max-md:flex-wrap">
           <div className="my-auto  text-base leading-4 text-zinc-800 text-opacity-80">
             © 2024, Developed By K. B. Tanvir
           </div>

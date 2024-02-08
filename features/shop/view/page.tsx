@@ -13,7 +13,7 @@ function ProductGrid() {
   const [data, setData] = useState<Product[]>([])
 
   const router = useRouter()
-  const { productsQueryDTO, columnSize } = useGlobalStore()
+  const { productsQueryDTO, columnSize, showSidebar } = useGlobalStore()
   const infiniteQuery = api.product.infiniteProducts.useInfiniteQuery(
     productsQueryDTO,
     {
@@ -69,12 +69,7 @@ function ProductGrid() {
 
   return (
     <div className="w-full flex flex-col gap-10">
-      <div
-        className={`grid gap-8 w-full`}
-        style={{
-          gridTemplateColumns: `repeat(auto-fit, minmax(250px, 250px))`,
-        }}
-      >
+      <div className={`grid gap-8 w-full autofit-grid-250 `}>
         {data.map((item, i) => (
           <ProductItem
             key={item.id}
@@ -109,12 +104,20 @@ function Pagination() {
   )
 }
 export function PageContent() {
+  const { showSidebar } = useGlobalStore()
+
+  
+
   return (
-    <span className="mx-auto w-full">
+    <span className="mx-auto w-full ">
       <PageTitle title="" />
-      <div className="mt-20">
+      <div className="mt-20 max-md:mt-0 px-10">
         <div className="flex max-w-[1500px] w-full mx-auto  justify-between gap-10">
-          <Sidebar />
+          {showSidebar && (
+            <div className="max-w-[280px] w-full   max-md:fixed z-50 top-0 bg-white left-0 max-md:p-10 max-md:items-stretch max-md:overflow-y-scroll max-md:h-full">
+              <Sidebar />
+            </div>
+          )}
 
           <ProductGrid />
         </div>

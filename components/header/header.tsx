@@ -43,8 +43,8 @@ export function TopBar() {
 }
 export function NavigationSection() {
   return (
-    <div className="flex flex-col border-y-2 py-4">
-      <div className="mx-auto w-full flex max-w-[1500px] items-center justify-between gap-15 max-xl:px-8 max-md:flex-wrap ">
+    <div className="flex flex-col border-y-2 py-4 px-10">
+      <div className="mx-auto w-full flex max-w-[1500px] items-center justify-between gap-15 max-md:flex-wrap gap-5">
         {/* <span className="flex items-stretch justify-between gap-3">
           <img
             loading="lazy"
@@ -109,7 +109,7 @@ export function Breadcrumb() {
   }, [router.pathname, router.query.category])
 
   return (
-    <div className="flex    gap-5 self-start">
+    <div className="flex gap-5 self-start">
       <div className="text-base leading-7 text-zinc-800">HOME</div>
       <div className="text-base leading-7 text-zinc-800">/</div>
       <div className="text-sm leading-7 text-zinc-800 text-opacity-80">
