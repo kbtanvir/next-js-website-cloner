@@ -3,8 +3,7 @@ import { cartService } from "@/features/cart/controller/service"
 import { type IProduct } from "@/features/shop/model"
 import Image from "next/image"
 import { useEffect, useState } from "react"
-import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io"
-import { IoCartOutline, IoGitCompareOutline } from "react-icons/io5"
+import { IoCartOutline } from "react-icons/io5"
 import { api } from "~/utils/api"
 
 export function ProductItem({
@@ -66,11 +65,11 @@ export function ProductItem({
                     </span>
                   ))}
                 </span>
-                {!item.inStock && (
+                {/* {!item.inStock && (
                   <span className="justify-self-start whitespace-nowrap rounded-md border border-solid border-white border-opacity-10 bg-red-600 px-3.5 py-1.5 text-center text-xs leading-3 text-white">
                     {"Out of Stock"}
                   </span>
-                )}
+                )} */}
               </span>
               <div className="absolute flex flex-col items-center gap-2.5 self-end">
                 {/* <Button
@@ -100,18 +99,19 @@ export function ProductItem({
             </div>
           </div>
           <Button
-            className=" absolute bottom-0 rounded-none focus:ring-offset-0 focus:ring-opacity-0 flex-center w-full bg-black px-4 py-2.5 max-md:mt-10 max-md:px-5"
+            className=" absolute bottom-0 rounded-none focus:ring-offset-0 focus:ring-opacity-0 flex-center w-full bg-black px-4 py-2.5 max-md:mt-10 max-md:px-5  disabled:cursor-not-allowed disabled:text-gray-800 disabled:bg-red-600 disabled:hover:cursor-not-allowed disabled:hover:text-gray-800 disabled:opacity-1"
             onClick={() => {
               cartService.addToCart({
                 id: item.id,
                 product: item,
               })
             }}
+            disabled={!item.inStock}
           >
             <span className="flex items-center gap-5">
               <IoCartOutline color="white" size="26" />
               <div className="my-auto text-base leading-5 text-white">
-                {"Add to cart"}
+                {item.inStock ? "Add to cart" : "Out of Stock"}
               </div>
             </span>
           </Button>

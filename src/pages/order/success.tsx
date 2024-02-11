@@ -3,8 +3,8 @@ import Link from "next/link"
 
 export default function OrderCompletePage() {
   return (
-    <div className="max-w-[800px] w-full mx-auto ">
-      <div className="mt-20">
+    <div className="max-w-[800px] w-full mx-auto px-10">
+      <div className="mt-20 max-md:mt-10">
         <div className="text-2xl font-semibold   leading-8 text-zinc-800">
           Thank you!! Your order has been received.
         </div>

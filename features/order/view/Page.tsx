@@ -128,13 +128,16 @@ export function PageView() {
   }
 
   return (
-    <div className="max-w-[800px] w-full mx-auto ">
-      <div className="mt-20">
+    <div className="max-w-[800px] w-full mx-auto px-10 max-md:px-5 ">
+      <div className="mt-20 max-md:mt-10">
         <FormProvider {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="flex gap-20">
-            <div className="w-full grid gap-20">
-              {Object.entries(form.formState.errors).length !== 0 &&
-                JSON.stringify(form.formState.errors)}
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex gap-20 max-md:gap-10 max-md:grid "
+          >
+            <div className="w-full grid gap-10">
+              {/* {Object.entries(form.formState.errors).length !== 0 &&
+                JSON.stringify(form.formState.errors)} */}
 
               <div className="grid gap-10">
                 <div className="">
@@ -217,7 +220,7 @@ export function PageView() {
                     <div className="text-2xl font-semibold uppercase leading-8 text-zinc-800">
                       Credit card
                     </div>
-                    <div className="mt-5">
+                    <div className="mt-5 ">
                       <div className="text-sm leading-5 text-zinc-600">
                         Please enter your credit card details
                       </div>
