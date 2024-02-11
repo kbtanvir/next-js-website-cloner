@@ -29,18 +29,22 @@ function ProductGrid() {
   }, [cstate])
 
   return (
-    <div className="mx-auto w-full flex gap-10">
+    <div className="mx-auto w-full   gap-10 px-10 grid grid-cols-10 ">
       {cart.length === 0 ? (
-        <div className="w-full gap-5 border-[20px] border-gray-100  border-rounded-lg text-lg font-light text-center ap-y-12 bg-gray-200 p-5 flex-center">
+        <div className="grid-cols-8 w-full gap-5 border-[20px] border-gray-100  border-rounded-lg text-lg font-light text-center ap-y-12 bg-gray-200 p-5 flex-center">
           <IoBagOutline size="30" /> Your cart is empty
         </div>
       ) : (
         <div
-          className={`grid gap-8 w-full grid-cols-3 gap-y-12 bg-gray-50 p-5`}
+          className={`grid col-span-7 max-lg:col-span-10 gap-8 w-full grid-cols-5 gap-y-12 bg-gray-50 p-5 max-md:grid-cols-2`}
         >
-          <span>Product</span>
-          <span className="justify-self-end">Quantity</span>
-          <span className="justify-self-end">Total</span>
+          <span className="col-span-3 max-md:hidden">Product</span>
+          <span className="justify-self-end col-span-1 max-md:hidden">
+            Quantity
+          </span>
+          <span className="justify-self-end col-span-1 max-md:hidden">
+            Total
+          </span>
           <>
             {cart.map((item) => <CartItem key={item.id} item={item} />) || (
               <span>No data</span>
@@ -50,8 +54,8 @@ function ProductGrid() {
       )}
 
       <div
-        className="max-w-[300px] w-full self-start bg-gray-100 
-      grid  p-5 rounded-lg gap-5"
+        className="col-span-3 w-full self-start bg-gray-100 
+      grid  p-5 rounded-lg gap-5 max-lg:col-span-10"
       >
         <div className="grid grid-cols-2 w-full bg-gray-200 p-5 rounded-lg">
           <span className="text-lg font-semibold">Subtotal</span>
@@ -92,7 +96,7 @@ export function CartItem({ item }: { item: ICartItem }) {
   return (
     <>
       {/* product details */}
-      <div className="flex gap-10">
+      <div className="flex gap-10 col-span-3">
         <Image
           loading="lazy"
           src={item.product.image}
@@ -100,8 +104,8 @@ export function CartItem({ item }: { item: ICartItem }) {
           width={80}
           height={80}
         />
-        <div className="grid gap-4">
-          <div className="text-lg font-light ">{item.product.title}</div>
+        <div className="grid gap-4 w-full pr-10">
+          <div className="font-light text-base">{item.product.title}</div>
           <div>
             <span className="text-gray-500">Price: </span>
             <span>${item.product.price}</span>
@@ -109,7 +113,7 @@ export function CartItem({ item }: { item: ICartItem }) {
         </div>
       </div>
       {/* qty input  */}
-      <div className="flex gap-5 justify-self-end items-start">
+      <div className="flex gap-5 justify-self-end items-start col-span-1 max-md:justify-self-start">
         <Button
           className="flex place-content-center bg-white shadow-lg p-1.5 rounded-lg  h-9 aspect-square"
           onClick={() => cartService.removeFromCart({ id: item.id })}
@@ -126,7 +130,7 @@ export function CartItem({ item }: { item: ICartItem }) {
         />
       </div>
       {/* price * qty */}
-      <div className="justify-self-end">
+      <div className="justify-self-end col-span-1">
         <span>${itemTotal}</span>
       </div>
     </>

@@ -36,7 +36,7 @@ export default function MainHeader() {
 
   return (
     <div
-      className={`mx-auto py-9 flex max-w-[1500px] items-center justify-between gap-15 max-xl:px-8 max-md:flex-wrap max-lg:justify-between gap-5 w-full `}
+      className={`mx-auto py-9 flex max-w-[1500px] items-center justify-between gap-15 px-10 max-md:flex-wrap max-lg:justify-between gap-5 w-full `}
     >
       <Link href="/" className="text-nowrap max-md:order-1 max-md:self-start">
         <h1 className=" text-[30px] font-bold uppercase">E-shoper</h1>
