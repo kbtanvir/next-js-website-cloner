@@ -1,8 +1,7 @@
-import { ToyBrickIcon } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import { IoFemale, IoMale } from "react-icons/io5"
+import { IoCarOutline, IoFemale, IoMale } from "react-icons/io5"
 
 export function TopBar() {
   return (
@@ -37,8 +36,8 @@ export function TopBar() {
 }
 export function NavigationSection() {
   return (
-    <div className="flex flex-col border-y-2 py-4 section-px">
-      <div className="mx-auto w-full flex max-w-[1500px] items-center justify-between gap-15 max-md:flex-wrap gap-5">
+    <div className="flex flex-col border-y-2 py-4">
+      <div className="mx-auto flex section-box-w items-center justify-between gap-15 max-md:flex-wrap gap-5 section-px">
         <div className="flex gap-5 self-start min-w-[300px] max-sm:hidden">
           <Breadcrumb />
         </div>
@@ -57,23 +56,23 @@ export function NavigationSection() {
             {
               text: "Men",
               url: "?category=men",
-              icon: <IoMale size={22} />,
+              icon: <IoMale className="text-[22px] max-md:text-[16px]" />,
             },
             {
               text: "Women",
               url: "?category=women",
-              icon: <IoFemale size={22} />,
+              icon: <IoFemale className="text-[22px] max-md:text-[16px]" />,
             },
             {
               text: "Kids",
               url: "?category=kids",
               hasChildren: false,
-              icon: <ToyBrickIcon />,
+              icon: <IoCarOutline className="text-[22px] max-md:text-[16px]" />,
             },
           ].map((item, i) => (
             <Link key={i} href={item.url} className="flex-center gap-3">
               {item.icon}
-              <div className="grow self-start whitespace-nowrap text-lg leading-5 text-zinc-800">
+              <div className="grow self-start whitespace-nowrap uppercase text-base max-md:text-sm leading-5 text-zinc-800">
                 {item.text}
               </div>
             </Link>
@@ -94,6 +93,7 @@ export function NavigationSection() {
     </div>
   )
 }
+
 export function Breadcrumb() {
   const [text, settext] = useState("")
   const router = useRouter()

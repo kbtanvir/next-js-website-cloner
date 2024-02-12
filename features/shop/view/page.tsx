@@ -1,11 +1,13 @@
-import { ProductItem } from "../../../components/ProductItem"
-import { type IProduct } from "../model"
 import { PageTitle } from "@/components/header/PageTitle"
 import { Button } from "@/components/ui/button"
 import { Sidebar } from "@/features/shop/view/sidebar"
 import { type Product } from "@prisma/client"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
+import Skeleton from "react-loading-skeleton"
+import "react-loading-skeleton/dist/skeleton.css"
+import { ProductItem } from "../../../components/ProductItem"
+import { type IProduct } from "../model"
 import { api } from "~/utils/api"
 import { globalStore, useGlobalStore } from "~/utils/global.store"
 
@@ -60,7 +62,16 @@ function ProductGrid() {
   // }
 
   if (infiniteQuery.isLoading) {
-    return <div>Loading...</div>
+    return (
+      <div className="w-full grid grid-cols-3 gap-10">
+        <Skeleton count={1} height="300px" />
+        <Skeleton count={1} height="300px" />
+        <Skeleton count={1} height="300px" />
+        <Skeleton count={1} height="300px" />
+        <Skeleton count={1} height="300px" />
+        <Skeleton count={1} height="300px" />
+      </div>
+    )
   }
 
   if (!data.length) {
@@ -133,18 +144,15 @@ export function PageContent() {
   }, [mobileScreen])
 
   return (
-    <div className="mx-auto w-full ">
+    <div className="">
       <PageTitle />
-      <div className="section-px section-py">
-        <div className="flex max-w-[1500px] w-full mx-auto  justify-between gap-10">
-          {showSidebar && (
-            <div className="max-w-[280px] w-full   max-md:fixed z-50 top-0 bg-white left-0 max-md:p-10 max-md:items-stretch max-md:overflow-y-scroll max-md:h-full">
-              <Sidebar />
-            </div>
-          )}
-
-          <ProductGrid />
-        </div>
+      <div className="flex section-box-w section-px section-py w-full mx-auto justify-between gap-10">
+        {showSidebar && (
+          <div className="max-w-[280px] w-full max-md:fixed z-50 top-0 bg-white left-0 max-md:p-10 max-md:items-stretch max-md:overflow-y-scroll max-md:h-full">
+            <Sidebar />
+          </div>
+        )}
+        <ProductGrid />
       </div>
     </div>
   )

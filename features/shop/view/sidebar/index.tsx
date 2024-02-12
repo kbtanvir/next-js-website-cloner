@@ -80,30 +80,11 @@ function SizesFilter() {
   )
 }
 
-export function useWindowSize() {
-  const [windowSize, setWindowSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  })
-
-  useEffect(() => {
-    function handleResize() {
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      })
-    }
-
-    window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
-  }, [])
-
-  return windowSize
-}
+ 
 
 export function Sidebar() {
   const { showSidebar } = useGlobalStore()
-  const { width } = useWindowSize()
+ 
   const form = useForm<IProductQueryInput>({
     resolver: zodResolver(productsQueryInput),
   })

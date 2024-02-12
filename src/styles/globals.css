@@ -18,6 +18,9 @@
   .section-py {
     @apply py-20 max-md:py-4;
   }
+  .section-box-w {
+    @apply mx-auto w-full max-w-7xl;
+  }
   .flex-center {
     display: flex;
     justify-content: center;

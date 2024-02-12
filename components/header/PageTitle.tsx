@@ -33,8 +33,8 @@ export function PageTitle({ title = "" }: { title?: string }) {
   }
 
   return (
-    <div className="bg-slate-100 py-6 px-12  w-full ">
-      <span className="mx-auto flex  w-full items-center justify-between gap-5  max-w-[1500px] max-md:flex-wrap">
+    <div className="bg-slate-100 py-5">
+      <span className="mx-auto flex  w-full items-center justify-end max-md:justify-between gap-5 section-box-w max-md:flex-wrap section-px">
         <span
           onClick={() => globalStore.setShowSidebar(!showSidebar)}
           className={`md:hidden rounded-lg border-1 border-solid border-black border-opacity-10 px-2 py-1.5 text-center text-xs   text-black hover:bg-gray-900 hover:text-white hover:cursor-pointer bg-gray-200`}
@@ -42,7 +42,7 @@ export function PageTitle({ title = "" }: { title?: string }) {
           <FilterIcon size={16} />
         </span>
 
-        <span className="flex items-start justify-start gap-3.5  ">
+        <span className="flex self-end gap-3.5  ">
           {/* <ColumnSizeIcon size={columnSize} /> */}
           <div className="my-auto self-center text-center text-base leading-5 text-black">
             <DropdownMenu>
