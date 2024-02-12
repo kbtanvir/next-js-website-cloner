@@ -31,6 +31,22 @@ export const checkoutFormSchema = z.object({
   state: z.string(),
   zipcode: z.string(),
   paymentMethod: z.nativeEnum(PaymentMethodEnum),
+  cardName: z.string().optional(),
+  cardNumber: z
+    .string()
+    .refine((v) => v.length === 16, "Card number must be 16 digits")
+    .optional(),
+  cardExpiry: z
+    .string()
+    .refine(
+      (v) => v.length === 5 && v.includes("/"),
+      "Card expiry must be in MM/YY format"
+    )
+    .optional(),
+  cardCVC: z
+    .string()
+    .refine((v) => v.length === 3, "Card CVC must be 3 digits")
+    .optional(),
 })
 
 export type ICheckoutForm = z.infer<typeof checkoutFormSchema>
@@ -128,7 +144,7 @@ export function PageView() {
   }
 
   return (
-    <div className="max-w-[800px] w-full mx-auto px-10 max-md:px-5 ">
+    <div className="max-w-[1200px] w-full mx-auto px-10 max-md:px-5 ">
       <div className="mt-20 max-md:mt-10">
         <FormProvider {...form}>
           <form
@@ -150,10 +166,10 @@ export function PageView() {
                     </div>
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-10 items-start">
+                <div className="grid grid-cols-2 gap-5 items-start">
                   {addressFields.map((row, i) => (
                     <Fragment key={i}>
-                      <div className="grid gap-5 items-start">
+                      <div className="grid gap-3 items-start">
                         <label
                           htmlFor={row.name}
                           className="text-sm font-medium leading-none"
@@ -216,18 +232,32 @@ export function PageView() {
               {form.watch("paymentMethod") ===
                 PaymentMethodEnum.CREDIT_CARD && (
                 <div className="grid gap-10">
-                  <div className="">
+                  <div className="grid gap-5">
                     <div className="text-2xl font-semibold uppercase leading-8 text-zinc-800">
                       Credit card
                     </div>
-                    <div className="mt-5 ">
+                    <div className=" ">
                       <div className="text-sm leading-5 text-zinc-600">
                         Please enter your credit card details
                       </div>
                     </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-10 items-start">
-                    <div className="grid gap-5 items-start">
+
+                  <div className="grid gap-5">
+                    <div className="grid gap-3 items-start">
+                      <label
+                        htmlFor="cardName"
+                        className="text-sm font-medium leading-none"
+                      >
+                        Name on card
+                      </label>
+                      <Input
+                        name="cardName"
+                        type="text"
+                        placeholder="Your card name"
+                      />
+                    </div>
+                    <div className="grid gap-3 items-start">
                       <label
                         htmlFor="cardNumber"
                         className="text-sm font-medium leading-none"
@@ -236,48 +266,49 @@ export function PageView() {
                       </label>
                       <Input
                         name="cardNumber"
-                        type="text"
+                        type="password"
                         placeholder="Your card number"
+                        onChange={(e) =>
+                          form.setValue("cardNumber", e.target.value)
+                        }
                       />
+                      <FormErrorMessage name={"cardNumber"} />
                     </div>
-                    <div className="grid gap-5 items-start">
-                      <label
-                        htmlFor="cardName"
-                        className="text-sm font-medium leading-none"
-                      >
-                        Card name
-                      </label>
-                      <Input
-                        name="cardName"
-                        type="text"
-                        placeholder="Your card name"
-                      />
-                    </div>
-                    <div className="grid gap-5 items-start">
-                      <label
-                        htmlFor="cardExpiry"
-                        className="text-sm font-medium leading-none"
-                      >
-                        Card expiry
-                      </label>
-                      <Input
-                        name="cardExpiry"
-                        type="text"
-                        placeholder="Your card expiry"
-                      />
-                    </div>
-                    <div className="grid gap-5 items-start">
-                      <label
-                        htmlFor="cardCvc"
-                        className="text-sm font-medium leading-none"
-                      >
-                        Card CVC
-                      </label>
-                      <Input
-                        name="cardCvc"
-                        type="text"
-                        placeholder="Your card CVC"
-                      />
+                    <div className="grid grid-cols-2 gap-5 items-start">
+                      <div className="grid gap-3 items-start">
+                        <label
+                          htmlFor="cardExpiry"
+                          className="text-sm font-medium leading-none"
+                        >
+                          Expiry Date
+                        </label>
+                        <Input
+                          name="cardExpiry"
+                          type="text"
+                          placeholder="MM/YY"
+                          onChange={(e) =>
+                            form.setValue("cardExpiry", e.target.value)
+                          }
+                        />
+                        <FormErrorMessage name={"cardExpiry"} />
+                      </div>
+                      <div className="grid gap-3 items-start">
+                        <label
+                          htmlFor="cardCVC"
+                          className="text-sm font-medium leading-none"
+                        >
+                          CVC
+                        </label>
+                        <Input
+                          name="cardCVC"
+                          type="text"
+                          placeholder="XXX"
+                          onChange={(e) =>
+                            form.setValue("cardCVC", e.target.value)
+                          }
+                        />
+                        <FormErrorMessage name={"cardCVC"} />
+                      </div>
                     </div>
                   </div>
                 </div>
