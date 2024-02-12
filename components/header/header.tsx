@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
+import { AiOutlineThunderbolt } from "react-icons/ai"
 import { IoCarOutline, IoFemale, IoMale } from "react-icons/io5"
 
 export function TopBar() {
@@ -41,31 +42,22 @@ export function NavigationSection() {
         <div className="flex gap-5 self-start min-w-[300px] max-sm:hidden">
           <Breadcrumb />
         </div>
-        {/* <span className="flex items-stretch justify-between gap-3">
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/10ee5ad50561b854f62cf8cd05183ec228a0548a5b88abaa897f13240c2f1994?apiKey=da85e7e8aa194b7592d4b6becf2fde0c&"
-            className="aspect-square w-7 max-w-full shrink-0 overflow-hidden object-contain object-center"
-          />
-          <div className="my-auto grow self-center whitespace-nowrap text-center text-base leading-7 text-zinc-800">
-            All Categories
-          </div>
-        </span> */}
+
         <span className="my-auto flex self-center place-items-center justify-between gap-4   max-md:max-w-full max-md:flex-wrap">
           {[
             {
               text: "Men",
-              url: "?category=men",
+              url: "/?category=men",
               icon: <IoMale className="text-[22px] max-md:text-[16px]" />,
             },
             {
               text: "Women",
-              url: "?category=women",
+              url: "/?category=women",
               icon: <IoFemale className="text-[22px] max-md:text-[16px]" />,
             },
             {
               text: "Kids",
-              url: "?category=kids",
+              url: "/?category=kids",
               hasChildren: false,
               icon: <IoCarOutline className="text-[22px] max-md:text-[16px]" />,
             },
@@ -79,12 +71,9 @@ export function NavigationSection() {
           ))}
         </span>
 
-        <span className="my-auto flex items-stretch gap-2.5 self-center">
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/41dc93115a721eba561af1b7ef7cd4226356a50abddb14c79d389140a82be3a1?apiKey=da85e7e8aa194b7592d4b6becf2fde0c&"
-            className="aspect-square w-5 max-w-full shrink-0 overflow-hidden object-contain object-center"
-          />
+        <span className="my-auto flex items-center gap-2.5 self-center">
+          <AiOutlineThunderbolt size="20" />
+
           <div className="my-auto grow self-center whitespace-nowrap text-base leading-7 text-zinc-800 text-opacity-80">
             UP TO 60% off All Items
           </div>
