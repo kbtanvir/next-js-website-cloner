@@ -14,10 +14,9 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Form } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { IoClose } from "react-icons/io5"
-import { globalStore, useGlobalStore } from "~/utils/global.store"
+import { globalStore } from "~/utils/global.store"
 
 function AvaibilityFilter() {
   return (
@@ -80,11 +79,7 @@ function SizesFilter() {
   )
 }
 
- 
-
 export function Sidebar() {
-  const { showSidebar } = useGlobalStore()
- 
   const form = useForm<IProductQueryInput>({
     resolver: zodResolver(productsQueryInput),
   })
