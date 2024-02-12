@@ -1,4 +1,3 @@
-import { Breadcrumb } from "./header"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,7 +22,6 @@ function formatOrderByText(orderBy: IOrderBy) {
 export function PageTitle({ title = "" }: { title?: string }) {
   const {
     productsQueryDTO: { sort, limit },
-    columnSize,
     showSidebar,
   } = useGlobalStore()
 
@@ -37,15 +35,12 @@ export function PageTitle({ title = "" }: { title?: string }) {
   return (
     <div className="bg-slate-100 py-6 px-12  w-full ">
       <span className="mx-auto flex  w-full items-center justify-between gap-5  max-w-[1500px] max-md:flex-wrap">
-        <div className="flex gap-20">
-          <span
-            onClick={() => globalStore.setShowSidebar(!showSidebar)}
-            className={`rounded-lg border-1 border-solid border-black border-opacity-10 px-2 py-1.5 text-center text-xs   text-black hover:bg-gray-900 hover:text-white hover:cursor-pointer bg-gray-200`}
-          >
-            <FilterIcon size={16} />
-          </span>
-          <Breadcrumb />
-        </div>
+        <span
+          onClick={() => globalStore.setShowSidebar(!showSidebar)}
+          className={`md:hidden rounded-lg border-1 border-solid border-black border-opacity-10 px-2 py-1.5 text-center text-xs   text-black hover:bg-gray-900 hover:text-white hover:cursor-pointer bg-gray-200`}
+        >
+          <FilterIcon size={16} />
+        </span>
 
         <span className="flex items-start justify-start gap-3.5  ">
           {/* <ColumnSizeIcon size={columnSize} /> */}

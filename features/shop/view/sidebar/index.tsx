@@ -111,20 +111,11 @@ export function Sidebar() {
     globalStore.setProductsQueryDTO((state) => ({ ...state, ...data }))
   }
 
-  useEffect(() => {
-    // if window size is greater than 768px, show sidebar
-
-    if (width > 768) {
-      globalStore.setShowSidebar(true)
-    }
-    console.log("width", width)
-  }, [width])
-
   return (
     <span className=" flex grow flex-col items-stretch">
       <IoClose
         size={30}
-        className=" rounded-lg  border border-zinc-800 absolute right-10 top-7"
+        className=" rounded-lg  border border-zinc-800 absolute right-10 top-7 md:hidden"
         onClick={() => {
           globalStore.setShowSidebar(false)
         }}

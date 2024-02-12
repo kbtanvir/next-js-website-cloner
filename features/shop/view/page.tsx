@@ -103,15 +103,39 @@ function Pagination() {
     </span>
   )
 }
+
+export function useMediaQuery({ max = "768px" }) {
+  const [query, setQuery] = useState(false)
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(`(max-width: ${max})`)
+    setQuery(mediaQuery.matches)
+
+    const handler = (e: MediaQueryListEvent) => setQuery(e.matches)
+    mediaQuery.addEventListener("change", handler)
+
+    return () => mediaQuery.removeEventListener("change", handler)
+  }, [max])
+
+  return query
+}
 export function PageContent() {
   const { showSidebar } = useGlobalStore()
 
-  
+  const mobileScreen = useMediaQuery({ max: "768px" })
+
+  useEffect(() => {
+    if (mobileScreen) {
+      globalStore.setShowSidebar(false)
+    } else {
+      globalStore.setShowSidebar(true)
+    }
+  }, [mobileScreen])
 
   return (
-    <span className="mx-auto w-full ">
-      <PageTitle title="" />
-      <div className="mt-20 max-md:mt-0 px-10">
+    <div className="mx-auto w-full ">
+      <PageTitle />
+      <div className="section-px section-py">
         <div className="flex max-w-[1500px] w-full mx-auto  justify-between gap-10">
           {showSidebar && (
             <div className="max-w-[280px] w-full   max-md:fixed z-50 top-0 bg-white left-0 max-md:p-10 max-md:items-stretch max-md:overflow-y-scroll max-md:h-full">
@@ -122,6 +146,6 @@ export function PageContent() {
           <ProductGrid />
         </div>
       </div>
-    </span>
+    </div>
   )
 }

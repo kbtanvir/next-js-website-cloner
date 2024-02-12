@@ -1,5 +1,3 @@
-"use client"
-
 import { cartService } from "../controller/service"
 import {
   useCartStore,

@@ -1,5 +1,3 @@
-"use client"
-
 import MainHeader from "./header/MainHeader"
 import { NavigationSection, TopBar } from "./header/header"
 import { FooterSection } from "@/components/footer"
@@ -32,7 +30,7 @@ export function Layout({ children }: LayoutProps) {
 
   return (
     <>
-      <TopBar />
+      {/* <TopBar /> */}
       <MainHeader />
       <NavigationSection />
       <>{children}</>

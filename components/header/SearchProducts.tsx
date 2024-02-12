@@ -5,7 +5,9 @@ import { Popover, PopoverContent } from "@/components/ui/popover"
 import { type Product } from "@prisma/client"
 import { PopoverTrigger } from "@radix-ui/react-popover"
 import { debounce } from "lodash"
+import Image from "next/image"
 import { useEffect, useState } from "react"
+import { IoSearch } from "react-icons/io5"
 import { api } from "~/utils/api"
 
 function ListItem({ product }: { product: Product }) {
@@ -14,10 +16,16 @@ function ListItem({ product }: { product: Product }) {
       {/* <Link href={`/products/${product.id}`}> */}
       <a className="flex gap-5 items-center">
         <div className="w-[50px] h-[50px]">
-          <img
+          <Image
             loading="lazy"
             src={product.image}
             className="w-full h-full object-contain object-center"
+            width={50}
+            height={50}
+            alt="product image"
+            loader={({ src }) => {
+              return src
+            }}
           />
         </div>
         <div className="flex flex-col">
@@ -82,15 +90,11 @@ export function SearchProducts() {
       <PopoverTrigger className="flex w-full relative max-md:order-3  max-w-[750px]  justify-between gap-0   max-md:max-w-full max-md:flex-wrap">
         <Input
           onChange={debounce(handleChange, 500)}
-          className="h-[50px] w-full border border-solid border-zinc-800 border-opacity-10 pl-20   focus:ring-opacity-0"
+          className="h-[50px] w-full border border-solid border-zinc-800 border-opacity-10 pl-20   focus:ring-opacity-0 bg-gray-100"
           placeholder="Search for products"
         />
-        <span className="absolute">
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/2eedb4369e4c6c5540db074793bc03e0566864459364db450b723fea7a4985fa?apiKey=da85e7e8aa194b7592d4b6becf2fde0c&"
-            className="aspect-[1.1] w-[55px] max-w-full overflow-hidden object-contain object-center"
-          />
+        <span className="absolute flex-center left-3 top-1 w-[44px] aspect-square rounded-lg">
+          <IoSearch className="text-[30px] max-md:text-[20px] text-gray-600" />
         </span>
       </PopoverTrigger>
 

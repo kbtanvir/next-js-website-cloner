@@ -6,16 +6,10 @@ import { IoFemale, IoMale } from "react-icons/io5"
 
 export function TopBar() {
   return (
-    <div className="flex flex-col bg-blue-800 py-3.5 px-10">
+    <div className="flex flex-col bg-blue-800 py-3.5 section-px">
       <span
         className={`mx-auto flex w-full max-w-[1500px] items-stretch justify-between gap-5 max-md:flex-wrap`}
       >
-        <img
-          loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/c16a4058403d9f8ed01fafc12e0ddc93676b0c3a2bbf7cf9bb1f37e4b9a17788?apiKey=da85e7e8aa194b7592d4b6becf2fde0c&"
-          className="aspect-[6.5] w-[117px] max-w-full shrink-0 overflow-hidden object-contain object-center"
-        />
-
         <div className="text-sm leading-5 text-white">
           Enter WINTERZ to get 30% off
         </div>
@@ -43,8 +37,11 @@ export function TopBar() {
 }
 export function NavigationSection() {
   return (
-    <div className="flex flex-col border-y-2 py-4 px-10">
+    <div className="flex flex-col border-y-2 py-4 section-px">
       <div className="mx-auto w-full flex max-w-[1500px] items-center justify-between gap-15 max-md:flex-wrap gap-5">
+        <div className="flex gap-5 self-start min-w-[300px] max-sm:hidden">
+          <Breadcrumb />
+        </div>
         {/* <span className="flex items-stretch justify-between gap-3">
           <img
             loading="lazy"
@@ -82,6 +79,7 @@ export function NavigationSection() {
             </Link>
           ))}
         </span>
+
         <span className="my-auto flex items-stretch gap-2.5 self-center">
           <img
             loading="lazy"
@@ -109,12 +107,12 @@ export function Breadcrumb() {
   }, [router.pathname, router.query.category])
 
   return (
-    <div className="flex gap-5 self-start">
+    <>
       <div className="text-base leading-7 text-zinc-800">HOME</div>
       <div className="text-base leading-7 text-zinc-800">/</div>
       <div className="text-sm leading-7 text-zinc-800 text-opacity-80">
         {text}
       </div>
-    </div>
+    </>
   )
 }

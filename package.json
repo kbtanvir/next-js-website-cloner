@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo",
+    "dev": "next dev ",
     "prisma:studio": "npx prisma studio",
     "prisma:push": "npx prisma db push --preview-feature & yarn",
     "prisma:push-reset": "npx prisma db push --force-reset & yarn",
@@ -12,8 +12,7 @@
     "postinstall": "prisma generate",
     "start": "next start",
     "start-db": "powershell -ExecutionPolicy Bypass -File ./scripts/db-start.ps1",
-    "popuplate-db":"tsc ./prisma/seed && node ./prisma/seed.js && rm ./prisma/seed.js"
-    
+    "popuplate-db": "tsc ./prisma/seed && node ./prisma/seed.js && rm ./prisma/seed.js"
   },
   "dependencies": {
     "@faker-js/faker": "^8.0.2",

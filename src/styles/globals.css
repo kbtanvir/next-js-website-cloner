@@ -3,14 +3,21 @@
 @tailwind utilities;
 
 @layer base {
-  html {
+  /* html {
     width: 100%;
-  }
+  } */
   body {
     display: grid;
+    overflow-x: hidden;
   }
 }
 @layer components {
+  .section-px {
+    @apply px-10 max-md:px-4;
+  }
+  .section-py {
+    @apply py-20 max-md:py-4;
+  }
   .flex-center {
     display: flex;
     justify-content: center;

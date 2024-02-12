@@ -1,7 +1,4 @@
-"use client"
-
 import { SearchProducts } from "./SearchProducts"
-import UserButton from "@/components/user-button"
 import { useCartStore } from "@/features/cart/controller/store"
 import { CartIcon } from "@/lib/icons"
 import Link from "next/link"
@@ -36,16 +33,18 @@ export default function MainHeader() {
 
   return (
     <div
-      className={`mx-auto py-9 flex max-w-[1500px] items-center justify-between gap-15 px-10 max-md:flex-wrap max-lg:justify-between gap-5 w-full `}
+      className={`mx-auto py-9 max-md:py-4 flex max-w-[1500px] items-center justify-between gap-15 section-px  max-md:flex-wrap max-lg:justify-between gap-5 w-full `}
     >
       <Link href="/" className="text-nowrap max-md:order-1 max-md:self-start">
-        <h1 className=" text-[30px] font-bold uppercase">E-shoper</h1>
+        <h1 className="text-[30px] font-bold uppercase max-md:text-2xl">
+          E-shopper
+        </h1>
       </Link>
       <SearchProducts />
       <div className="max-md:order-2 max-md:self-end flex w-full max-w-[116px] justify-end gap-5 items-center">
-        <div className="relative">
+        {/* <div className="relative">
           <UserButton />
-        </div>
+        </div> */}
         {/* <Link href="/wishlist" className="relative">
           <div className="relative">
             <WishIcon />
