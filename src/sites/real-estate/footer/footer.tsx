@@ -46,9 +46,9 @@ function FooterTop() {
   return (
     <div className="mt-9 grid grid-cols-7 grid-rows-1 justify-between gap-20 max-md:flex max-md:flex-col max-md:items-center max-md:gap-10 max-md:text-center">
       {/* ABOUT */}
-      <div className="col-span-2 flex w-full max-w-[300px] flex-col max-lg:col-start-1 max-lg:col-end-4">
+      <div className="col-span-2 flex w-full max-w-[300px] flex-col items-start justify-start max-lg:col-start-1 max-lg:col-end-4">
         <Link href={Routes.home.path} className="text-nowrap  ">
-          <div className="text-[30px]   font-light uppercase max-md:text-2xl">
+          <div className="text-[30px]   font-light uppercase max-md:text-2xl ">
             E-shopper
           </div>
         </Link>
@@ -105,7 +105,7 @@ function FooterTop() {
 export function FooterSection() {
   return (
     <div className="bg-slate-50">
-      <div className="section-box-w mt-32 pt-10 max-lg:mt-10 max-md:mt-0">
+      <div className="section-box-w pt-10 max-lg:mt-10 max-md:mt-0">
         <FooterTop />
         <div className=" mt-10 flex h-px shrink-0 flex-col bg-gray-800 bg-opacity-10" />
         <span className="relative flex w-full items-center justify-between gap-5 py-11 max-md:flex-wrap max-md:justify-center">

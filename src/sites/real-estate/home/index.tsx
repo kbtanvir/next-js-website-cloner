@@ -1,7 +1,13 @@
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import { BiArea } from "react-icons/bi";
-import { FaArrowLeft, FaArrowRight, FaCheck } from "react-icons/fa";
+import {
+  FaArrowLeft,
+  FaArrowRight,
+  FaCheck,
+  FaRegEnvelope,
+  FaStar,
+} from "react-icons/fa";
 import { IoCarSportOutline, IoLocate } from "react-icons/io5";
 import { PiBathtubLight } from "react-icons/pi";
 import { usePrevNextButtons } from "./CarouselNavigation";
@@ -12,6 +18,7 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import Link from "next/link";
 import { IoBedOutline } from "react-icons/io5";
@@ -42,10 +49,10 @@ function WelcomeSliderItem({
           <h3 className="text-base text-white max-md:text-xl">
             Some location in the city
           </h3>
-          <h5 className="grid gap-0 text-[60px] text-white max-md:text-base">
+          <h2 className="grid gap-0 text-[60px] text-white max-md:text-base">
             <span className="mb-[-20px] font-light">Luxurious</span>
             <span className="font-bold">Mension</span>
-          </h5>
+          </h2>
           <div className="flex gap-4">
             <Link href={Routes.shop.path}>
               <Button className="mt-2 bg-white text-[10px] uppercase text-black">
@@ -428,80 +435,7 @@ function WhyUs1Section() {
     </>
   );
 }
-function WhyUs2Section() {
-  return (
-    <>
-      <div className="section-box-w">
-        <div className="section-py flex gap-24">
-          {/* text box */}
-          <div className="grid w-1/2 content-center items-center gap-4">
-            <h3 className="text-[20px] font-bold text-purple-600">
-              Online property marketplace
-            </h3>
-            <h2 className="max-w-[480px] text-[44px] font-light leading-[1.1em] text-black max-md:text-base">
-              Accurate to 99% of a{" "}
-              <span className="underline-green-300 font-bold text-purple-600 underline">
-                property`s
-              </span>{" "}
-              details.
-            </h2>
 
-            <div className="grid max-w-[400px] gap-10 pt-14">
-              {[
-                {
-                  text: "10,000+ people trusting our agency.",
-                  desc: "Browse millions of properties in your city save your favorites.",
-                  icon: <Image src={`${imageRoute}/loan.png`} alt="" fill />,
-                },
-                {
-                  text: "Highest rental income projects",
-                  desc: "Browse millions of properties in your city save your favorites.",
-                  icon: (
-                    <Image src={`${imageRoute}/satisfaction.png`} alt="" fill />
-                  ),
-                },
-              ].map((item, i) => (
-                <div key={i} className="flex items-center gap-4">
-                  <div className="flex-center relative  h-[80px] w-[80px] overflow-hidden rounded-full bg-green-100   text-green-500">
-                    {item.icon}
-                  </div>
-                  <div className="grid gap-4">
-                    <div className="font-bold">{item.text}</div>
-                    <div className="opacity-70">{item.desc}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="flex gap-4 pt-10">
-              <Button>Learn more</Button>{" "}
-              <Button
-                variant={"outline"}
-                className="flex-center gap-2 border-2 border-black"
-              >
-                Trusted agents <FaArrowRight />
-              </Button>
-            </div>
-          </div>
-          {/* image box */}
-          <div className="w-1/2">
-            <div className="relative h-[600px]">
-              <Image
-                src={"/sites/real-estate/demo-real-estate-slider-01.jpg"}
-                layout="fill"
-                alt="Picture of the author"
-                className="z-0 object-cover"
-              />
-            </div>
-          </div>
-        </div>
-        <div className="section-box-w flex-center gap-4 pb-20 text-xl font-semibold">
-          <IoLocate className="text-purple-600" />
-          Our selection of the best places around the world and pick yours.
-        </div>
-      </div>
-    </>
-  );
-}
 function LocationSliderItem() {
   return (
     <div className="relative h-[485px] bg-blue-300 ">
@@ -548,7 +482,7 @@ function LocationsSection() {
 
   return (
     <>
-      <div className="section-py   bg-gray-100">
+      <div className="section-py   overflow-hidden bg-gray-100">
         <div className="section-box-w relative flex  gap-14">
           <div className="grid content-center items-center gap-4">
             <h3 className="text-[20px] font-bold text-purple-600">
@@ -604,6 +538,162 @@ function LocationsSection() {
     </>
   );
 }
+function WhyUs2Section() {
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    {
+      slidesToScroll: 1,
+      align: "start",
+      loop: true,
+    },
+    [Autoplay()],
+  );
+
+  const {
+    prevBtnDisabled,
+    nextBtnDisabled,
+    onPrevButtonClick,
+    onNextButtonClick,
+  } = usePrevNextButtons(emblaApi);
+
+  return (
+    <>
+      <div className="section-box-w">
+        <div className="section-py flex flex-row-reverse gap-24 pb-0">
+          {/* text box */}
+          <div className="grid w-1/2 content-center items-center gap-4">
+            <h3 className="text-[20px] font-bold text-purple-600">
+              Clients feedback
+            </h3>
+            <h2 className="max-w-[480px] text-[44px] font-light leading-[1.1em] text-black max-md:text-base">
+              Here is what our{" "}
+              <span className="underline-green-300 font-bold text-purple-600 underline">
+                clients
+              </span>{" "}
+              have to say
+            </h2>
+
+            {/* Testimonial slider */}
+            <div className="grid   max-w-[400px]   pt-6">
+              <div className="overflow-hidden" ref={emblaRef}>
+                <div className="flex">
+                  {[
+                    {
+                      text: "Alec Thompson",
+                      desc: "I just bought a house with the help of this company. Thank you for your support and help with finding me a home. I am very happy with the service and the help, everything was perfect. Thank you very much.",
+                      icon: (
+                        <Image
+                          src={`${imageRoute}/loan.png`}
+                          alt=""
+                          height={80}
+                          width={80}
+                          layout="responsive"
+                        />
+                      ),
+                      rating: 5,
+                    },
+                    {
+                      text: "Alec Thompson",
+                      desc: "I just bought a house with the help of this company. Thank you for your support and help with finding me a home. I am very happy with the service and the help, everything was perfect. Thank you very much.",
+                      icon: (
+                        <Image
+                          src={`${imageRoute}/loan.png`}
+                          alt=""
+                          height={80}
+                          width={80}
+                          layout="responsive"
+                        />
+                      ),
+                      rating: 5,
+                    },
+                  ].map((item, i) => (
+                    <EmblaCarouselItem key={i} slides={1}>
+                      <div className="grid  gap-10">
+                        <div className="opacity-70">{item.desc}</div>
+                        <div className=" flex items-center justify-start gap-10">
+                          <div className="relative h-[80px]  w-[80px]  rounded-full bg-green-100   text-green-500">
+                            {item.icon}
+                          </div>
+                          <div className="grid  gap-4">
+                            <div className="font-bold">{item.text}</div>
+                            <div className="flex">
+                              {Array(item.rating)
+                                .fill(0)
+                                .map((_, i) => (
+                                  <div key={i} className="text-yellow-500">
+                                    <FaStar />
+                                  </div>
+                                ))}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </EmblaCarouselItem>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="relative flex gap-4 pt-10">
+              <Button
+                onClick={onPrevButtonClick}
+                disabled={prevBtnDisabled}
+                variant={"outline"}
+                className="h-20 w-20 rounded-full    text-[20px]  "
+              >
+                <FaArrowLeft />
+              </Button>
+              <Button
+                onClick={onNextButtonClick}
+                disabled={nextBtnDisabled}
+                variant={"outline"}
+                className="h-20 w-20  rounded-full      text-[20px]  "
+              >
+                <FaArrowRight />
+              </Button>
+            </div>
+          </div>
+          {/* image box */}
+          <div className="w-1/2">
+            <div className="relative h-[600px]">
+              <Image
+                src={"/sites/real-estate/demo-real-estate-slider-01.jpg"}
+                layout="fill"
+                alt="Picture of the author"
+                className="z-0 object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+function CTASection() {
+  return (
+    <div className="section-box-w mt-32 pb-0">
+      <div className="flex   items-center justify-between rounded-xl bg-purple-500 px-14 py-14">
+        <div className="grid place-items-start gap-5 ">
+          <h2 className="text-[44px]  leading-10 text-white max-md:text-base">
+            Subscribe to <span className="font-bold underline">newsletter</span>
+          </h2>
+          <h3 className="text-base text-white max-md:text-xl">
+            Social media its ways of our excellence.
+          </h3>
+        </div>
+        <div className="flex h-[60px] w-full max-w-[400px] items-center justify-between gap-4 rounded-lg bg-white px-4">
+          <Input
+            type="text"
+            placeholder="Enter your email"
+            className="h-14 w-96 rounded-md border-none bg-white px-4 text-black"
+          />
+          <Button className="flex gap-2 bg-white   uppercase text-black">
+            <FaRegEnvelope className="text-purple-500" />
+            Subscribe
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
 export function View() {
   return (
     <main>
@@ -614,9 +704,7 @@ export function View() {
       <WhyUs1Section />
       <LocationsSection />
       <WhyUs2Section />
-
-     
-      <>footer</>
+      <CTASection />
     </main>
   );
 }
