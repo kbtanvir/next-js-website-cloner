@@ -1,5 +1,6 @@
+import { BiArea } from "react-icons/bi";
 import { FaArrowRight, FaCheck } from "react-icons/fa";
-import { IoCarSportOutline } from "react-icons/io5";
+import { IoCarSportOutline, IoLocate } from "react-icons/io5";
 import { PiBathtubLight } from "react-icons/pi";
 
 import { Button } from "@/components/ui/button";
@@ -8,14 +9,13 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
 import { IoBedOutline } from "react-icons/io5";
-import { Routes } from "../../../pages/sites/real-estate";
+import { Routes, imageRoute } from "../../../pages/sites/real-estate";
+import { EmblaCarousel, EmblaCarouselItem } from "./EmblaCarousel";
 
-function SliderItem({
+function WelcomeSliderItem({
   item,
 }: {
   item: {
@@ -27,7 +27,7 @@ function SliderItem({
   return (
     <CarouselItem className="relative h-[91.5vh]">
       <Image
-        src={"/sites/real-estate/demo-real-estate-slider-01.jpg"}
+        src={`${imageRoute}/demo-real-estate-slider-01.jpg`}
         fill
         alt="Picture of the author"
         className="z-0 object-cover"
@@ -98,7 +98,6 @@ function SliderItem({
   );
 }
 function WelcomeSection() {
-  const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
   return (
     <Carousel
       // plugins={[plugin.current]}
@@ -116,7 +115,7 @@ function WelcomeSection() {
             bg: "bg-red-100",
           },
         ].map((item, index) => (
-          <SliderItem key={index} item={item} />
+          <WelcomeSliderItem key={index} item={item} />
         ))}
       </CarouselContent>
     </Carousel>
@@ -243,7 +242,7 @@ function CategorySection() {
 
 function PropertyListCard() {
   return (
-    <div className="relative w-full cursor-pointer flex-col overflow-hidden rounded-lg border border-solid border-gray-100 shadow-sm transition-all duration-300 ease-in-out hover:bg-gray-50 hover:shadow-lg max-md:ml-0 max-md:w-full">
+    <div className="relative w-full cursor-pointer flex-col overflow-hidden rounded-lg border border-solid border-gray-100 bg-white shadow-sm transition-all duration-300 ease-in-out hover:shadow-lg max-md:ml-0 max-md:w-full">
       {/* THUMBNAIL BOX */}
       <div className="relative flex  w-full  flex-col rounded-lg">
         {/* THUMBNAIL */}
@@ -264,9 +263,49 @@ function PropertyListCard() {
           </div>
         </div>
       </div>
-
-      <div className="px-10 py-6">
-        <h3 className="text-lg font-bold">Luxury villa in Texas</h3>
+      {/* DETAILS BOX */}
+      <div className="grid gap-6 px-10 py-6">
+        {/* Title */}
+        <div className="">
+          <h3 className="text-lg font-bold">Luxury villa in Texas</h3>
+          <p className="text-base opacity-80 ">982 Monroe ave, rochester</p>
+        </div>
+        {/* convinience */}
+        <div className="flex justify-between">
+          {[
+            {
+              icon: <IoBedOutline />,
+              title: "Beds",
+              amount: "04",
+            },
+            {
+              icon: <PiBathtubLight />,
+              title: "Baths",
+              amount: "05",
+            },
+            {
+              icon: <BiArea />,
+              title: "Area",
+              amount: "780m2",
+            },
+          ].map((conv, index) => (
+            <div
+              key={index}
+              className="grid place-items-start gap-2 px-5  text-black first:pl-0 last:pr-0"
+            >
+              <div className="flex gap-2">
+                <div className="text-[25px]">{conv.icon}</div>
+                <div className="text-base font-bold">{conv.amount}</div>
+              </div>
+              <div className="text-[14px]">{conv.title}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+      {/* buttons and price */}
+      <div className="flex items-center justify-between gap-6 border-t-2 px-10 py-6">
+        <Button className="uppercase">View details</Button>
+        <p className="text-2xl font-bold opacity-80">$600,000</p>
       </div>
     </div>
   );
@@ -275,7 +314,7 @@ function PropertyListCard() {
 function PropertyListSection() {
   return (
     <>
-      <div className="section-py bg-gray-50">
+      <div className="section-py bg-gray-100">
         <div className="section-box-w">
           {/* SECTION TITLE 
           -----------------*/}
@@ -299,8 +338,144 @@ function PropertyListSection() {
           </div>
           {/* Propertiy List
           -----------------*/}
-          <div className="autofit-grid-250 grid w-full grid-cols-3  gap-5 ">
+          <div className="autofit-grid-250 grid w-full grid-cols-3  gap-6">
             <PropertyListCard />
+            <PropertyListCard />
+            <PropertyListCard />
+            <PropertyListCard />
+            <PropertyListCard />
+            <PropertyListCard />
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+function WhyUs1Section() {
+  return (
+    <>
+      <div className="section-box-w">
+        <div className="section-box-w section-py flex gap-24">
+          {/* text box */}
+          <div className="grid w-1/2 content-center items-center gap-4">
+            <h3 className="text-[20px] font-bold text-purple-600">
+              Online property marketplace
+            </h3>
+            <h2 className="max-w-[480px] text-[44px] font-light leading-[1.1em] text-black max-md:text-base">
+              Accurate to 99% of a{" "}
+              <span className="underline-green-300 font-bold text-purple-600 underline">
+                property`s
+              </span>{" "}
+              details.
+            </h2>
+
+            <div className="grid max-w-[400px] gap-10 pt-14">
+              {[
+                {
+                  text: "10,000+ people trusting our agency.",
+                  desc: "Browse millions of properties in your city save your favorites.",
+                  icon: <Image src={`${imageRoute}/loan.png`} alt="" fill />,
+                },
+                {
+                  text: "Highest rental income projects",
+                  desc: "Browse millions of properties in your city save your favorites.",
+                  icon: (
+                    <Image src={`${imageRoute}/satisfaction.png`} alt="" fill />
+                  ),
+                },
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-4">
+                  <div className="flex-center relative  h-[80px] w-[80px] overflow-hidden rounded-full bg-green-100   text-green-500">
+                    {item.icon}
+                  </div>
+                  <div className="grid gap-4">
+                    <div className="font-bold">{item.text}</div>
+                    <div className="opacity-70">{item.desc}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="flex gap-4 pt-10">
+              <Button>Learn more</Button>{" "}
+              <Button
+                variant={"outline"}
+                className="flex-center gap-2 border-2 border-black"
+              >
+                Trusted agents <FaArrowRight />
+              </Button>
+            </div>
+          </div>
+          {/* image box */}
+          <div className="w-1/2">
+            <div className="relative h-[600px]">
+              <Image
+                src={"/sites/real-estate/demo-real-estate-slider-01.jpg"}
+                layout="fill"
+                alt="Picture of the author"
+                className="z-0 object-cover"
+              />
+            </div>
+          </div>
+        </div>
+        <div className="section-box-w flex-center gap-4 pb-20 text-xl font-semibold">
+          <IoLocate className="text-purple-600" />
+          Our selection of the best places around the world and pick yours.
+        </div>
+      </div>
+    </>
+  );
+}
+function LocationSliderItem() {
+  return (
+    <>
+      <div className="bg-blue-300 relative">
+        <Image
+          src={"/sites/real-estate/demo-real-estate-slider-01.jpg"}
+          layout="fill"
+          alt="Picture of the author"
+          className="z-0 object-cover"
+        />
+        <div className="relative  h-[485px] w-[250px]"></div>
+      </div>
+    </>
+  );
+}
+function LocationsSection() {
+  return (
+    <>
+      <div className="section-py relative bg-gray-100">
+        <div className="section-box-w flex w-full gap-14">
+          <div className="grid content-center items-center gap-4">
+            <h3 className="text-[20px] font-bold text-purple-600">
+              Online property marketplace
+            </h3>
+            <h2 className="max-w-[480px]  text-[44px] font-light leading-[1.1em] text-black max-md:text-base">
+              We are available in{" "}
+              <span className="underline-green-300 font-bold text-purple-600 underline">
+                many countries
+              </span>
+            </h2>
+            <p className="max-w-[400px] pb-10 pt-6">
+              Online property marketplace to buy, sell, and rent residential and
+              commercial properties. Used by millions of renters to find
+              property.
+            </p>
+            <div className="relative flex"></div>
+          </div>
+
+          <div className="  mr-[-20vw]">
+            <EmblaCarousel>
+              <>
+                {Array(4)
+                  .fill(0)
+                  .map((_, i) => (
+                    <EmblaCarouselItem key={i} slides={3}>
+                      <LocationSliderItem />
+                    </EmblaCarouselItem>
+                  ))}
+              </>
+              {/* slider content */}
+            </EmblaCarousel>
           </div>
         </div>
       </div>
@@ -314,8 +489,9 @@ export function View() {
       <AboutSection />
       <CategorySection />
       <PropertyListSection />
-      <>why us 1</>
-      <>Locations</>
+      <WhyUs1Section />
+      <LocationsSection />
+
       <>why us 2</>
       <>footer</>
     </main>

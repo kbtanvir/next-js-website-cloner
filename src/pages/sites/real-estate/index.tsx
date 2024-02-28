@@ -25,6 +25,8 @@ export const Routes = {
   },
 };
 
+export const imageRoute = "/sites/real-estate";
+
 export default function Page() {
   return <View />;
 }
