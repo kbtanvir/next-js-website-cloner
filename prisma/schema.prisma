@@ -1,0 +1,233 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+// Necessary for Next auth
+model Account {
+    id                String  @id @default(cuid())
+    userId            String
+    type              String
+    provider          String
+    providerAccountId String
+    refresh_token     String? @db.Text
+    access_token      String? @db.Text
+    expires_at        Int?
+    token_type        String?
+    scope             String?
+    id_token          String? @db.Text
+    session_state     String?
+    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([provider, providerAccountId])
+    @@index([userId])
+}
+
+model Session {
+    id           String   @id @default(cuid())
+    sessionToken String   @unique
+    userId       String
+    expires      DateTime
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+}
+
+enum Role {
+    USER
+    ADMIN
+}
+
+model User {
+    id            String        @id @default(cuid())
+    name          String?
+    email         String?       @unique
+    emailVerified DateTime?
+    image         String?
+    role          Role          @default(USER)
+    accounts      Account[]
+    sessions      Session[]
+    wishlist      Wishlist[]
+    userAddress   UserAddress[]
+}
+
+model UserAddress {
+    user      User?    @relation(fields: [userId], references: [id])
+    userId    String
+    name      String
+    email     String   @unique
+    address   String
+    city      String
+    state     String
+    country   String
+    zipcode   String
+    phone     String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    orders    Order[]
+
+    @@id([email])
+    @@index([userId])
+}
+
+model VerificationToken {
+    identifier String
+    token      String   @unique
+    expires    DateTime
+
+    @@unique([identifier, token])
+}
+
+model Product {
+    id           String     @id @default(cuid())
+    title        String
+    description  String
+    price        Float
+    image        String
+    createdAt    DateTime   @default(now())
+    updatedAt    DateTime   @updatedAt
+    isDeleted    Boolean    @default(false)
+    inStock      Boolean
+    sizes        Size[]
+    wishlist     Wishlist[]
+    cartItem     CartItem[]
+    categories   Category[]
+    discount     Discount?  @relation(fields: [discountCode], references: [code])
+    discountCode String?
+
+    @@unique([createdAt, id])
+    @@index([discountCode])
+}
+
+model Category {
+    id       String    @id @default(cuid())
+    name     String
+    products Product[]
+
+    @@unique([name])
+}
+
+model Size {
+    id          String    @default(cuid())
+    name        String    @id
+    description String?
+    products    Product[]
+
+    @@unique([name])
+}
+
+model Discount {
+    id        String    @id @default(cuid())
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    code      String
+    amount    Float
+    expires   DateTime
+    products  Product[]
+
+    @@unique([code])
+}
+
+model Wishlist {
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId    String
+    product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+    productId String
+
+    @@id([userId, productId])
+    @@index([productId])
+    @@index([userId])
+}
+
+model CartItem {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    order     Order?   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+    orderId   String?
+    qty       Int
+    productId String
+    product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+    @@index([productId])
+    @@index([orderId])
+}
+
+model Order {
+    id             String      @id @default(cuid())
+    email          String
+    createdAt      DateTime    @default(now())
+    updatedAt      DateTime    @updatedAt
+    total          Float?
+    status         String?
+    billingAddress UserAddress @relation(fields: [email], references: [email])
+    items          CartItem[]
+    payment        Payment     @relation(fields: [paymentId], references: [id])
+    paymentId      String
+
+    @@index([email])
+    @@index([paymentId])
+}
+
+model Payment {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    order     Order[]
+    orderId   String?
+    status    String
+    amount    Float
+    provider  String
+
+    @@index([orderId])
+}
+
+model Taxonomy {
+    id          String     @id @default(cuid())
+    name        String
+    description String?
+    parent      Taxonomy?  @relation("TaxonomyToTaxonomy", fields: [parentId], references: [id])
+    parentId    String?
+    children    Taxonomy[] @relation("TaxonomyToTaxonomy")
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@unique([name])
+    @@index([parentId])
+}
+
+model Site {
+    id        String   @id @default(cuid())
+    name      String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    header    Header   @relation(fields: [headerId], references: [id])
+    headerId  String
+    footer    Footer   @relation(fields: [footerId], references: [id])
+    footerId  String
+}
+
+model Header {
+    id          String   @id @default(cuid())
+    name        String
+    description String?
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    Site        Site[]
+}
+
+model Footer {
+    id          String   @id @default(cuid())
+    name        String
+    description String?
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    Site        Site[]
+}
