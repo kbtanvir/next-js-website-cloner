@@ -1,7 +1,10 @@
+import Autoplay from "embla-carousel-autoplay";
+import useEmblaCarousel from "embla-carousel-react";
 import { BiArea } from "react-icons/bi";
-import { FaArrowRight, FaCheck } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight, FaCheck } from "react-icons/fa";
 import { IoCarSportOutline, IoLocate } from "react-icons/io5";
 import { PiBathtubLight } from "react-icons/pi";
+import { usePrevNextButtons } from "./CarouselNavigation";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -13,7 +16,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { IoBedOutline } from "react-icons/io5";
 import { Routes, imageRoute } from "../../../pages/sites/real-estate";
-import { EmblaCarousel, EmblaCarouselItem } from "./EmblaCarousel";
+import { EmblaCarouselItem } from "./EmblaCarousel";
 
 function WelcomeSliderItem({
   item,
@@ -355,7 +358,81 @@ function WhyUs1Section() {
   return (
     <>
       <div className="section-box-w">
-        <div className="section-box-w section-py flex gap-24">
+        <div className="section-py flex gap-24">
+          {/* text box */}
+          <div className="grid w-1/2 content-center items-center gap-4">
+            <h3 className="text-[20px] font-bold text-purple-600">
+              Online property marketplace
+            </h3>
+            <h2 className="max-w-[480px] text-[44px] font-light leading-[1.1em] text-black max-md:text-base">
+              Accurate to 99% of a{" "}
+              <span className="underline-green-300 font-bold text-purple-600 underline">
+                property`s
+              </span>{" "}
+              details.
+            </h2>
+
+            <div className="grid max-w-[400px] gap-10 pt-14">
+              {[
+                {
+                  text: "10,000+ people trusting our agency.",
+                  desc: "Browse millions of properties in your city save your favorites.",
+                  icon: <Image src={`${imageRoute}/loan.png`} alt="" fill />,
+                },
+                {
+                  text: "Highest rental income projects",
+                  desc: "Browse millions of properties in your city save your favorites.",
+                  icon: (
+                    <Image src={`${imageRoute}/satisfaction.png`} alt="" fill />
+                  ),
+                },
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-4">
+                  <div className="flex-center relative  h-[80px] w-[80px] overflow-hidden rounded-full bg-green-100   text-green-500">
+                    {item.icon}
+                  </div>
+                  <div className="grid gap-4">
+                    <div className="font-bold">{item.text}</div>
+                    <div className="opacity-70">{item.desc}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="flex gap-4 pt-10">
+              <Button>Learn more</Button>{" "}
+              <Button
+                variant={"outline"}
+                className="flex-center gap-2 border-2 border-black"
+              >
+                Trusted agents <FaArrowRight />
+              </Button>
+            </div>
+          </div>
+          {/* image box */}
+          <div className="w-1/2">
+            <div className="relative h-[600px]">
+              <Image
+                src={"/sites/real-estate/demo-real-estate-slider-01.jpg"}
+                layout="fill"
+                alt="Picture of the author"
+                className="z-0 object-cover"
+              />
+            </div>
+          </div>
+        </div>
+        <div className="section-box-w flex-center gap-4 pb-20 text-xl font-semibold">
+          <IoLocate className="text-purple-600" />
+          Our selection of the best places around the world and pick yours.
+        </div>
+      </div>
+    </>
+  );
+}
+function WhyUs2Section() {
+  return (
+    <>
+      <div className="section-box-w">
+        <div className="section-py flex gap-24">
           {/* text box */}
           <div className="grid w-1/2 content-center items-center gap-4">
             <h3 className="text-[20px] font-bold text-purple-600">
@@ -427,24 +504,52 @@ function WhyUs1Section() {
 }
 function LocationSliderItem() {
   return (
-    <>
-      <div className="bg-blue-300 relative">
-        <Image
-          src={"/sites/real-estate/demo-real-estate-slider-01.jpg"}
-          layout="fill"
-          alt="Picture of the author"
-          className="z-0 object-cover"
-        />
-        <div className="relative  h-[485px] w-[250px]"></div>
+    <div className="relative h-[485px] bg-blue-300 ">
+      <Image
+        src={"/sites/real-estate/demo-real-estate-slider-01.jpg"}
+        fill
+        alt="Picture of the author"
+        className="z-0 object-cover"
+      />
+      <div className="absolute h-full w-full bg-gradient-to-t from-gray-600 mix-blend-overlay" />
+      <div className="relative h-[485px] w-[250px] text-white">
+        <div className="absolute bottom-10 left-10 w-full">
+          <div className="pb-4 text-2xl font-bold">Washington DC, USA</div>
+          <div className="">20 property listing</div>
+        </div>
+        <div className="absolute flex w-full flex-col items-start">
+          <div className="flex items-stretch pl-6 pt-6">
+            <span className="justify-self-start whitespace-nowrap rounded-md border border-solid border-white border-opacity-10 bg-red-600 px-3.5 py-1.5 text-center text-xs leading-3 text-white">
+              Rent
+            </span>
+          </div>
+        </div>
       </div>
-    </>
+    </div>
   );
 }
+
 function LocationsSection() {
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    {
+      slidesToScroll: 1,
+      align: "start",
+      loop: true,
+    },
+    [Autoplay()],
+  );
+
+  const {
+    prevBtnDisabled,
+    nextBtnDisabled,
+    onPrevButtonClick,
+    onNextButtonClick,
+  } = usePrevNextButtons(emblaApi);
+
   return (
     <>
-      <div className="section-py relative bg-gray-100">
-        <div className="section-box-w flex w-full gap-14">
+      <div className="section-py   bg-gray-100">
+        <div className="section-box-w relative flex  gap-14">
           <div className="grid content-center items-center gap-4">
             <h3 className="text-[20px] font-bold text-purple-600">
               Online property marketplace
@@ -460,22 +565,39 @@ function LocationsSection() {
               commercial properties. Used by millions of renters to find
               property.
             </p>
-            <div className="relative flex"></div>
+            <div className="relative flex gap-4 ">
+              <Button
+                onClick={onPrevButtonClick}
+                disabled={prevBtnDisabled}
+                className="h-20 w-20 rounded-full   bg-white text-[20px]  text-gray-600"
+              >
+                <FaArrowLeft />
+              </Button>
+              <Button
+                onClick={onNextButtonClick}
+                disabled={nextBtnDisabled}
+                className="h-20 w-20  rounded-full     bg-white text-[20px]  text-gray-600"
+              >
+                <FaArrowRight />
+              </Button>
+            </div>
           </div>
 
           <div className="  mr-[-20vw]">
-            <EmblaCarousel>
-              <>
-                {Array(4)
-                  .fill(0)
-                  .map((_, i) => (
-                    <EmblaCarouselItem key={i} slides={3}>
-                      <LocationSliderItem />
-                    </EmblaCarouselItem>
-                  ))}
-              </>
-              {/* slider content */}
-            </EmblaCarousel>
+            <div className="">
+              <div className="overflow-hidden" ref={emblaRef}>
+                <div className="flex">
+                  {" "}
+                  {Array(4)
+                    .fill(0)
+                    .map((_, i) => (
+                      <EmblaCarouselItem key={i} slides={3}>
+                        <LocationSliderItem />
+                      </EmblaCarouselItem>
+                    ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -491,8 +613,9 @@ export function View() {
       <PropertyListSection />
       <WhyUs1Section />
       <LocationsSection />
+      <WhyUs2Section />
 
-      <>why us 2</>
+     
       <>footer</>
     </main>
   );

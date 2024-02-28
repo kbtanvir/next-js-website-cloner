@@ -1,6 +1,7 @@
 import { type EmblaOptionsType } from "embla-carousel";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
+import { usePrevNextButtons } from "./CarouselNavigation";
 
 export function EmblaCarousel({
   children = (
@@ -29,7 +30,14 @@ export function EmblaCarousel({
   children: React.ReactNode;
   options?: EmblaOptionsType;
 }) {
-  const [emblaRef] = useEmblaCarousel(options, [Autoplay()]);
+  const [emblaRef, emblaApi] = useEmblaCarousel(options, [Autoplay()]);
+
+  const {
+    prevBtnDisabled,
+    nextBtnDisabled,
+    onPrevButtonClick,
+    onNextButtonClick,
+  } = usePrevNextButtons(emblaApi);
 
   return (
     <div className="overflow-hidden" ref={emblaRef}>
