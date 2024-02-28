@@ -1,4 +1,4 @@
-import AdminLayout from "@/components/layouts/AdminLayout";
+import AdminLayout from "@/sites/admin/layouts/AdminLayout";
 import Link from "next/link";
 
 const adminRoutes = ["users", "products", "taxonomy", "sites/site1"];

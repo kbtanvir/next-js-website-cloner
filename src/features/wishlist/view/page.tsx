@@ -1,7 +1,7 @@
-import { PageTitle } from "@/components/header/PageTitle";
 import { Button } from "@/components/ui/button";
 import { type IProduct } from "@/features/shop/model";
 import { ProductItem } from "@/features/shop/view/ProductItem";
+import { PageTitle } from "@/sites/ecommerce/header/PageTitle";
 import { api } from "@/utils/api";
 import { useGlobalStore } from "@/utils/global.store";
 import { type Product } from "@prisma/client";

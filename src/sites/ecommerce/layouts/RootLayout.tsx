@@ -9,7 +9,7 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 
-export function RootLayout({ children }: LayoutProps) {
+export function EcomLayout({ children }: LayoutProps) {
   const cartState = useCartStore();
 
   const query = api.cart.syncCart.useQuery(
@@ -21,16 +21,14 @@ export function RootLayout({ children }: LayoutProps) {
 
   useEffect(() => {
     if (query.isLoading) return;
-    if (query.data) {
-      return cartService.syncCart(query.data);
-    }
+    if (query.data) return cartService.syncCart(query.data);
+
     cartService.clearCart();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query.isLoading]);
 
   return (
     <>
-      {/* <TopBar /> */}
       <MainHeader />
       <NavigationSection />
       <>{children}</>

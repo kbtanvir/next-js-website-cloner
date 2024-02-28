@@ -146,7 +146,9 @@ function FeaturedProductTab() {
           className="flex h-[70px] cursor-pointer items-center justify-between rounded-lg border border-solid  border-gray-200 bg-gray-50 px-10 font-normal transition-all duration-300 ease-in-out hover:bg-gray-100 hover:text-emerald-700 hover:shadow-sm"
           key={i}
           onClick={async () => {
-            globalStore.setFeaturedProductActiveTab(item.value as "createdAt" | "popularity" | "sale");
+            globalStore.setFeaturedProductActiveTab(
+              item.value as "createdAt" | "popularity" | "sale",
+            );
             await query.refetch();
           }}
         >

@@ -1,6 +1,6 @@
-import View from "@/features/home/view";
+import { View } from "@/sites/real-estate/home";
 
-export const sitePath = "/sites/eshopper";
+export const sitePath = "/sites/real-estate";
 
 export const Routes = {
   home: {

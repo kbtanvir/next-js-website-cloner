@@ -2,7 +2,7 @@ import { Routes } from "@/pages/sites/eshopper";
 import Image from "next/image";
 import Link from "next/link";
 import { IoIosSend } from "react-icons/io";
-import { Input } from "../ui/input";
+import { Input } from "../../../components/ui/input";
 
 const footerCompanyNavLinks = [
   {

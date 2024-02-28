@@ -7,7 +7,7 @@ import { debounce } from "lodash";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { IoSearch } from "react-icons/io5";
-import { Input } from "../ui/input";
+import { Input } from "../../../components/ui/input";
 
 function ListItem({ product }: { product: Product }) {
   return (

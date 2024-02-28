@@ -1,6 +1,6 @@
-import { PageTitle } from "@/components/header/PageTitle";
 import { Button } from "@/components/ui/button";
 import { Sidebar } from "@/features/shop/view/sidebar";
+import { PageTitle } from "@/sites/ecommerce/header/PageTitle";
 import { type Product } from "@prisma/client";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";

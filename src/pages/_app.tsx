@@ -1,19 +1,20 @@
-import { RootLayout } from "@/components/layouts/RootLayout";
 import { Toaster } from "@/components/ui/toaster";
+import { EcomLayout } from "@/sites/ecommerce/layouts/RootLayout";
 
 import { cartStore } from "@/features/cart/controller/store";
 import { persistStore } from "@/lib/persist";
 import { api } from "@/utils/api";
 import { type Session } from "next-auth";
-import { SessionProvider, signIn, signOut, useSession } from "next-auth/react";
+import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
 import { type AppType } from "next/app";
 import { Inter as FontSans } from "next/font/google";
 
-import AdminLayout from "@/components/layouts/AdminLayout";
-import { Button } from "@/components/ui/button";
+import AdminLayout from "@/sites/admin/layouts/AdminLayout";
+import { RealEstateLayout } from "@/sites/real-estate/layouts/RootLayout";
 import "@/styles/globals.css";
 import { useRouter } from "next/router";
+import { AdminHeader } from "../sites/admin/header/AdminHeader";
 
 persistStore(cartStore, "CART");
 
@@ -58,48 +59,27 @@ function LayoutRouter({
 
   if (router.pathname.startsWith("/sites/eshopper")) {
     return (
-      <RootLayout>
+      <EcomLayout>
         <Component {...pageProps} />
-      </RootLayout>
+      </EcomLayout>
+    );
+  }
+  if (router.pathname.startsWith("/sites/real-estate")) {
+    return (
+      <RealEstateLayout>
+        <Component {...pageProps} />
+      </RealEstateLayout>
     );
   }
 
   if (router.pathname.startsWith("/admin")) {
     return (
       <AdminLayout>
-        <PageTitle />
+        <AdminHeader />
         <Component {...pageProps} />
       </AdminLayout>
     );
   }
 
   return <Component {...pageProps} />;
-}
-
-function PageTitle() {
-  const router = useRouter();
-  const session = useSession();
-  return (
-    <div className="grid place-items-center gap-10">
-      <div className="text-center text-xl font-bold">
-        {router.pathname === "/" ? "Home" : router.pathname.slice(1)}
-      </div>
-      <div className="flex gap-5">
-        <Button
-          onClick={() => {
-            router.back();
-          }}
-        >
-          Go back
-        </Button>
-        {session.data ? (
-          <Button onClick={() => signOut()}>
-            {session.data.user.email} : Signout
-          </Button>
-        ) : (
-          <Button onClick={() => signIn("google")}>Signin</Button>
-        )}
-      </div>
-    </div>
-  );
 }
