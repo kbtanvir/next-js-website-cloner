@@ -130,35 +130,50 @@ function WelcomeSection() {
 }
 function Heading3({
   children = <>This is heading 3</>,
+  reverseColor = false,
 }: {
   children: React.ReactNode;
+  reverseColor?: boolean;
 }) {
   return (
-    <h3 className="text-[20px] font-bold text-purple-600 max-sm:text-base">
+    // <h3 className="text-[20px] font-bold text-purple-600 max-sm:text-base">
+    <h3
+      className={`text-[20px] font-bold ${
+        reverseColor ? "text-white" : `text-black`
+      } max-sm:text-base`}
+    >
       {children}
     </h3>
   );
 }
 function Heading2({
+  reverseColor = false,
   children = <>This is heading 2</>,
 }: {
+  reverseColor?: boolean;
   children: React.ReactNode;
 }) {
   return (
-    <h2 className="text-[44px] font-light leading-[1.3em] text-black  max-sm:text-[32px] max-sm:leading-normal">
+    <h2
+      className={`text-[44px] font-light leading-[1.3em] ${reverseColor ? "text-white" : `text-black`}  max-sm:text-[32px] max-sm:leading-normal`}
+    >
       {children}
     </h2>
   );
 }
 function Text({
   children = <>This is a text</>,
+  reverseColor = false,
 }: {
   children: React.ReactNode;
+  reverseColor?: boolean;
 }) {
   return (
-    <h2 className="text-[44px] font-light leading-[1.1em] text-black max-md:max-w-[400px] max-sm:text-[32px]">
+    <p
+      className={`max-sm:text-[14px] ${reverseColor ? "text-white" : `text-black`} `}
+    >
       {children}
-    </h2>
+    </p>
   );
 }
 function PrimaryButton({
@@ -737,29 +752,32 @@ function TestimonialSection() {
 }
 function CTASection() {
   return (
-    <div className="section-box-w mt-32 pb-0">
-      <div className="flex   items-center justify-between rounded-xl bg-purple-500 px-14 py-14">
-        <div className="grid place-items-start gap-5 ">
-          <h2 className="text-[44px]  leading-10 text-white max-md:text-base">
-            Subscribe to <span className="font-bold underline">newsletter</span>
-          </h2>
-          <h3 className="text-base text-white max-md:text-xl">
-            Social media its ways of our excellence.
-          </h3>
-        </div>
-        <div className="flex h-[60px] w-full max-w-[400px] items-center justify-between gap-4 rounded-lg bg-white px-4">
-          <Input
-            type="text"
-            placeholder="Enter your email"
-            className="h-14 w-96 rounded-md border-none bg-white px-4 text-black"
-          />
-          <Button className="flex gap-2 bg-white   uppercase text-black">
-            <FaRegEnvelope className="text-purple-500" />
-            Subscribe
-          </Button>
+    <>
+      <div className="min-h-[10em] border-t-2 bg-gray-50 ">
+        <div className="section-box-w mt-[-6em] max-md:mt-0 max-md:pt-20 max-sm:pt-10">
+          <div className="flex flex-wrap items-center justify-between gap-10 rounded-xl bg-purple-500 px-14 py-14 max-md:flex-wrap max-md:justify-center max-sm:px-4 max-sm:py-4 max-sm:gap-4">
+            <div className="flex flex-col  gap-5 max-sm:gap-0 max-md:w-full max-md:text-center ">
+              <Heading2 reverseColor>
+                Subscribe to{" "}
+                <span className="font-bold underline">newsletter</span>
+              </Heading2>
+              <Text reverseColor>Social media its ways of our excellence.</Text>
+            </div>
+            <div className="relative flex h-[60px] w-full max-w-[400px] items-center justify-between gap-4  rounded-lg bg-white px-4  ">
+              <Input
+                type="text"
+                placeholder="Enter your email"
+                className="rounded-md border-none bg-gray-100 px-4 text-black max-sm:text-[12px]"
+              />
+              <Button variant={"outline"} className=" right-2 flex gap-2 bg-white uppercase text-black">
+                <FaRegEnvelope className="text-purple-500 max-md:text-xl max-sm:text-base" />
+                <span className="max-md:hidden">Subscribe</span>
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 export function View() {

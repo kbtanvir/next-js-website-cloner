@@ -1,8 +1,6 @@
 import { Routes } from "@/pages/sites/eshopper";
 import Image from "next/image";
 import Link from "next/link";
-import { IoIosSend } from "react-icons/io";
-import { Input } from "../../../components/ui/input";
 
 const footerCompanyNavLinks = [
   {
@@ -44,11 +42,11 @@ const footerQuickLinks = [
 
 function FooterTop() {
   return (
-    <div className="mt-9 grid grid-cols-7 grid-rows-1 justify-between gap-20 max-md:flex max-md:flex-col max-md:items-center max-md:gap-10 max-md:text-center">
+    <div className="mt-9 flex grid-cols-7 grid-rows-1 justify-between gap-20 max-md:flex max-md:flex-col max-md:items-center max-md:gap-10 max-md:text-center">
       {/* ABOUT */}
-      <div className="col-span-2 flex w-full max-w-[300px] flex-col items-start justify-start max-lg:col-start-1 max-lg:col-end-4">
-        <Link href={Routes.home.path} className="text-nowrap  ">
-          <div className="text-[30px]   font-light uppercase max-md:text-2xl ">
+      <div className="col-span-2 flex w-full max-w-[300px] flex-col items-start justify-start max-lg:col-start-1 max-lg:col-end-4 max-md:items-center ">
+        <Link href={Routes.home.path} className="text-nowrap ">
+          <div className="text-[30px] font-light uppercase max-md:text-2xl ">
             E-shopper
           </div>
         </Link>
@@ -81,23 +79,18 @@ function FooterTop() {
           ))}
         </div>
       </span>
-      {/* NEWSLETTER */}
-      <span className="col-span-2 flex flex-col gap-8 max-lg:col-start-1 max-lg:col-end-4 max-lg:row-start-2 max-lg:row-end-3">
-        <div className="text-xl font-bold text-gray-800">Newsletter</div>
-        <div className="text-base text-gray-800 text-opacity-80">
-          Write your email first to know about our latest offers
-        </div>
-        <div className="flex w-full items-stretch justify-between gap-5 rounded bg-white px-3.5 py-3 shadow-sm">
-          <Input
-            type="text"
-            placeholder="Your email address"
-            className="w-full  border-none bg-transparent pl-5 ring-0 focus:ring-0 "
-          />
-          <div className="flex h-10  w-12 cursor-pointer items-stretch justify-center rounded-md bg-emerald-600 text-2xl text-white transition-colors duration-300 ease-in-out hover:bg-gray-600 hover:text-white">
-            <IoIosSend className="my-auto" />
+      {/* QUICK links */}
+      <span className="col-span-2 flex flex-1 flex-col max-lg:col-start-5 max-lg:col-end-7">
+        <div className="text-xl font-bold leading-7 text-gray-800">Contact</div>
+        <div className="mt-8 grid gap-5">
+          <div className="text-sm text-gray-800">+880 555 555 555</div>
+          <div className="text-sm text-gray-800">
+            123, New Eskaton Road, Dhaka
           </div>
+          <div className="text-sm text-gray-800">Bangladesh</div>
         </div>
       </span>
+      {/* <div className="flex-1"></div> */}
     </div>
   );
 }
