@@ -304,9 +304,9 @@ function CategorySection() {
 
 function PropertyListCard() {
   return (
-    <div className="relative w-full cursor-pointer flex-col overflow-hidden rounded-lg border border-solid border-gray-100 bg-white shadow-sm transition-all duration-300 ease-in-out hover:shadow-lg max-md:ml-0 max-md:w-full">
+    <div className="relative w-full cursor-pointer flex-col overflow-hidden rounded-lg border border-solid border-gray-100 bg-white shadow-sm transition-all duration-300 ease-in-out hover:shadow-lg max-md:ml-0 max-md:w-full ">
       {/* THUMBNAIL BOX */}
-      <div className="relative flex  w-full  flex-col rounded-lg">
+      <div className="relative flex w-full flex-col rounded-lg">
         {/* THUMBNAIL */}
         <div className="relative h-[260px]">
           <Image
@@ -326,14 +326,14 @@ function PropertyListCard() {
         </div>
       </div>
       {/* DETAILS BOX */}
-      <div className="grid gap-6 px-10 py-6">
+      <div className="flex flex-col gap-6 px-10 py-6 max-md:px-6  ">
         {/* Title */}
         <div className="">
           <h3 className="text-lg font-bold">Luxury villa in Texas</h3>
           <p className="text-base opacity-80 ">982 Monroe ave, rochester</p>
         </div>
         {/* convinience */}
-        <div className="flex justify-between">
+        <div className="flex flex-wrap justify-between gap-2">
           {[
             {
               icon: <IoBedOutline />,
@@ -353,21 +353,19 @@ function PropertyListCard() {
           ].map((conv, index) => (
             <div
               key={index}
-              className="grid place-items-start gap-2 px-5  text-black first:pl-0 last:pr-0"
+              className="flex flex-col flex-wrap gap-2 text-black first:pl-0 last:pr-0"
             >
-              <div className="flex gap-2">
-                <div className="text-[25px]">{conv.icon}</div>
-                <div className="text-base font-bold">{conv.amount}</div>
-              </div>
+              <div className="text-[24px]">{conv.icon}</div>
+              <div className="text-base font-bold">{conv.amount}</div>
               <div className="text-[14px]">{conv.title}</div>
             </div>
           ))}
         </div>
       </div>
       {/* buttons and price */}
-      <div className="flex items-center justify-between gap-6 border-t-2 px-10 py-6">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-t-2 px-10 py-6 max-md:px-6">
+        <p className="text-[20px] font-bold opacity-80">$600,000</p>
         <Button className="uppercase">View details</Button>
-        <p className="text-2xl font-bold opacity-80">$600,000</p>
       </div>
     </div>
   );
@@ -380,27 +378,29 @@ function PropertyListSection() {
         <div className="section-box-w">
           {/* SECTION TITLE 
           -----------------*/}
-          <div className="flex justify-between pb-14">
+          <div className="flex w-full place-items-center content-center items-center justify-between gap-10 pb-20 max-md:grid max-md:justify-center max-sm:place-items-start max-sm:gap-6">
             <div className="">
-              <h2 className="text-[44px] font-light leading-[1.1em] text-black max-md:text-base">
+              <Heading2>
                 Property for{" "}
                 <span className="underline-green-300 font-bold text-purple-600 underline">
                   sell and rent
                 </span>
-              </h2>
+              </Heading2>
             </div>
-            <div className="flex-center gap-2">
-              <Button variant="link" className="flex-center gap-2 text-lg">
-                View all properties{" "}
-                <div className="flex-center ml-2 h-10 w-10 rounded-full bg-black text-[20px] text-white">
-                  <FaArrowRight />
-                </div>
-              </Button>
-            </div>
+            <Button
+              variant="link"
+              className="flex-center m-0 gap-2 p-0 text-lg"
+            >
+              View all properties{" "}
+              <div className="flex-center ml-2 h-10 w-10 rounded-full bg-black text-[20px] text-white">
+                <FaArrowRight />
+              </div>
+            </Button>
           </div>
+
           {/* Propertiy List
           -----------------*/}
-          <div className="autofit-grid-250 grid w-full grid-cols-3  gap-6">
+          <div className="autofit-grid-250 grid w-full  gap-6 ">
             <PropertyListCard />
             <PropertyListCard />
             <PropertyListCard />
