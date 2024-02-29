@@ -8,7 +8,7 @@ import {
   FaRegEnvelope,
   FaStar,
 } from "react-icons/fa";
-import { IoCarSportOutline, IoLocate } from "react-icons/io5";
+import { IoCarSportOutline } from "react-icons/io5";
 import { PiBathtubLight } from "react-icons/pi";
 import { usePrevNextButtons } from "./CarouselNavigation";
 
@@ -183,7 +183,7 @@ function AboutSection() {
     <>
       <div className="section-box-w section-py flex gap-24 max-xl:gap-10   max-md:flex-col max-md:gap-10 ">
         {/* Image */}
-        <div className="w-full max-w-[600px] max-md:max-w-full">
+        <div className="w-full max-w-[450px] max-md:max-w-full">
           <div className=" relative h-[600px] max-md:h-[300px]">
             <Image
               src={"/sites/real-estate/demo-real-estate-slider-01.jpg"}
@@ -194,7 +194,7 @@ function AboutSection() {
           </div>
         </div>
         {/* Text box */}
-        <div className="flex flex-col gap-4 max-md:w-full">
+        <div className="flex flex-col justify-center gap-4  max-md:w-full">
           <Heading3>Online property marketplace</Heading3>
           <Heading2>
             We help you find your{" "}
@@ -221,7 +221,7 @@ function AboutSection() {
                 <div className="flex-center h-10  w-10 rounded-full bg-green-100 text-green-500 max-sm:size-5 max-sm:text-[12px]">
                   <FaCheck />
                 </div>
-                <div className="font-bold  max-sm:text-[14px]">{item.text}</div>
+                <div className="font-bold max-sm:text-[14px]">{item.text}</div>
               </div>
             ))}
           </div>
@@ -416,72 +416,79 @@ function PropertyListSection() {
 function WhyUs1Section() {
   return (
     <>
-      <div className="section-box-w">
-        <div className="section-py flex gap-24">
-          {/* text box */}
-          <div className="grid w-1/2 content-center items-center gap-4">
-            <h3 className="text-[20px] font-bold text-purple-600">
-              Online property marketplace
-            </h3>
-            <h2 className="max-w-[480px] text-[44px] font-light leading-[1.1em] text-black max-md:text-base">
-              Accurate to 99% of a{" "}
-              <span className="underline-green-300 font-bold text-purple-600 underline">
-                property`s
-              </span>{" "}
-              details.
-            </h2>
-
-            <div className="grid max-w-[400px] gap-10 pt-14">
-              {[
-                {
-                  text: "10,000+ people trusting our agency.",
-                  desc: "Browse millions of properties in your city save your favorites.",
-                  icon: <Image src={`${imageRoute}/loan.png`} alt="" fill />,
-                },
-                {
-                  text: "Highest rental income projects",
-                  desc: "Browse millions of properties in your city save your favorites.",
-                  icon: (
-                    <Image src={`${imageRoute}/satisfaction.png`} alt="" fill />
-                  ),
-                },
-              ].map((item, i) => (
-                <div key={i} className="flex items-center gap-4">
-                  <div className="flex-center relative  h-[80px] w-[80px] overflow-hidden rounded-full bg-green-100   text-green-500">
-                    {item.icon}
-                  </div>
-                  <div className="grid gap-4">
-                    <div className="font-bold">{item.text}</div>
-                    <div className="opacity-70">{item.desc}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="flex gap-4 pt-10">
-              <Button>Learn more</Button>{" "}
-              <Button
-                variant={"outline"}
-                className="flex-center gap-2 border-2 border-black"
-              >
-                Trusted agents <FaArrowRight />
-              </Button>
-            </div>
-          </div>
-          {/* image box */}
-          <div className="w-1/2">
-            <div className="relative h-[600px]">
-              <Image
-                src={"/sites/real-estate/demo-real-estate-slider-01.jpg"}
-                layout="fill"
-                alt="Picture of the author"
-                className="z-0 object-cover"
-              />
-            </div>
+      <div className="section-box-w section-py flex flex-row-reverse gap-24 max-xl:gap-10 max-md:flex-col max-md:gap-10">
+        {/* Image */}
+        <div className="w-full max-w-[500px] max-md:max-w-full">
+          <div className=" relative h-[600px] max-md:h-[300px]">
+            <Image
+              src={"/sites/real-estate/demo-real-estate-slider-01.jpg"}
+              fill
+              alt="Picture of the author"
+              className="z-0 object-cover"
+            />
           </div>
         </div>
-        <div className="section-box-w flex-center gap-4 pb-20 text-xl font-semibold">
-          <IoLocate className="text-purple-600" />
-          Our selection of the best places around the world and pick yours.
+        {/* Text box */}
+        <div className="flex w-full  flex-col  gap-4">
+          <Heading3>Online property marketplace</Heading3>
+          <Heading2>
+            Accurate to 99% of a{" "}
+            <span className="underline-green-300 font-bold text-purple-600 underline">
+              property`s
+            </span>{" "}
+            details.
+          </Heading2>
+
+          <div className="flex w-full  flex-col gap-10 pt-14  ">
+            {[
+              {
+                text: "10,000+ people trusting our agency.",
+                desc: "Browse millions of properties in your city save your favorites.",
+                icon: (
+                  <Image
+                    src={`${imageRoute}/loan.png`}
+                    alt=""
+                    fill
+                    objectFit="cover"
+                  />
+                ),
+              },
+              {
+                text: "Highest rental income projects",
+                desc: "Browse millions of properties in your city save your favorites.",
+                icon: (
+                  <Image
+                    src={`${imageRoute}/satisfaction.png`}
+                    alt=""
+                    fill
+                    objectFit="cover"
+                  />
+                ),
+              },
+            ].map((item, i) => (
+              <div
+                key={i}
+                className="flex flex-wrap  items-start gap-4 max-sm:flex-col"
+              >
+                <div className="relative h-[80px] w-[80px] max-w-[80px]   overflow-hidden rounded-[100%] bg-green-100   text-green-500">
+                  {item.icon}
+                </div>
+                <div className="flex flex-1 flex-col gap-4">
+                  <div className="font-bold">{item.text}</div>
+                  <div className="opacity-70">{item.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="flex gap-4 pt-10">
+            <Button>Learn more</Button>{" "}
+            <Button
+              variant={"outline"}
+              className="flex-center gap-2 border-2 border-black"
+            >
+              Trusted agents <FaArrowRight />
+            </Button>
+          </div>
         </div>
       </div>
     </>
