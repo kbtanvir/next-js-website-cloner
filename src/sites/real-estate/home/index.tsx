@@ -146,7 +146,7 @@ function Heading2({
   children: React.ReactNode;
 }) {
   return (
-    <h2 className="w-full text-[44px] font-light leading-[1.3em] text-black max-md:max-w-[400px] max-sm:text-[32px] max-sm:leading-normal">
+    <h2 className="text-[44px] font-light leading-[1.3em] text-black  max-sm:text-[32px] max-sm:leading-normal">
       {children}
     </h2>
   );
@@ -181,9 +181,9 @@ function PrimaryButton({
 function AboutSection() {
   return (
     <>
-      <div className="section-box-w section-py flex gap-24 max-xl:gap-10 max-md:flex-row-reverse max-md:gap-10 max-sm:flex-col ">
+      <div className="section-box-w section-py flex gap-24 max-xl:gap-10   max-md:flex-col max-md:gap-10 ">
         {/* Image */}
-        <div className="w-full max-w-[600px] max-md:max-w-[300px] max-sm:max-w-full">
+        <div className="w-full max-w-[600px] max-md:max-w-full">
           <div className=" relative h-[600px] max-md:h-[300px]">
             <Image
               src={"/sites/real-estate/demo-real-estate-slider-01.jpg"}
@@ -194,9 +194,8 @@ function AboutSection() {
           </div>
         </div>
         {/* Text box */}
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 max-md:w-full">
           <Heading3>Online property marketplace</Heading3>
-          <h2 className="w-full text-[44px] font-light leading-[1.3em] text-black max-md:max-w-[400px] max-sm:text-[32px] max-sm:leading-normal"></h2>
           <Heading2>
             We help you find your{" "}
             <span className="underline-green-300 font-bold text-purple-600 underline">
@@ -204,7 +203,7 @@ function AboutSection() {
             </span>
           </Heading2>
 
-          <p className="max-w-[400px] py-6 leading-9 max-sm:py-2 max-sm:leading-normal ">
+          <p className="max-w-[400px] py-6 leading-9 max-md:max-w-full max-sm:py-2 max-sm:leading-normal ">
             Online property marketplace to buy, sell, and rent residential and
             commercial properties. Used by millions of renters to find property.
           </p>
@@ -226,7 +225,7 @@ function AboutSection() {
               </div>
             ))}
           </div>
-          <div className="max-sm:item-center flex w-full flex-wrap items-center gap-5 self-start pt-10 max-md:pt-5   max-sm:justify-center">
+          <div className="max-sm:item-start flex w-full flex-wrap items-center gap-5 self-start pt-10 max-md:pt-5   max-sm:justify-start">
             <PrimaryButton>About community</PrimaryButton>
             <Button variant={"link"} className="flex-center gap-2">
               Our services <FaArrowRight />
@@ -244,7 +243,7 @@ function CategorySection() {
         <div className="section-box-w flex items-center max-md:max-w-full  max-md:px-0">
           <div className="justify-stretchs  flex w-full items-center divide-x-2 max-md:grid">
             {/* Text box */}
-            <div className="max-md:section-px  w-full max-w-[200px] pr-10 text-xl font-bold max-md:max-w-full max-md:py-10 max-md:border-b-2">
+            <div className="max-md:section-px  w-full max-w-[200px] pr-10 text-xl font-bold max-md:max-w-full max-md:border-b-2 max-md:py-10">
               What are you{" "}
               <span className="underline-green-300 font-bold text-purple-600 underline">
                 looking
@@ -252,7 +251,7 @@ function CategorySection() {
               for?
             </div>
             {/* Category box grid */}
-            <div className="grid w-full grid-cols-5 divide-x-2 max-md:border-t-gray-800">
+            <div className="grid w-full grid-cols-5 flex-wrap   divide-x-2 max-md:border-t-gray-800 max-sm:grid-cols-2">
               {[
                 {
                   icon: <IoBedOutline />,
@@ -281,12 +280,16 @@ function CategorySection() {
                 },
               ].map((item, i) => (
                 <div
-                  className="relative grid h-[180px] w-full place-items-center content-center justify-center gap-2 "
+                  className="relative grid h-[180px] w-full place-items-center content-center justify-center gap-2 max-md:h-[130px]  max-sm:border-b-2 last:max-sm:border-b-0"
                   key={i}
                 >
-                  <div className="text-[40px] font-bold">{item.icon}</div>
-                  <div className="font-bold">{item.title}</div>
-                  <div className="flex-center absolute left-4 top-4 rounded-md bg-green-100 px-3 py-1 text-sm text-green-500">
+                  <div className="text-[40px] font-bold max-md:text-[30px]">
+                    {item.icon}
+                  </div>
+                  <div className="font-semibold max-md:text-[14px]">
+                    {item.title}
+                  </div>
+                  <div className="flex-center absolute left-4 top-4 rounded-md bg-purple-100 px-2 py-1 text-[12px] font-bold text-purple-500">
                     {item.count}
                   </div>
                 </div>

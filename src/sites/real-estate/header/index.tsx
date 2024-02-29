@@ -68,7 +68,7 @@ function NavLinks() {
 
 export default function MainHeader() {
   return (
-    <div className="fixed left-0 top-0 z-50 w-full bg-white">
+    <div className="fixed left-0 top-0 z-50 w-full bg-white shadow-lg">
       <div
         className={`section-box-w flex items-center justify-between gap-10 py-5 max-md:gap-5 max-md:gap-y-0 max-md:py-5`}
       >
