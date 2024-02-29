@@ -35,7 +35,7 @@ function WelcomeSliderItem({
   };
 }) {
   return (
-    <CarouselItem className="relative h-[91.5vh]">
+    <CarouselItem className="relative h-[100vh] max-md:h-[75vh]">
       <Image
         src={`${imageRoute}/demo-real-estate-slider-01.jpg`}
         fill
@@ -43,14 +43,12 @@ function WelcomeSliderItem({
         className="z-0 object-cover"
       />
       <div
-        className={`${item.bg}  section-box-w  grid cursor-pointer items-start gap-5 overflow-hidden`}
+        className={`${item.bg} section-box-w  grid cursor-pointer items-start gap-5 overflow-hidden max-md:gap-0`}
       >
-        <div className="absolute z-10 flex h-full w-full flex-col justify-center gap-4 bg-opacity-50 ">
-          <h3 className="text-base text-white max-md:text-xl">
-            Some location in the city
-          </h3>
-          <h2 className="grid gap-0 text-[60px] text-white max-md:text-base">
-            <span className="mb-[-20px] font-light">Luxurious</span>
+        <div className="absolute z-10 flex h-full w-full flex-col justify-center gap-4 bg-opacity-50 max-sm:pb-[20vh]">
+          <h3 className="text-base text-white">Some location in the city</h3>
+          <h2 className="grid gap-0 text-[60px] text-white max-sm:text-[44px]">
+            <span className="mb-[-20px] font-light max-sm:mb-0">Luxurious</span>
             <span className="font-bold">Mension</span>
           </h2>
           <div className="flex gap-4">
@@ -69,7 +67,7 @@ function WelcomeSliderItem({
             </Link>
           </div>
         </div>
-        <div className="absolute bottom-0 right-0 z-10 flex place-items-center gap-10 rounded-tl-lg bg-white px-10 py-10">
+        <div className="absolute bottom-0 flex-wrap right-0 z-10 flex max-sm:px-10 place-items-center gap-10 rounded-tl-lg bg-white px-10 py-10   max-sm:justify-between  max-sm:gap-6 max-sm:bg-white/65 max-sm:py-6">
           <div className="flex  divide-x ">
             {/* convinience */}
             {[
@@ -98,9 +96,9 @@ function WelcomeSliderItem({
               </div>
             ))}
           </div>
-          <div className="grid place-items-center gap-2">
+          <div className="grid place-items-center gap-2 max-sm:place-items-start">
             For sell price
-            <div className="text-3xl font-bold">$100000</div>
+            <div className="text-3xl font-bold max-sm:text-xl">$100000</div>
           </div>
         </div>
       </div>
