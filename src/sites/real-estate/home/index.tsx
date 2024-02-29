@@ -23,7 +23,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { IoBedOutline } from "react-icons/io5";
 import { Routes, imageRoute } from "../../../pages/sites/real-estate";
-import { EmblaCarouselItem } from "./EmblaCarousel";
 
 function WelcomeSliderItem({
   item,
@@ -596,7 +595,7 @@ function LocationsSection() {
     </>
   );
 }
-function WhyUs2Section() {
+function TestimonialSection() {
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       slidesToScroll: 1,
@@ -615,23 +614,31 @@ function WhyUs2Section() {
 
   return (
     <>
-      <div className="section-box-w">
-        <div className="section-py flex flex-row-reverse gap-24 pb-0">
-          {/* text box */}
-          <div className="grid w-1/2 content-center items-center gap-4">
-            <h3 className="text-[20px] font-bold text-purple-600">
-              Clients feedback
-            </h3>
-            <h2 className="max-w-[480px] text-[44px] font-light leading-[1.1em] text-black max-md:text-base">
+      <>
+        <div className="section-box-w section-py flex gap-24 max-xl:gap-10 max-md:flex-col max-md:gap-10">
+          {/* Image */}
+          <div className="w-full max-w-[500px] max-md:max-w-full">
+            <div className=" relative h-[600px] max-md:h-[300px]">
+              <Image
+                src={"/sites/real-estate/demo-real-estate-slider-01.jpg"}
+                fill
+                alt="Picture of the author"
+                className="z-0 object-cover"
+              />
+            </div>
+          </div>
+          {/* Text box */}
+          <div className="flex w-full  flex-col  gap-4">
+            <Heading3>Clients feedback</Heading3>
+            <Heading2>
               Here is what our{" "}
               <span className="underline-green-300 font-bold text-purple-600 underline">
                 clients
               </span>{" "}
               have to say
-            </h2>
-
-            {/* Testimonial slider */}
-            <div className="grid   max-w-[400px]   pt-6">
+            </Heading2>
+            {/* Testimonial slider */}{" "}
+            <div className="grid max-w-[400px] pt-6 max-md:max-w-[100vw]">
               <div className="overflow-hidden" ref={emblaRef}>
                 <div className="flex">
                   {[
@@ -663,9 +670,23 @@ function WhyUs2Section() {
                       ),
                       rating: 5,
                     },
+                    {
+                      text: "Alec Thompson",
+                      desc: "I just bought a house with the help of this company. Thank you for your support and help with finding me a home. I am very happy with the service and the help, everything was perfect. Thank you very much.",
+                      icon: (
+                        <Image
+                          src={`${imageRoute}/loan.png`}
+                          alt=""
+                          height={80}
+                          width={80}
+                          layout="responsive"
+                        />
+                      ),
+                      rating: 5,
+                    },
                   ].map((item, i) => (
-                    <EmblaCarouselItem key={i} slides={1}>
-                      <div className="grid  gap-10">
+                    <div key={i} className=" ml-10 ">
+                      <div className="grid  w-[400px] gap-10    max-sm:w-[100vw]">
                         <div className="opacity-70">{item.desc}</div>
                         <div className=" flex items-center justify-start gap-10">
                           <div className="relative h-[80px]  w-[80px]  rounded-full bg-green-100   text-green-500">
@@ -685,7 +706,7 @@ function WhyUs2Section() {
                           </div>
                         </div>
                       </div>
-                    </EmblaCarouselItem>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -709,19 +730,8 @@ function WhyUs2Section() {
               </Button>
             </div>
           </div>
-          {/* image box */}
-          <div className="w-1/2">
-            <div className="relative h-[600px]">
-              <Image
-                src={"/sites/real-estate/demo-real-estate-slider-01.jpg"}
-                layout="fill"
-                alt="Picture of the author"
-                className="z-0 object-cover"
-              />
-            </div>
-          </div>
         </div>
-      </div>
+      </>
     </>
   );
 }
@@ -761,7 +771,7 @@ export function View() {
       <PropertyListSection />
       <WhyUs1Section />
       <LocationsSection />
-      <WhyUs2Section />
+      <TestimonialSection />
       <CTASection />
     </main>
   );
