@@ -67,7 +67,7 @@ function WelcomeSliderItem({
             </Link>
           </div>
         </div>
-        <div className="absolute bottom-0 flex-wrap right-0 z-10 flex max-sm:px-10 place-items-center gap-10 rounded-tl-lg bg-white px-10 py-10   max-sm:justify-between  max-sm:gap-6 max-sm:bg-white/65 max-sm:py-6">
+        <div className="absolute bottom-0 right-0 z-10 flex flex-wrap place-items-center gap-10 rounded-tl-lg bg-white px-10 py-10 max-sm:justify-between   max-sm:gap-6  max-sm:bg-white/65 max-sm:px-10 max-sm:py-6">
           <div className="flex  divide-x ">
             {/* convinience */}
             {[
@@ -129,54 +129,105 @@ function WelcomeSection() {
     </Carousel>
   );
 }
+function Heading3({
+  children = <>This is heading 3</>,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <h3 className="text-[20px] font-bold text-purple-600 max-sm:text-base">
+      {children}
+    </h3>
+  );
+}
+function Heading2({
+  children = <>This is heading 2</>,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <h2 className="w-full text-[44px] font-light leading-[1.3em] text-black max-md:max-w-[400px] max-sm:text-[32px] max-sm:leading-normal">
+      {children}
+    </h2>
+  );
+}
+function Text({
+  children = <>This is a text</>,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <h2 className="text-[44px] font-light leading-[1.1em] text-black max-md:max-w-[400px] max-sm:text-[32px]">
+      {children}
+    </h2>
+  );
+}
+function PrimaryButton({
+  children = <>Primary Button</>,
+  onClick,
+}: {
+  children: React.ReactNode;
+  onClick?: () => void;
+}) {
+  return (
+    <Button
+      onClick={onClick}
+      className="max-sm:max-w-auto h-[50px] bg-purple-600"
+    >
+      {children}
+    </Button>
+  );
+}
 function AboutSection() {
   return (
     <>
-      <div className="section-box-w section-py flex gap-24">
-        <div className="w-1/2">
-          <div className="relative h-[600px] max-w-[500px]">
+      <div className="section-box-w section-py flex gap-24 max-xl:gap-10 max-md:flex-row-reverse max-md:gap-10 max-sm:flex-col ">
+        {/* Image */}
+        <div className="w-full max-w-[600px] max-md:max-w-[300px] max-sm:max-w-full">
+          <div className=" relative h-[600px] max-md:h-[300px]">
             <Image
               src={"/sites/real-estate/demo-real-estate-slider-01.jpg"}
-              layout="fill"
+              fill
               alt="Picture of the author"
               className="z-0 object-cover"
             />
           </div>
         </div>
-        <div className="grid w-1/2 content-center items-center gap-4">
-          <h3 className="text-[20px] font-bold text-purple-600">
-            Online property marketplace
-          </h3>
-          <h2 className="text-[60px] font-light leading-[1.1em] text-black max-md:text-base">
+        {/* Text box */}
+        <div className="flex flex-col gap-4">
+          <Heading3>Online property marketplace</Heading3>
+          <h2 className="w-full text-[44px] font-light leading-[1.3em] text-black max-md:max-w-[400px] max-sm:text-[32px] max-sm:leading-normal"></h2>
+          <Heading2>
             We help you find your{" "}
             <span className="underline-green-300 font-bold text-purple-600 underline">
               new place.
             </span>
-          </h2>
-          <p className="max-w-[400px] py-6 leading-9">
+          </Heading2>
+
+          <p className="max-w-[400px] py-6 leading-9 max-sm:py-2 max-sm:leading-normal ">
             Online property marketplace to buy, sell, and rent residential and
             commercial properties. Used by millions of renters to find property.
           </p>
 
-          <div className="grid">
+          <div className="grid gap-4">
             {[
               {
                 text: "10,000+ people trusting our agency.",
               },
               {
-                text: "10,000+ people trusting our agency.",
+                text: "Highest rental income projects",
               },
             ].map((item, i) => (
               <div key={i} className="flex items-center gap-4">
-                <div className="flex-center h-10  w-10 rounded-full bg-green-100 text-green-500">
+                <div className="flex-center h-10  w-10 rounded-full bg-green-100 text-green-500 max-sm:size-5 max-sm:text-[12px]">
                   <FaCheck />
                 </div>
-                <div className="font-bold">{item.text}</div>
+                <div className="font-bold  max-sm:text-[14px]">{item.text}</div>
               </div>
             ))}
           </div>
-          <div className="pt-10">
-            <Button>About community</Button>{" "}
+          <div className="max-sm:item-center flex w-full flex-wrap items-center gap-5 self-start pt-10 max-md:pt-5   max-sm:justify-center">
+            <PrimaryButton>About community</PrimaryButton>
             <Button variant={"link"} className="flex-center gap-2">
               Our services <FaArrowRight />
             </Button>
@@ -190,10 +241,10 @@ function CategorySection() {
   return (
     <>
       <div className="border-y-2">
-        <div className="section-box-w flex items-center ">
-          <div className="justify-stretchs grid-cols- flex w-full items-center divide-x-2">
+        <div className="section-box-w flex items-center max-md:max-w-full  max-md:px-0">
+          <div className="justify-stretchs  flex w-full items-center divide-x-2 max-md:grid">
             {/* Text box */}
-            <div className="w-full max-w-[200px] pr-10 text-xl font-bold">
+            <div className="max-md:section-px  w-full max-w-[200px] pr-10 text-xl font-bold max-md:max-w-full max-md:py-10 max-md:border-b-2">
               What are you{" "}
               <span className="underline-green-300 font-bold text-purple-600 underline">
                 looking
@@ -201,7 +252,7 @@ function CategorySection() {
               for?
             </div>
             {/* Category box grid */}
-            <div className="grid w-full grid-cols-5 divide-x-2">
+            <div className="grid w-full grid-cols-5 divide-x-2 max-md:border-t-gray-800">
               {[
                 {
                   icon: <IoBedOutline />,
@@ -230,7 +281,7 @@ function CategorySection() {
                 },
               ].map((item, i) => (
                 <div
-                  className="relative grid h-[180px] w-full place-items-center content-center justify-center gap-2"
+                  className="relative grid h-[180px] w-full place-items-center content-center justify-center gap-2 "
                   key={i}
                 >
                   <div className="text-[40px] font-bold">{item.icon}</div>

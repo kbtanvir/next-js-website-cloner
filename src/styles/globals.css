@@ -68,8 +68,9 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply text-balance border-border;
   }
+
   html {
     @apply overflow-x-hidden;
   }
@@ -80,10 +81,10 @@
 
 @layer components {
   .section-px {
-    @apply px-10 max-md:px-4;
+    @apply px-10 max-md:px-10 max-sm:px-4;
   }
   .section-py {
-    @apply py-20 max-md:py-4;
+    @apply py-20 max-md:py-20;
   }
   .section-box-w {
     @apply section-px mx-auto w-full max-w-7xl;
