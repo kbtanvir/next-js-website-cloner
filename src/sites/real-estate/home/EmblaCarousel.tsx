@@ -55,11 +55,11 @@ export function EmblaCarouselItem({
 }) {
   return (
     <div
-      className={`ml-10`}
-      style={{
-        flex: `0 0 calc(100% / ${slides})`,
-        maxWidth: `calc(100% / ${slides})`,
-      }}
+    style={{
+      // flex: `0 0 calc(100% / ${slides})`,
+      // maxWidth: `calc(100% / ${slides})`,
+    }}
+    className={`flex ml-10  max-md:ml-4  `}
     >
       {children}
     </div>

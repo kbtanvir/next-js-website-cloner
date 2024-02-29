@@ -468,7 +468,7 @@ function WhyUs1Section() {
             ].map((item, i) => (
               <div
                 key={i}
-                className="flex flex-wrap  items-start gap-4 max-sm:flex-col"
+                className="flex flex-wrap  items-start gap-6 max-sm:flex-col"
               >
                 <div className="relative h-[80px] w-[80px] max-w-[80px]   overflow-hidden rounded-[100%] bg-green-100   text-green-500">
                   {item.icon}
@@ -497,24 +497,28 @@ function WhyUs1Section() {
 
 function LocationSliderItem() {
   return (
-    <div className="relative h-[485px] bg-blue-300 ">
-      <Image
-        src={"/sites/real-estate/demo-real-estate-slider-01.jpg"}
-        fill
-        alt="Picture of the author"
-        className="z-0 object-cover"
-      />
-      <div className="absolute h-full w-full bg-gradient-to-t from-gray-600 mix-blend-overlay" />
-      <div className="relative h-[485px] w-[250px] text-white">
-        <div className="absolute bottom-10 left-10 w-full">
-          <div className="pb-4 text-2xl font-bold">Washington DC, USA</div>
-          <div className="">20 property listing</div>
-        </div>
-        <div className="absolute flex w-full flex-col items-start">
-          <div className="flex items-stretch pl-6 pt-6">
-            <span className="justify-self-start whitespace-nowrap rounded-md border border-solid border-white border-opacity-10 bg-red-600 px-3.5 py-1.5 text-center text-xs leading-3 text-white">
-              Rent
-            </span>
+    <div className="ml-10 flex max-sm:ml-4">
+      <div className="relative  h-[485px] w-[360px] max-sm:h-[280px] max-sm:w-[200px]">
+        <Image
+          src={"/sites/real-estate/demo-real-estate-slider-01.jpg"}
+          fill
+          alt="Picture of the author"
+          className="z-0 object-cover"
+        />
+        <div className="absolute h-full w-full bg-gradient-to-t from-gray-800 mix-blend-overlay" />
+        <div className="relative h-full  w-full text-white">
+          <div className="absolute bottom-0 left-0 w-full p-6">
+            <div className="pb-4 text-2xl font-bold max-sm:pb-2 max-sm:text-base">
+              Washington DC, USA
+            </div>
+            <div className="">20 property listing</div>
+          </div>
+          <div className="absolute flex w-full flex-col items-start">
+            <div className="flex items-stretch pl-6 pt-6">
+              <span className="justify-self-start whitespace-nowrap rounded-md border border-solid border-white border-opacity-10 bg-red-600 px-3.5 py-1.5 text-center text-xs leading-3 text-white">
+                Rent
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -541,24 +545,23 @@ function LocationsSection() {
 
   return (
     <>
-      <div className="section-py   overflow-hidden bg-gray-100">
-        <div className="section-box-w relative flex  gap-14">
+      <div className="section-py bg-gray-100">
+        <div className="section-box-w relative flex gap-14 max-lg:flex-wrap">
+          {/* text box */}
           <div className="grid content-center items-center gap-4">
-            <h3 className="text-[20px] font-bold text-purple-600">
-              Online property marketplace
-            </h3>
-            <h2 className="max-w-[480px]  text-[44px] font-light leading-[1.1em] text-black max-md:text-base">
+            <Heading3>Online property marketplace</Heading3>
+            <Heading2>
               We are available in{" "}
               <span className="underline-green-300 font-bold text-purple-600 underline">
                 many countries
               </span>
-            </h2>
-            <p className="max-w-[400px] pb-10 pt-6">
+            </Heading2>
+            <p className="max-w-[400px] pb-10 pt-6 max-md:pb-0">
               Online property marketplace to buy, sell, and rent residential and
               commercial properties. Used by millions of renters to find
               property.
             </p>
-            <div className="relative flex gap-4 ">
+            <div className="relative flex gap-4 max-md:hidden">
               <Button
                 onClick={onPrevButtonClick}
                 disabled={prevBtnDisabled}
@@ -575,20 +578,16 @@ function LocationsSection() {
               </Button>
             </div>
           </div>
-
-          <div className="  mr-[-20vw]">
-            <div className="">
-              <div className="overflow-hidden" ref={emblaRef}>
-                <div className="flex">
-                  {" "}
-                  {Array(4)
-                    .fill(0)
-                    .map((_, i) => (
-                      <EmblaCarouselItem key={i} slides={3}>
-                        <LocationSliderItem />
-                      </EmblaCarouselItem>
-                    ))}
-                </div>
+          {/* slider */}
+          <div className=" mr-[-20vw] ">
+            <div className="overflow-hidden" ref={emblaRef}>
+              <div className="flex max-w-[60em]  max-xl:max-w-[44em] max-lg:max-w-[100vw]">
+                {" "}
+                {Array(4)
+                  .fill(0)
+                  .map((_, i) => (
+                    <LocationSliderItem key={i} />
+                  ))}
               </div>
             </div>
           </div>
