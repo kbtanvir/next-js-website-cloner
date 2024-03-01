@@ -8,7 +8,6 @@ import {
   FaRegEnvelope,
   FaStar,
 } from "react-icons/fa";
-import { IoCarSportOutline } from "react-icons/io5";
 import { PiBathtubLight } from "react-icons/pi";
 import { usePrevNextButtons } from "../../../hooks/useEmblaNavigation";
 
@@ -19,10 +18,10 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import { Input } from "@/components/ui/input";
+import { Routes, imageRoute } from "@/pages/sites/ai-image-gen";
 import Image from "next/image";
 import Link from "next/link";
 import { IoBedOutline } from "react-icons/io5";
-import { Routes, imageRoute } from "../../../pages/sites/real-estate";
 
 function WelcomeSliderItem({
   item,
@@ -34,70 +33,72 @@ function WelcomeSliderItem({
   };
 }) {
   return (
-    <CarouselItem className="relative h-[100vh] max-md:h-[75vh]">
-      <Image
-        src={`${imageRoute}/demo-real-estate-slider-01.jpg`}
-        fill
-        alt="Picture of the author"
-        className="z-0 object-cover"
-      />
+    <CarouselItem className="relative h-[800px] bg-blue-900 max-md:h-[75vh]">
+      {/* Image */}
+      <div className="absolute bottom-0 right-0">
+        <div className="relative h-[700px] w-[576px]">
+          <Image
+            src={`${imageRoute}/man.png`}
+            fill
+            alt="Picture of the author"
+            className="z-0 object-cover"
+          />
+        </div>
+      </div>
+      {/* Content */}
       <div
         className={`${item.bg} section-box-w  grid cursor-pointer items-start gap-5 overflow-hidden max-md:gap-0`}
       >
-        <div className="absolute z-10 flex h-full w-full flex-col justify-center gap-4 bg-opacity-50 max-sm:pb-[20vh]">
+        <div className="absolute z-10 flex h-full w-full max-w-[600px] flex-col justify-center gap-4 bg-opacity-50 max-sm:pb-[20vh]">
           <h3 className="text-base text-white">Some location in the city</h3>
-          <h2 className="grid gap-0 text-[60px] text-white max-sm:text-[44px]">
-            <span className="mb-[-20px] font-light max-sm:mb-0">Luxurious</span>
-            <span className="font-bold">Mension</span>
+          <h2 className="gap-0 text-[60px] font-semibold text-white max-sm:text-[44px]">
+            <span
+              className="mb-[-20px]  max-sm:mb-0"
+              style={{
+                backgroundImage:
+                  "linear-gradient(315deg, #7F00FF 35%, #E100FF 50%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              AiNext{" "}
+            </span>
+            Image Creating Solutions.
           </h2>
-          <div className="flex gap-4">
-            <Link href={Routes.shop.path}>
-              <Button className="mt-2 bg-white text-[10px] uppercase text-black">
-                Schedule Visit
-              </Button>
-            </Link>
-            <Link href={Routes.shop.path}>
+          <div className="flex flex-col gap-10">
+            <h3 className="text-base text-white">
+              Create production-quality visual assets for your projects with
+              unprecedented quality, speed, and style-consistency.
+            </h3>
+            <div className="relative flex h-[60px] w-full max-w-[500px] items-center justify-between gap-4  rounded-lg bg-white px-4  ">
+              <Input
+                type="text"
+                placeholder="Enter your email"
+                className="rounded-md border-none bg-gray-100 px-4 text-black max-sm:text-[12px]"
+              />
               <Button
-                className="mt-2 bg-transparent  text-[10px] uppercase text-white"
-                variant="outline"
+                variant={"outline"}
+                className=" right-2 flex gap-2 bg-white uppercase text-black"
               >
-                View details
+                <FaRegEnvelope className="text-purple-500 max-md:text-xl max-sm:text-base" />
+                <span className="max-md:hidden">Subscribe</span>
               </Button>
-            </Link>
-          </div>
-        </div>
-        <div className="absolute bottom-0 right-0 z-10 flex flex-wrap place-items-center gap-10 rounded-tl-lg bg-white px-10 py-10 max-sm:justify-between   max-sm:gap-6  max-sm:bg-white/65 max-sm:px-10 max-sm:py-6">
-          <div className="flex  divide-x ">
-            {/* convinience */}
-            {[
-              {
-                icon: <IoBedOutline />,
-                title: "3 Beds",
-                price: "1000",
-              },
-              {
-                icon: <PiBathtubLight />,
-                title: "3 Baths",
-                price: "1000",
-              },
-              {
-                icon: <IoCarSportOutline />,
-                title: "3 Parking",
-                price: "1000",
-              },
-            ].map((conv, index) => (
-              <div
-                key={index}
-                className="grid place-items-center items-center gap-2 px-5  text-black first:pl-0 last:pr-0"
-              >
-                <div className="text-[40px]">{conv.icon}</div>
-                <div className="text-[14px]">{conv.title}</div>
+            </div>
+            <div className="flex items-center gap-10">
+              <span className="text-white">Popular Tags</span>
+              <div className="flex gap-2">
+                {["House", "Apartment", "Villa", "Office"].map((tag, i) => (
+                  <Link href={Routes.shop.path} key={i}>
+                    <Button
+                      size={"sm"}
+                      className=" bg-black/30 px-4 text-[10px]  text-white"
+                    >
+                      {tag}
+                    </Button>
+                  </Link>
+                ))}
               </div>
-            ))}
-          </div>
-          <div className="grid place-items-center gap-2 max-sm:place-items-start">
-            For sell price
-            <div className="text-3xl font-bold max-sm:text-xl">$100000</div>
+            </div>
           </div>
         </div>
       </div>
@@ -106,14 +107,7 @@ function WelcomeSliderItem({
 }
 function WelcomeSection() {
   return (
-    <Carousel
-      // plugins={[plugin.current]}
-      // // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-      // onMouseEnter={plugin.current.start}
-      // // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-      // onMouseLeave={plugin.current.stop}
-      className=" w-full "
-    >
+    <Carousel className=" w-full ">
       <CarouselContent>
         {[
           {
@@ -755,8 +749,8 @@ function CTASection() {
     <>
       <div className="min-h-[10em] border-t-2 bg-gray-50 ">
         <div className="section-box-w mt-[-6em] max-md:mt-0 max-md:pt-20 max-sm:pt-10">
-          <div className="flex flex-wrap items-center justify-between gap-10 rounded-xl bg-purple-500 px-14 py-14 max-md:flex-wrap max-md:justify-center max-sm:px-4 max-sm:py-4 max-sm:gap-4">
-            <div className="flex flex-col  gap-5 max-sm:gap-0 max-md:w-full max-md:text-center ">
+          <div className="flex flex-wrap items-center justify-between gap-10 rounded-xl bg-purple-500 px-14 py-14 max-md:flex-wrap max-md:justify-center max-sm:gap-4 max-sm:px-4 max-sm:py-4">
+            <div className="flex flex-col  gap-5 max-md:w-full max-md:text-center max-sm:gap-0 ">
               <Heading2 reverseColor>
                 Subscribe to{" "}
                 <span className="font-bold underline">newsletter</span>
@@ -769,7 +763,10 @@ function CTASection() {
                 placeholder="Enter your email"
                 className="rounded-md border-none bg-gray-100 px-4 text-black max-sm:text-[12px]"
               />
-              <Button variant={"outline"} className=" right-2 flex gap-2 bg-white uppercase text-black">
+              <Button
+                variant={"outline"}
+                className=" right-2 flex gap-2 bg-white uppercase text-black"
+              >
                 <FaRegEnvelope className="text-purple-500 max-md:text-xl max-sm:text-base" />
                 <span className="max-md:hidden">Subscribe</span>
               </Button>

@@ -14,7 +14,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { FaArrowRight } from "react-icons/fa";
-import { offeringCardsDemoList } from "../model/demo";
+import { offeringCardsDemoList } from "../../../features/home/model/demo";
 
 function DiscountSlider() {
   const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));

@@ -1,6 +1,6 @@
-import View from "@/sites/ecommerce/home";
+import { View } from "@/sites/ai-image-gen/home";
 
-export const sitePath = "/sites/eshopper";
+export const sitePath = "/sites/ai-image-gen";
 
 export const Routes = {
   home: {
@@ -24,6 +24,8 @@ export const Routes = {
     path: `${sitePath}/order/success`,
   },
 };
+
+export const imageRoute = "/sites/ai-image-gen";
 
 export default function Page() {
   return <View />;

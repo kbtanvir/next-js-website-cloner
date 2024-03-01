@@ -11,6 +11,7 @@ import { type AppType } from "next/app";
 import { Inter as FontSans } from "next/font/google";
 
 import AdminLayout from "@/sites/admin/layouts/AdminLayout";
+import { AiImageGenLayout } from "@/sites/ai-image-gen/layouts/RootLayout";
 import { RealEstateLayout } from "@/sites/real-estate/layouts/RootLayout";
 import "@/styles/globals.css";
 import { useRouter } from "next/router";
@@ -69,6 +70,13 @@ function LayoutRouter({
       <RealEstateLayout>
         <Component {...pageProps} />
       </RealEstateLayout>
+    );
+  }
+  if (router.pathname.startsWith("/sites/ai-image-gen")) {
+    return (
+      <AiImageGenLayout>
+        <Component {...pageProps} />
+      </AiImageGenLayout>
     );
   }
 
