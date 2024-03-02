@@ -9,25 +9,7 @@ import {
 import { Routes } from "@/pages/sites/eshopper";
 import Link from "next/link";
 import { RiCloseLine, RiMenu2Line } from "react-icons/ri";
-
-export const Categories = {
-  "Dairy & Backery": {
-    Dairy: ["Milk", "Ice Cream", "Cheese", "Frozen Custurd", "Yogurt"],
-    Backery: ["Bread", "Rust Roast", "Bun", "Cake", "Pastry"],
-  },
-  "Fruits & Vegetables": {
-    Fruits: ["Apple", "Banana", "Orange", "Grapes", "Mango"],
-    Vegetables: ["Potato", "Tomato", "Onion", "Carrot", "Cucumber"],
-  },
-  "Snacks & Spices": {
-    Snacks: ["Chips", "Biscuit", "Noodles", "Pasta", "Sauce"],
-    Spices: ["Salt", "Sugar", "Pepper", "Cinnamon", "Turmeric"],
-  },
-  "Drink & Beverage": {
-    Drink: ["Water", "Juice", "Soda", "Energy Drink", "Milk Shake"],
-    Beverage: ["Tea", "Coffee", "Wine", "Beer", "Whiskey"],
-  },
-};
+import { PrimaryButton } from "../home";
 
 function NavLinks() {
   return (
@@ -68,20 +50,20 @@ function NavLinks() {
 
 export default function MainHeader() {
   return (
-    <div className="fixed left-0 top-0 z-50 w-full bg-white shadow-lg">
+    <div className="fixed left-0 top-0 z-50 w-full bg-gray-900 text-white shadow-lg">
       <div
-        className={`section-box-w flex items-center justify-between gap-10 py-5 max-md:gap-5 max-md:gap-y-0 max-md:py-5`}
+        className={`section-box-w flex items-center justify-between gap-20 py-5 max-md:gap-5 max-md:gap-y-0 max-md:py-5`}
       >
         <div className="">
           <Link
             href={Routes.home.path}
             className="text-nowrap text-[30px] font-light uppercase max-md:self-start max-md:text-2xl"
           >
-            Property{" "}
+            AIMA
           </Link>
         </div>
 
-        <div className="">
+        <div className="flex w-full justify-end">
           {/* mobile nav */}
           <Drawer direction="left">
             <DrawerTrigger className="min-[850px]:hidden">
@@ -118,7 +100,7 @@ export default function MainHeader() {
               <NavLinks />
             </span>
             <Link href={Routes.cart.path} className="relative">
-              <Button>Contact us</Button>
+              <PrimaryButton>Get Started For Free</PrimaryButton>
             </Link>
           </div>
         </div>

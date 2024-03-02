@@ -211,7 +211,7 @@ function OfferingsCards() {
         {offeringCardsDemoList.map((item, i) => (
           <div
             key={i}
-            className="grid min-h-[150px] place-items-center justify-center gap-2 rounded-lg bg-gray-100 p-8 text-center"
+            className="grid min-h-[150px]   justify-center gap-2 rounded-lg bg-gray-100 p-8 "
           >
             <div className={`text-[50px] text-emerald-600`}>{item.icon}</div>
             <h3 className="pt-3 font-bold">{item.title}</h3>
