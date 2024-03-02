@@ -10,7 +10,7 @@ import {
 } from "react-icons/fa";
 import { IoCarSportOutline } from "react-icons/io5";
 import { PiBathtubLight } from "react-icons/pi";
-import { usePrevNextButtons } from "../../../hooks/useEmblaNavigation";
+import { useEmblaNavigation } from "../../../hooks/useEmblaNavigation";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -555,7 +555,7 @@ function LocationsSection() {
     nextBtnDisabled,
     onPrevButtonClick,
     onNextButtonClick,
-  } = usePrevNextButtons(emblaApi);
+  } = useEmblaNavigation(emblaApi);
 
   return (
     <>
@@ -625,7 +625,7 @@ function TestimonialSection() {
     nextBtnDisabled,
     onPrevButtonClick,
     onNextButtonClick,
-  } = usePrevNextButtons(emblaApi);
+  } = useEmblaNavigation(emblaApi);
 
   return (
     <>
@@ -755,8 +755,8 @@ function CTASection() {
     <>
       <div className="min-h-[10em] border-t-2 bg-gray-50 ">
         <div className="section-box-w mt-[-6em] max-md:mt-0 max-md:pt-20 max-sm:pt-10">
-          <div className="flex flex-wrap items-center justify-between gap-10 rounded-xl bg-purple-500 px-14 py-14 max-md:flex-wrap max-md:justify-center max-sm:px-4 max-sm:py-4 max-sm:gap-4">
-            <div className="flex flex-col  gap-5 max-sm:gap-0 max-md:w-full max-md:text-center ">
+          <div className="flex flex-wrap items-center justify-between gap-10 rounded-xl bg-purple-500 px-14 py-14 max-md:flex-wrap max-md:justify-center max-sm:gap-4 max-sm:px-4 max-sm:py-4">
+            <div className="flex flex-col  gap-5 max-md:w-full max-md:text-center max-sm:gap-0 ">
               <Heading2 reverseColor>
                 Subscribe to{" "}
                 <span className="font-bold underline">newsletter</span>
@@ -769,7 +769,10 @@ function CTASection() {
                 placeholder="Enter your email"
                 className="rounded-md border-none bg-gray-100 px-4 text-black max-sm:text-[12px]"
               />
-              <Button variant={"outline"} className=" right-2 flex gap-2 bg-white uppercase text-black">
+              <Button
+                variant={"outline"}
+                className=" right-2 flex gap-2 bg-white uppercase text-black"
+              >
                 <FaRegEnvelope className="text-purple-500 max-md:text-xl max-sm:text-base" />
                 <span className="max-md:hidden">Subscribe</span>
               </Button>

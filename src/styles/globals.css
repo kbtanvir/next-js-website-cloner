@@ -68,7 +68,14 @@
 
 @layer base {
   * {
-    @apply text-balance border-border;
+    @apply border-border;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    @apply text-balance;
   }
   html {
     @apply overflow-x-hidden;
@@ -102,5 +109,39 @@
     .autofit-grid-250 {
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     }
+  }
+
+  /* AI Image GEN - Slider 1 
+  ----------------------------*/
+
+  .embla {
+    max-width: 100%;
+    margin: auto;
+    --slide-height: 19rem;
+    --slide-spacing: 20px;
+    --slide-size: 33%;
+  }
+  .embla__viewport {
+    overflow: hidden;
+  }
+  .embla__container {
+    
+
+  }
+  .embla__slide {
+    position: relative;
+    flex: 0 0 var(--slide-size);
+    margin: 0 var(--slide-spacing);
+
+  }
+  .embla__slide__content {
+    box-shadow: inset 0 0 0 0.2rem var(--detail-medium-contrast);
+    border-radius: 1.8rem;
+    font-size: 4rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--slide-height);
   }
 }

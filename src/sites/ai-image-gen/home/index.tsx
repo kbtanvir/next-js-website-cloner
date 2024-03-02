@@ -1,36 +1,42 @@
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
-import { BiArea } from "react-icons/bi";
+import { BiArea, BiSupport } from "react-icons/bi";
 import {
   FaArrowLeft,
   FaArrowRight,
-  FaCheck,
   FaRegEnvelope,
   FaStar,
 } from "react-icons/fa";
 import { PiBathtubLight } from "react-icons/pi";
-import { usePrevNextButtons } from "../../../hooks/useEmblaNavigation";
+import {
+  useDotButton,
+  useEmblaNavigation,
+} from "../../../hooks/useEmblaNavigation";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { offeringCardsDemoList } from "@/features/home/model/demo";
-import { Routes, imageRoute } from "@/pages/sites/ai-image-gen";
+import { Routes, imageRoute, sitePath } from "@/pages/sites/ai-image-gen";
+import { type EmblaCarouselType } from "embla-carousel";
 import Image from "next/image";
 import Link from "next/link";
+import { useCallback } from "react";
+import { FiTruck } from "react-icons/fi";
+import { GrSecure } from "react-icons/gr";
 import { IoBedOutline } from "react-icons/io5";
+import { LuBox } from "react-icons/lu";
 
 function Heading3({
   children = <>This is heading 3</>,
   reverseColor = false,
 }: {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   reverseColor?: boolean;
 }) {
   return (
     // <h3 className="text-[20px] font-bold text-purple-600 max-sm:text-base">
     <h3
-      className={`text-[20px] font-bold ${
-        reverseColor ? "text-white" : `text-black`
+      className={`text-[20px] uppercase ${
+        !reverseColor ? "text-white" : `text-black`
       } max-sm:text-base`}
     >
       {children}
@@ -42,11 +48,11 @@ function Heading2({
   children = <>This is heading 2</>,
 }: {
   reverseColor?: boolean;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }) {
   return (
     <h2
-      className={`text-[44px] font-light leading-[1.3em] ${reverseColor ? "text-white" : `text-black`}  max-sm:text-[32px] max-sm:leading-normal`}
+      className={`text-[44px] font-bold leading-[1.3em] ${!reverseColor ? "text-white" : `text-black`}  max-sm:text-[32px] max-sm:leading-normal`}
     >
       {children}
     </h2>
@@ -61,7 +67,7 @@ function Text({
 }) {
   return (
     <p
-      className={`max-sm:text-[14px] ${reverseColor ? "text-white" : `text-black`} `}
+      className={`max-sm:text-[14px] ${reverseColor ? "text-black" : `text-gray-400`} `}
     >
       {children}
     </p>
@@ -77,92 +83,93 @@ export function PrimaryButton({
   return (
     <Button
       onClick={onClick}
-      className="max-sm:max-w-auto h-[50px] bg-purple-600"
+      className="max-sm:max-w-auto h-[45px] bg-purple-600"
     >
       {children}
     </Button>
   );
 }
 
-function WelcomeSliderItem({
-  item,
-}: {
-  item: {
-    title: string;
-    discount: string;
-    bg: string;
-  };
-}) {
+function Slider1() {
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    {
+      slidesToScroll: 1,
+      align: "start",
+      loop: true,
+    },
+    [Autoplay()],
+  );
+
+  const onNavButtonClick = useCallback((emblaApi: EmblaCarouselType) => {
+    const autoplay = emblaApi?.plugins()?.autoplay;
+    if (!autoplay) return;
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    if (autoplay.options.stopOnInteraction === false) {
+      autoplay.reset;
+    } else {
+      autoplay.stop;
+    }
+  }, []);
+
+  const { selectedIndex, scrollSnaps, onDotButtonClick } = useDotButton(
+    emblaApi,
+    onNavButtonClick,
+  );
+
   return (
-    <div className="relative flex h-[1000px] items-center max-md:h-[75vh]">
-      {/* Content */}
-      <div
-        className={`  section-box-w  grid cursor-pointer items-start gap-5 overflow-hidden max-md:gap-0`}
-      >
-        <div className="z-10 flex h-full w-full max-w-[600px] flex-col items-center justify-center gap-4 bg-opacity-50 max-sm:pb-[20vh]">
-          <h3 className="text-base text-white">Some location in the city</h3>
-          <h2 className="gap-0 text-[60px] font-semibold text-white max-sm:text-[44px]">
-            Create beautiful art with
-            <span
-              className="mb-[-20px]  max-sm:mb-0"
-              style={{
-                backgroundImage:
-                  "linear-gradient(315deg, #7F00FF 35%, #E100FF 50%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
-            >
-              {" "}
-              Artificial Intelligence
-            </span>
-          </h2>
-          <div className="flex flex-col gap-10">
-            <h3 className="text-base text-white">
-              Create production-quality visual assets for your projects with
-              unprecedented quality, speed, and style-consistency.
-            </h3>
-            <div className="relative flex h-[60px] w-full max-w-[500px] items-center justify-between gap-4  rounded-lg bg-white px-4  ">
-              <Input
-                type="text"
-                placeholder="Enter your email"
-                className="rounded-md border-none bg-gray-100 px-4 text-black max-sm:text-[12px]"
-              />
-              <Button
-                variant={"outline"}
-                className=" right-2 flex gap-2 bg-white uppercase text-black"
-              >
-                <FaRegEnvelope className="text-purple-500 max-md:text-xl max-sm:text-base" />
-                <span className="max-md:hidden">Subscribe</span>
-              </Button>
-            </div>
-            <div className="flex items-center gap-10">
-              <span className="text-white">Popular Tags</span>
-              <div className="flex gap-2">
-                {["House", "Apartment", "Villa", "Office"].map((tag, i) => (
-                  <Link href={Routes.shop.path} key={i}>
-                    <Button
-                      size={"sm"}
-                      className=" bg-black/30 px-4 text-[10px]  text-white"
-                    >
-                      {tag}
-                    </Button>
-                  </Link>
-                ))}
-              </div>
-            </div>
+    <>
+      {/* Testimonial slider */}{" "}
+      <div className="max-w-full  pt-20 max-md:pt-4">
+        <div className="embla__viewport" ref={emblaRef}>
+          <div className="ml-[-20px] flex">
+            {Array(6)
+              .fill(0)
+              .map((_, i) => (
+                <div
+                  key={i}
+                  className="embla__slide w-1/3 pl-[20px] max-md:w-1/2 max-sm:w-full"
+                >
+                  <div className="flex">
+                    <div className=" relative h-[300px] w-[700px] max-md:h-[300px]">
+                      <Image
+                        src={
+                          "/sites/real-estate/demo-real-estate-slider-01.jpg"
+                        }
+                        fill
+                        alt="Picture of the author"
+                        className="z-0 object-cover"
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
           </div>
         </div>
       </div>
-    </div>
+      <div className="flex gap-4 pt-10">
+        <div className="embla__dots flex w-full justify-center gap-4">
+          {scrollSnaps.map((_, index) => (
+            <Button
+              key={index}
+              onClick={() => onDotButtonClick(index)}
+              className={"size-5 rounded-full p-0 hover:bg-purple-600".concat(
+                index === selectedIndex ? " bg-purple-600" : " bg-gray-300",
+              )}
+            />
+          ))}
+        </div>
+      </div>
+    </>
   );
 }
+
 function WelcomeSection() {
   return (
     <div
-      className={`  section-box-w  flex-center relative h-[1000px] cursor-pointer flex-col  gap-5 overflow-hidden text-center max-md:h-[75vh] max-md:gap-0`}
+      className={`section-box-w  flex-center  relative cursor-pointer  flex-col gap-5  overflow-hidden pt-44 text-center  `}
     >
-      <h3 className="text-base text-white">Some location in the city</h3>
-      <h2 className="gap-0 text-[60px] font-semibold text-white max-sm:text-[44px]">
+      <h2 className="gap-0 text-[60px] font-semibold leading-tight text-white max-lg:text-[44px] max-md:text-[32px]">
         Create beautiful art with
         <span
           className="mb-[-20px]  max-sm:mb-0"
@@ -177,26 +184,25 @@ function WelcomeSection() {
           Artificial Intelligence
         </span>
       </h2>
-      <div className="flex flex-col gap-10">
+
+      <div className="flex flex-col items-center justify-center gap-10">
         <h3 className="text-base text-white">
-          Create production-quality visual assets for your projects with
-          unprecedented quality, speed, and style-consistency.
+          Be advised that image generation requires an active OpenAI, Stability
+          AI or Stable Diffusion token.
         </h3>
-        <div className="relative flex h-[60px] w-full max-w-[500px] items-center justify-between gap-4  rounded-lg bg-white px-4  ">
+        {/* Form */}
+        <div className="relative flex w-full max-w-[500px] items-center justify-between gap-4 rounded-lg bg-white p-1  ">
           <Input
             type="text"
-            placeholder="Enter your email"
+            placeholder="Describe what you want or hit a tag below"
             className="rounded-md border-none bg-gray-100 px-4 text-black max-sm:text-[12px]"
           />
-          <Button
-            variant={"outline"}
-            className=" right-2 flex gap-2 bg-white uppercase text-black"
-          >
-            <FaRegEnvelope className="text-purple-500 max-md:text-xl max-sm:text-base" />
-            <span className="max-md:hidden">Subscribe</span>
-          </Button>
+          <PrimaryButton>
+            <span className="max-md:hidden">Generate</span>
+          </PrimaryButton>
         </div>
-        <div className="flex items-center gap-10">
+        {/* Tags */}
+        <div className="flex flex-wrap items-center justify-center gap-10">
           <span className="text-white">Popular Tags</span>
           <div className="flex gap-2">
             {["House", "Apartment", "Villa", "Office"].map((tag, i) => (
@@ -211,12 +217,27 @@ function WelcomeSection() {
             ))}
           </div>
         </div>
+        <Text>
+          Limits per hour: 80 images for all visitors and up to 2 requests from
+          a single visitor.
+        </Text>
       </div>
+
+      <div
+        className="flex-center mt-10  px-10 py-5 text-xl"
+        style={{
+          backgroundImage: "linear-gradient(315deg, #7606E7 35%, #C300FF 50%)",
+        }}
+      >
+        Three APIs integrated: OpenAI, Stable Diffusion and Stability AI (100+
+        models combined)
+      </div>
+      <Slider1 />
     </div>
   );
 }
 
-function AboutSection() {
+function AboutSection2() {
   return (
     <>
       <div className="section-box-w section-py flex gap-24 max-xl:gap-10   max-md:flex-col max-md:gap-10 ">
@@ -229,107 +250,99 @@ function AboutSection() {
               alt="Picture of the author"
               className="z-0 object-cover"
             />
+            <h2 className="absolute bottom-0 right-0 w-full max-w-[300px] bg-black px-10 py-10 text-3xl font-semibold">
+              We develop & create digital future.
+            </h2>
           </div>
         </div>
         {/* Text box */}
         <div className="flex flex-col justify-center gap-4  max-md:w-full">
-          <Heading3>Online property marketplace</Heading3>
-          <Heading2>
-            We help you find your{" "}
-            <span className="underline-green-300 font-bold text-purple-600 underline">
-              new place.
-            </span>
-          </Heading2>
+          <Heading3>WHAT WE DO</Heading3>
+          <Heading2>Create your own AI business easily</Heading2>
 
-          <p className="max-w-[400px] py-6 leading-9 max-md:max-w-full max-sm:py-2 max-sm:leading-normal ">
-            Online property marketplace to buy, sell, and rent residential and
-            commercial properties. Used by millions of renters to find property.
+          <p className="max-w-[400px] pb-6 leading-9 max-md:max-w-full max-sm:py-2 max-sm:leading-normal ">
+            Adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+            dolore magna aliqua. Ut enim ad minim veniam, quis.
           </p>
 
-          <div className="grid gap-4">
-            {[
-              {
-                text: "10,000+ people trusting our agency.",
-              },
-              {
-                text: "Highest rental income projects",
-              },
-            ].map((item, i) => (
-              <div key={i} className="flex items-center gap-4">
-                <div className="flex-center h-10  w-10 rounded-full bg-green-100 text-green-500 max-sm:size-5 max-sm:text-[12px]">
-                  <FaCheck />
-                </div>
-                <div className="font-bold max-sm:text-[14px]">{item.text}</div>
-              </div>
-            ))}
-          </div>
-          <div className="max-sm:item-start flex w-full flex-wrap items-center gap-5 self-start pt-10 max-md:pt-5   max-sm:justify-start">
+          <div className="max-sm:item-start flex w-full flex-wrap items-center gap-5 self-start   max-md:pt-5   max-sm:justify-start">
             <PrimaryButton>About community</PrimaryButton>
-            <Button variant={"link"} className="flex-center gap-2">
-              Our services <FaArrowRight />
-            </Button>
           </div>
         </div>
       </div>
     </>
   );
 }
-function CategorySection() {
+function LogosSection() {
   return (
     <>
       <div className="border-y-2">
         <div className="section-box-w flex items-center max-md:max-w-full  max-md:px-0">
           <div className="justify-stretchs  flex w-full items-center divide-x-2 max-md:grid">
-            {/* Text box */}
-            <div className="max-md:section-px  w-full max-w-[200px] pr-10 text-xl font-bold max-md:max-w-full max-md:border-b-2 max-md:py-10">
-              What are you{" "}
-              <span className="underline-green-300 font-bold text-purple-600 underline">
-                looking
-              </span>{" "}
-              for?
-            </div>
             {/* Category box grid */}
             <div className="grid w-full grid-cols-5 flex-wrap   divide-x-2 max-md:border-t-gray-800 max-sm:grid-cols-2">
               {[
                 {
-                  icon: <IoBedOutline />,
-                  title: "House",
-                  count: 100,
+                  icon: (
+                    <Image
+                      loading="lazy"
+                      src={sitePath.concat("/logos/agl.png")}
+                      alt="Picture of the author"
+                      fill
+                      objectFit="contain"
+                    />
+                  ),
                 },
                 {
-                  icon: <IoBedOutline />,
-                  title: "House",
-                  count: 100,
+                  icon: (
+                    <Image
+                      loading="lazy"
+                      src={sitePath.concat("/logos/agl.png")}
+                      alt="Picture of the author"
+                      fill
+                      objectFit="contain"
+                    />
+                  ),
                 },
                 {
-                  icon: <IoBedOutline />,
-                  title: "House",
-                  count: 100,
+                  icon: (
+                    <Image
+                      loading="lazy"
+                      src={sitePath.concat("/logos/agl.png")}
+                      alt="Picture of the author"
+                      fill
+                      objectFit="contain"
+                    />
+                  ),
                 },
                 {
-                  icon: <IoBedOutline />,
-                  title: "House",
-                  count: 100,
+                  icon: (
+                    <Image
+                      loading="lazy"
+                      src={sitePath.concat("/logos/agl.png")}
+                      alt="Picture of the author"
+                      fill
+                      objectFit="contain"
+                    />
+                  ),
                 },
                 {
-                  icon: <IoBedOutline />,
-                  title: "House",
-                  count: 100,
+                  icon: (
+                    <Image
+                      loading="lazy"
+                      src={sitePath.concat("/logos/agl.png")}
+                      alt="Picture of the author"
+                      fill
+                      objectFit="contain"
+                    />
+                  ),
                 },
               ].map((item, i) => (
                 <div
                   className="relative grid h-[180px] w-full place-items-center content-center justify-center gap-2 max-md:h-[130px]  max-sm:border-b-2 last:max-sm:border-b-0"
                   key={i}
                 >
-                  <div className="text-[40px] font-bold max-md:text-[30px]">
-                    {item.icon}
-                  </div>
-                  <div className="font-semibold max-md:text-[14px]">
-                    {item.title}
-                  </div>
-                  <div className="flex-center absolute left-4 top-4 rounded-md bg-purple-100 px-2 py-1 text-[12px] font-bold text-purple-500">
-                    {item.count}
-                  </div>
+                  <div className="relative size-40">{item.icon}</div>
                 </div>
               ))}
             </div>
@@ -579,7 +592,7 @@ function LocationsSection() {
     nextBtnDisabled,
     onPrevButtonClick,
     onNextButtonClick,
-  } = usePrevNextButtons(emblaApi);
+  } = useEmblaNavigation(emblaApi);
 
   return (
     <>
@@ -649,23 +662,12 @@ function TestimonialSection() {
     nextBtnDisabled,
     onPrevButtonClick,
     onNextButtonClick,
-  } = usePrevNextButtons(emblaApi);
+  } = useEmblaNavigation(emblaApi);
 
   return (
     <>
       <>
         <div className="section-box-w section-py flex gap-24 max-xl:gap-10 max-md:flex-col max-md:gap-10">
-          {/* Image */}
-          <div className="w-full max-w-[500px] max-md:max-w-full">
-            <div className=" relative h-[600px] max-md:h-[300px]">
-              <Image
-                src={"/sites/real-estate/demo-real-estate-slider-01.jpg"}
-                fill
-                alt="Picture of the author"
-                className="z-0 object-cover"
-              />
-            </div>
-          </div>
           {/* Text box */}
           <div className="flex w-full  flex-col  gap-4">
             <Heading3>Clients feedback</Heading3>
@@ -677,9 +679,9 @@ function TestimonialSection() {
               have to say
             </Heading2>
             {/* Testimonial slider */}{" "}
-            <div className="grid max-w-[400px] pt-6 max-md:max-w-[100vw]">
+            <div className="max-w-full  pt-10 max-md:pt-4">
               <div className="overflow-hidden" ref={emblaRef}>
-                <div className="flex">
+                <div className="ml-[-20px] flex">
                   {[
                     {
                       text: "Alec Thompson",
@@ -705,15 +707,31 @@ function TestimonialSection() {
                       ),
                       rating: 5,
                     },
+                    {
+                      text: "Alec Thompson",
+                      desc: "I just bought a house with the help of this company. Thank you for your support and help with finding me a home. I am very happy with the service and the help, everything was perfect. Thank you very much.",
+                      icon: (
+                        <Image src={`${imageRoute}/loan.png`} alt="" fill />
+                      ),
+                      rating: 5,
+                    },
+                    {
+                      text: "Alec Thompson",
+                      desc: "I just bought a house with the help of this company. Thank you for your support and help with finding me a home. I am very happy with the service and the help, everything was perfect. Thank you very much.",
+                      icon: (
+                        <Image src={`${imageRoute}/loan.png`} alt="" fill />
+                      ),
+                      rating: 5,
+                    },
                   ].map((item, i) => (
-                    <div key={i} className=" ml-10 ">
-                      <div className="grid  w-[400px] gap-10    max-sm:w-[100vw]">
+                    <div key={i} className="embla__slide  w-[100vw]  pl-[20px]">
+                      <div className="flex w-[100vw] flex-col  gap-10">
                         <div className="opacity-70">{item.desc}</div>
-                        <div className=" flex items-center justify-start gap-10">
+                        <div className="flex items-center justify-start gap-10">
                           <div className="relative h-[80px]  w-[80px]  rounded-full bg-green-100   text-green-500">
                             {item.icon}
                           </div>
-                          <div className="grid  gap-4">
+                          <div className="flex flex-col gap-4">
                             <div className="font-bold">{item.text}</div>
                             <div className="flex">
                               {Array(item.rating)
@@ -790,18 +808,61 @@ function CTASection() {
   );
 }
 
-function OfferingsCards() {
+function AboutSection() {
   return (
-    <div className="section-box-w section-py">
-      <div className="grid w-full  grid-cols-4  content-center  gap-8 max-xl:grid-cols-2 max-md:py-10 max-sm:grid-cols-1 max-sm:gap-3 max-sm:py-4">
-        {offeringCardsDemoList.map((item, i) => (
+    <div className="section-box-w section-py flex flex-col gap-10">
+      {/* about text */}
+      <div className="grid grid-cols-2 gap-10 max-md:grid-cols-1">
+        <div className="flex  flex-col gap-4">
+          <Heading3>HUGE COLLECTION</Heading3>
+          <Heading2>More algorithms than anywhere else.</Heading2>
+        </div>
+        <div className="flex flex-col ">
+          <Text>
+            Adipiscing elit, sed do euismod tempor incidunt ut labore et dolore
+            magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+            ullamco. <br /> <br />
+            Adipiscing elit, sed do euismod tempor incidunt ut labore et dolore
+            magna aliqua. Ut enim ad minim veniam.
+          </Text>
+        </div>
+      </div>
+      {/* icon box grid */}
+      <div className="grid w-full  grid-cols-4  content-center  gap-8 pt-10 max-xl:grid-cols-2 max-md:gap-y-20 max-md:py-10 max-sm:grid-cols-2   max-sm:py-4 ">
+        {[
+          {
+            title: "Natural Language",
+            icon: <GrSecure />,
+            bg: "bg-yellow-100",
+          },
+          {
+            title: "Face Recognition",
+            icon: <FiTruck />,
+            bg: "bg-red-100",
+          },
+          {
+            title: "Computer Vision",
+            icon: <LuBox />,
+            bg: "bg-orange-100",
+          },
+          {
+            title: "Automated Reasoning",
+            icon: <BiSupport />,
+            bg: "bg-yellow-100",
+          },
+        ].map((item, i) => (
           <div
             key={i}
-            className="flex min-h-[150px] flex-col items-start justify-center gap-2 rounded-lg  p-8  "
+            className="flex min-h-[150px] flex-col items-start justify-center gap-2  border-r-2 border-gray-700 pl-4 first:p-0 last:border-none max-md:border-none max-md:p-0  "
           >
-            <div className={`text-[50px] text-emerald-600`}>{item.icon}</div>
-            <h3 className="pt-3 font-bold">{item.title}</h3>
-            <p className="text-gray-400">{item.subtitle}</p>
+            <div className={`text-[50px] text-gray-600`}>{item.icon}</div>
+            <h3 className="max-w-[100px] pb-6 pt-3 text-xl font-bold max-sm:text-base">
+              {item.title}
+            </h3>
+            <div className="flex-center gap-4">
+              Read more
+              <FaArrowRight />
+            </div>
           </div>
         ))}
       </div>
@@ -812,13 +873,13 @@ export function View() {
   return (
     <main className="bg-gray-900 text-white">
       <WelcomeSection />
-      <OfferingsCards />
       <AboutSection />
-      <CategorySection />
+      <TestimonialSection />
+      <AboutSection2 />
+      <LogosSection />
       <PropertyListSection />
       <WhyUs1Section />
       <LocationsSection />
-      <TestimonialSection />
       <CTASection />
     </main>
   );
