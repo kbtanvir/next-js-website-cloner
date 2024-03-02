@@ -129,9 +129,9 @@
 
   }
   .embla__slide {
-    position: relative;
+    /* position: relative;
     flex: 0 0 var(--slide-size);
-    margin: 0 var(--slide-spacing);
+    margin: 0 var(--slide-spacing); */
 
   }
   .embla__slide__content {

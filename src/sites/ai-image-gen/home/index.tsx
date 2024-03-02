@@ -1,29 +1,25 @@
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Routes, imageRoute, sitePath } from "@/pages/sites/ai-image-gen";
+import { type EmblaCarouselType } from "embla-carousel";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useCallback } from "react";
 import { BiArea, BiSupport } from "react-icons/bi";
-import {
-  FaArrowLeft,
-  FaArrowRight,
-  FaRegEnvelope,
-  FaStar,
-} from "react-icons/fa";
+import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
+import { FaArrowLeft, FaArrowRight, FaRegEnvelope } from "react-icons/fa";
+import { FiTruck } from "react-icons/fi";
+import { GrSecure } from "react-icons/gr";
+import { IoMdQuote } from "react-icons/io";
+import { IoBedOutline } from "react-icons/io5";
+import { LuBox } from "react-icons/lu";
 import { PiBathtubLight } from "react-icons/pi";
 import {
   useDotButton,
   useEmblaNavigation,
 } from "../../../hooks/useEmblaNavigation";
-
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Routes, imageRoute, sitePath } from "@/pages/sites/ai-image-gen";
-import { type EmblaCarouselType } from "embla-carousel";
-import Image from "next/image";
-import Link from "next/link";
-import { useCallback } from "react";
-import { FiTruck } from "react-icons/fi";
-import { GrSecure } from "react-icons/gr";
-import { IoBedOutline } from "react-icons/io5";
-import { LuBox } from "react-icons/lu";
 
 function Heading3({
   children = <>This is heading 3</>,
@@ -352,7 +348,98 @@ function LogosSection() {
     </>
   );
 }
+function TestimonialSlider() {
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    {
+      slidesToScroll: 1,
+      align: "start",
+      loop: true,
+    },
+    [Autoplay()],
+  );
 
+  const onNavButtonClick = useCallback((emblaApi: EmblaCarouselType) => {
+    const autoplay = emblaApi?.plugins()?.autoplay;
+    if (!autoplay) return;
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    if (autoplay.options.stopOnInteraction === false) {
+      autoplay.reset;
+    } else {
+      autoplay.stop;
+    }
+  }, []);
+
+  const { selectedIndex, scrollSnaps, onDotButtonClick } = useDotButton(
+    emblaApi,
+    onNavButtonClick,
+  );
+  const {
+    prevBtnDisabled,
+    nextBtnDisabled,
+    onPrevButtonClick,
+    onNextButtonClick,
+  } = useEmblaNavigation(emblaApi);
+
+  return (
+    <div className="section-box-w relative flex max-w-[960px] flex-col justify-center">
+      {/* Testimonial slider */}{" "}
+      <div className="max-w-full max-md:pt-4">
+        <div className="embla__viewport" ref={emblaRef}>
+          <div className="ml-[-20px] flex">
+            {Array(6)
+              .fill(0)
+              .map((_, i) => (
+                <div key={i} className="embla__slide w-full pl-[20px]">
+                  <div className="flex">
+                    <div className="flex-center  w-[100vw] flex-col text-center">
+                      <IoMdQuote className="rotate-180 text-[60px] text-purple-500" />
+                      <p className="text-xl leading-loose">
+                        Lorem ipsum dolor, sit amet consectetur adipisicing
+                        elit. Perferendis officia nostrum libero veritatis nisi
+                        quasi ullam tenetur nobis odio debitis! Deserunt, ipsum
+                        provident illo illum tempora at architecto? Voluptas,
+                        sint!
+                      </p>
+                      <div className="flex-center gap-4 pt-10">
+                        <div className="relative h-20 w-20 overflow-hidden rounded-full">
+                          <Image
+                            src={
+                              "/sites/real-estate/demo-real-estate-slider-01.jpg"
+                            }
+                            fill
+                            alt="Picture of the author"
+                          />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                          <div className="font-bold">Jacob Daniels</div>
+                          <div className="opacity-70">CEO, Company</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+          </div>
+        </div>
+      </div>
+      <div className="absolute flex w-full gap-4 pt-10  text-[40px] text-white">
+        <span
+          onClick={onPrevButtonClick}
+          className="absolute left-[-6em] h-20 w-20 rounded-full bg-transparent   text-white"
+        >
+          <BsArrowLeft />
+        </span>
+        <span
+          onClick={onNextButtonClick}
+          className="absolute  right-[-6em] h-20  w-20  rounded-full bg-transparent    text-white"
+        >
+          <BsArrowRight />
+        </span>
+      </div>
+    </div>
+  );
+}
 function PropertyListCard() {
   return (
     <div className="relative w-full cursor-pointer flex-col overflow-hidden rounded-lg border border-solid border-gray-100 bg-white shadow-sm transition-all duration-300 ease-in-out hover:shadow-lg max-md:ml-0 max-md:w-full ">
@@ -647,133 +734,7 @@ function LocationsSection() {
     </>
   );
 }
-function TestimonialSection() {
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    {
-      slidesToScroll: 1,
-      align: "start",
-      loop: true,
-    },
-    [Autoplay()],
-  );
 
-  const {
-    prevBtnDisabled,
-    nextBtnDisabled,
-    onPrevButtonClick,
-    onNextButtonClick,
-  } = useEmblaNavigation(emblaApi);
-
-  return (
-    <>
-      <>
-        <div className="section-box-w section-py flex gap-24 max-xl:gap-10 max-md:flex-col max-md:gap-10">
-          {/* Text box */}
-          <div className="flex w-full  flex-col  gap-4">
-            <Heading3>Clients feedback</Heading3>
-            <Heading2>
-              Here is what our{" "}
-              <span className="underline-green-300 font-bold text-purple-600 underline">
-                clients
-              </span>{" "}
-              have to say
-            </Heading2>
-            {/* Testimonial slider */}{" "}
-            <div className="max-w-full  pt-10 max-md:pt-4">
-              <div className="overflow-hidden" ref={emblaRef}>
-                <div className="ml-[-20px] flex">
-                  {[
-                    {
-                      text: "Alec Thompson",
-                      desc: "I just bought a house with the help of this company. Thank you for your support and help with finding me a home. I am very happy with the service and the help, everything was perfect. Thank you very much.",
-                      icon: (
-                        <Image src={`${imageRoute}/loan.png`} alt="" fill />
-                      ),
-                      rating: 5,
-                    },
-                    {
-                      text: "Alec Thompson",
-                      desc: "I just bought a house with the help of this company. Thank you for your support and help with finding me a home. I am very happy with the service and the help, everything was perfect. Thank you very much.",
-                      icon: (
-                        <Image src={`${imageRoute}/loan.png`} alt="" fill />
-                      ),
-                      rating: 5,
-                    },
-                    {
-                      text: "Alec Thompson",
-                      desc: "I just bought a house with the help of this company. Thank you for your support and help with finding me a home. I am very happy with the service and the help, everything was perfect. Thank you very much.",
-                      icon: (
-                        <Image src={`${imageRoute}/loan.png`} alt="" fill />
-                      ),
-                      rating: 5,
-                    },
-                    {
-                      text: "Alec Thompson",
-                      desc: "I just bought a house with the help of this company. Thank you for your support and help with finding me a home. I am very happy with the service and the help, everything was perfect. Thank you very much.",
-                      icon: (
-                        <Image src={`${imageRoute}/loan.png`} alt="" fill />
-                      ),
-                      rating: 5,
-                    },
-                    {
-                      text: "Alec Thompson",
-                      desc: "I just bought a house with the help of this company. Thank you for your support and help with finding me a home. I am very happy with the service and the help, everything was perfect. Thank you very much.",
-                      icon: (
-                        <Image src={`${imageRoute}/loan.png`} alt="" fill />
-                      ),
-                      rating: 5,
-                    },
-                  ].map((item, i) => (
-                    <div key={i} className="embla__slide  w-[100vw]  pl-[20px]">
-                      <div className="flex w-[100vw] flex-col  gap-10">
-                        <div className="opacity-70">{item.desc}</div>
-                        <div className="flex items-center justify-start gap-10">
-                          <div className="relative h-[80px]  w-[80px]  rounded-full bg-green-100   text-green-500">
-                            {item.icon}
-                          </div>
-                          <div className="flex flex-col gap-4">
-                            <div className="font-bold">{item.text}</div>
-                            <div className="flex">
-                              {Array(item.rating)
-                                .fill(0)
-                                .map((_, i) => (
-                                  <div key={i} className="text-yellow-500">
-                                    <FaStar />
-                                  </div>
-                                ))}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-            <div className="relative flex gap-4 pt-10">
-              <Button
-                onClick={onPrevButtonClick}
-                disabled={prevBtnDisabled}
-                variant={"outline"}
-                className="h-20 w-20 rounded-full    text-[20px]  "
-              >
-                <FaArrowLeft />
-              </Button>
-              <Button
-                onClick={onNextButtonClick}
-                disabled={nextBtnDisabled}
-                variant={"outline"}
-                className="h-20 w-20  rounded-full      text-[20px]  "
-              >
-                <FaArrowRight />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </>
-    </>
-  );
-}
 function CTASection() {
   return (
     <>
@@ -874,7 +835,7 @@ export function View() {
     <main className="bg-gray-900 text-white">
       <WelcomeSection />
       <AboutSection />
-      <TestimonialSection />
+      <TestimonialSlider />
       <AboutSection2 />
       <LogosSection />
       <PropertyListSection />

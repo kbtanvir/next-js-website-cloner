@@ -1,9 +1,10 @@
+import { Button } from "@/components/ui/button";
 import { useDotButton, useEmblaNavigation } from "@/hooks/useEmblaNavigation";
 import { type EmblaCarouselType } from "embla-carousel";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
+import Image from "next/image";
 import { useCallback } from "react";
-import { Button } from "react-day-picker";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 export default function EmplaSlider() {
@@ -19,13 +20,13 @@ export default function EmplaSlider() {
   const onNavButtonClick = useCallback((emblaApi: EmblaCarouselType) => {
     const autoplay = emblaApi?.plugins()?.autoplay;
     if (!autoplay) return;
-
-    const resetOrStop =
-      autoplay.options.stopOnInteraction === false
-        ? autoplay.reset
-        : autoplay.stop;
-
-     resetOrStop();
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    if (autoplay.options.stopOnInteraction === false) {
+      autoplay.reset;
+    } else {
+      autoplay.stop;
+    }
   }, []);
 
   const { selectedIndex, scrollSnaps, onDotButtonClick } = useDotButton(
