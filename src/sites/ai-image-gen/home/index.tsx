@@ -1,25 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Routes, imageRoute, sitePath } from "@/pages/sites/ai-image-gen";
-import { type EmblaCarouselType } from "embla-carousel";
-import Autoplay from "embla-carousel-autoplay";
-import useEmblaCarousel from "embla-carousel-react";
+import { Routes, sitePath } from "@/pages/sites/ai-image-gen";
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback } from "react";
-import { BiArea, BiSupport } from "react-icons/bi";
+import { BiSupport } from "react-icons/bi";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
-import { FaArrowLeft, FaArrowRight, FaRegEnvelope } from "react-icons/fa";
+import { FaArrowRight, FaRegEnvelope } from "react-icons/fa";
 import { FiTruck } from "react-icons/fi";
 import { GrSecure } from "react-icons/gr";
 import { IoMdQuote } from "react-icons/io";
-import { IoBedOutline } from "react-icons/io5";
+import { IoCheckmark } from "react-icons/io5";
 import { LuBox } from "react-icons/lu";
-import { PiBathtubLight } from "react-icons/pi";
-import {
-  useDotButton,
-  useEmblaNavigation,
-} from "../../../hooks/useEmblaNavigation";
+import { useEmbla } from "../../../hooks/useEmbla";
 
 function Heading3({
   children = <>This is heading 3</>,
@@ -63,7 +55,7 @@ function Text({
 }) {
   return (
     <p
-      className={`max-sm:text-[14px] ${reverseColor ? "text-black" : `text-gray-400`} `}
+      className={`max-sm:text-[14px] ${reverseColor ? "text-white" : `text-gray-400`} `}
     >
       {children}
     </p>
@@ -87,30 +79,8 @@ export function PrimaryButton({
 }
 
 function Slider1() {
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    {
-      slidesToScroll: 1,
-      align: "start",
-      loop: true,
-    },
-    [Autoplay()],
-  );
-
-  const onNavButtonClick = useCallback((emblaApi: EmblaCarouselType) => {
-    const autoplay = emblaApi?.plugins()?.autoplay;
-    if (!autoplay) return;
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    if (autoplay.options.stopOnInteraction === false) {
-      autoplay.reset;
-    } else {
-      autoplay.stop;
-    }
-  }, []);
-
-  const { selectedIndex, scrollSnaps, onDotButtonClick } = useDotButton(
-    emblaApi,
-    onNavButtonClick,
+  const { emblaRef, selectedIndex, scrollSnaps, onDotButtonClick } = useEmbla(
+    {},
   );
 
   return (
@@ -236,33 +206,115 @@ function WelcomeSection() {
 function AboutSection2() {
   return (
     <>
-      <div className="section-box-w section-py flex gap-24 max-xl:gap-10   max-md:flex-col max-md:gap-10 ">
-        {/* Image */}
-        <div className="w-full max-w-[450px] max-md:max-w-full">
-          <div className=" relative h-[600px] max-md:h-[300px]">
-            <Image
-              src={"/sites/real-estate/demo-real-estate-slider-01.jpg"}
-              fill
-              alt="Picture of the author"
-              className="z-0 object-cover"
-            />
-            <h2 className="absolute bottom-0 right-0 w-full max-w-[300px] bg-black px-10 py-10 text-3xl font-semibold">
-              We develop & create digital future.
-            </h2>
+      <div className="section-box-w section-py grid gap-10 pb-14">
+        <div className="  flex gap-24 max-xl:gap-10   max-md:flex-col max-md:gap-10 ">
+          {/* Image */}
+          <div className="w-full max-w-[450px] max-md:max-w-full">
+            <div className=" relative h-[600px] max-md:h-[300px]">
+              <Image
+                src={"/sites/real-estate/demo-real-estate-slider-01.jpg"}
+                fill
+                alt="Picture of the author"
+                className="z-0 object-cover"
+              />
+              <h2 className="absolute bottom-0 right-0 w-full max-w-[300px] bg-black px-10 py-10 text-3xl font-semibold">
+                We develop & create digital future.
+              </h2>
+            </div>
+          </div>
+          {/* Text box */}
+          <div className="flex flex-col justify-center gap-4  max-md:w-full">
+            <Heading3>WHAT WE DO</Heading3>
+            <Heading2>Create your own AI business easily</Heading2>
+
+            <p className="max-w-[400px] pb-6 leading-9 max-md:max-w-full max-sm:py-2 max-sm:leading-normal ">
+              Adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua. Ut enim ad minim veniam, quis.
+            </p>
+
+            <div className="max-sm:item-start flex w-full flex-wrap items-center gap-5 self-start   max-md:pt-5   max-sm:justify-start">
+              <PrimaryButton>About community</PrimaryButton>
+            </div>
           </div>
         </div>
-        {/* Text box */}
-        <div className="flex flex-col justify-center gap-4  max-md:w-full">
-          <Heading3>WHAT WE DO</Heading3>
-          <Heading2>Create your own AI business easily</Heading2>
-
-          <p className="max-w-[400px] pb-6 leading-9 max-md:max-w-full max-sm:py-2 max-sm:leading-normal ">
-            Adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Ut enim ad minim veniam, quis.
-          </p>
-
-          <div className="max-sm:item-start flex w-full flex-wrap items-center gap-5 self-start   max-md:pt-5   max-sm:justify-start">
-            <PrimaryButton>About community</PrimaryButton>
+        {/* LOGOS grid*/}
+        <div className="flex w-full items-center justify-stretch  max-md:grid">
+          <div className="grid w-full grid-cols-6 flex-wrap gap-5 max-md:grid-cols-3 max-sm:grid-cols-2">
+            {[
+              {
+                icon: (
+                  <Image
+                    loading="lazy"
+                    src={sitePath.concat("/logos/agl.png")}
+                    alt="Picture of the author"
+                    fill
+                    objectFit="contain"
+                  />
+                ),
+              },
+              {
+                icon: (
+                  <Image
+                    loading="lazy"
+                    src={sitePath.concat("/logos/citi.png")}
+                    alt="Picture of the author"
+                    fill
+                    objectFit="contain"
+                  />
+                ),
+              },
+              {
+                icon: (
+                  <Image
+                    loading="lazy"
+                    src={sitePath.concat("/logos/energy.png")}
+                    alt="Picture of the author"
+                    fill
+                    objectFit="contain"
+                  />
+                ),
+              },
+              {
+                icon: (
+                  <Image
+                    loading="lazy"
+                    src={sitePath.concat("/logos/github.png")}
+                    alt="Picture of the author"
+                    fill
+                    objectFit="contain"
+                  />
+                ),
+              },
+              {
+                icon: (
+                  <Image
+                    loading="lazy"
+                    src={sitePath.concat("/logos/theater.png")}
+                    alt="Picture of the author"
+                    fill
+                    objectFit="contain"
+                  />
+                ),
+              },
+              {
+                icon: (
+                  <Image
+                    loading="lazy"
+                    src={sitePath.concat("/logos/elo.png")}
+                    alt="Picture of the author"
+                    fill
+                    objectFit="contain"
+                  />
+                ),
+              },
+            ].map((item, i) => (
+              <div
+                className="relative grid h-[180px] w-full place-items-center content-center justify-center gap-2 opacity-30  transition-all   duration-300 ease-in-out hover:scale-105 hover:opacity-100 max-md:h-[130px] max-sm:h-[100px]"
+                key={i}
+              >
+                <div className="relative size-40">{item.icon}</div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -272,117 +324,17 @@ function AboutSection2() {
 function LogosSection() {
   return (
     <>
-      <div className="border-y-2">
-        <div className="section-box-w flex items-center max-md:max-w-full  max-md:px-0">
-          <div className="justify-stretchs  flex w-full items-center divide-x-2 max-md:grid">
-            {/* Category box grid */}
-            <div className="grid w-full grid-cols-5 flex-wrap   divide-x-2 max-md:border-t-gray-800 max-sm:grid-cols-2">
-              {[
-                {
-                  icon: (
-                    <Image
-                      loading="lazy"
-                      src={sitePath.concat("/logos/agl.png")}
-                      alt="Picture of the author"
-                      fill
-                      objectFit="contain"
-                    />
-                  ),
-                },
-                {
-                  icon: (
-                    <Image
-                      loading="lazy"
-                      src={sitePath.concat("/logos/agl.png")}
-                      alt="Picture of the author"
-                      fill
-                      objectFit="contain"
-                    />
-                  ),
-                },
-                {
-                  icon: (
-                    <Image
-                      loading="lazy"
-                      src={sitePath.concat("/logos/agl.png")}
-                      alt="Picture of the author"
-                      fill
-                      objectFit="contain"
-                    />
-                  ),
-                },
-                {
-                  icon: (
-                    <Image
-                      loading="lazy"
-                      src={sitePath.concat("/logos/agl.png")}
-                      alt="Picture of the author"
-                      fill
-                      objectFit="contain"
-                    />
-                  ),
-                },
-                {
-                  icon: (
-                    <Image
-                      loading="lazy"
-                      src={sitePath.concat("/logos/agl.png")}
-                      alt="Picture of the author"
-                      fill
-                      objectFit="contain"
-                    />
-                  ),
-                },
-              ].map((item, i) => (
-                <div
-                  className="relative grid h-[180px] w-full place-items-center content-center justify-center gap-2 max-md:h-[130px]  max-sm:border-b-2 last:max-sm:border-b-0"
-                  key={i}
-                >
-                  <div className="relative size-40">{item.icon}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+      <div className="">
+        <div className="section-box-w flex items-center max-md:max-w-full  max-md:px-0"></div>
       </div>
     </>
   );
 }
-function TestimonialSlider() {
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    {
-      slidesToScroll: 1,
-      align: "start",
-      loop: true,
-    },
-    [Autoplay()],
-  );
-
-  const onNavButtonClick = useCallback((emblaApi: EmblaCarouselType) => {
-    const autoplay = emblaApi?.plugins()?.autoplay;
-    if (!autoplay) return;
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    if (autoplay.options.stopOnInteraction === false) {
-      autoplay.reset;
-    } else {
-      autoplay.stop;
-    }
-  }, []);
-
-  const { selectedIndex, scrollSnaps, onDotButtonClick } = useDotButton(
-    emblaApi,
-    onNavButtonClick,
-  );
-  const {
-    prevBtnDisabled,
-    nextBtnDisabled,
-    onPrevButtonClick,
-    onNextButtonClick,
-  } = useEmblaNavigation(emblaApi);
+function TestimonialSection() {
+  const { onPrevButtonClick, onNextButtonClick, emblaRef } = useEmbla({});
 
   return (
-    <div className="section-box-w relative flex max-w-[960px] flex-col justify-center">
+    <div className="section-box-w relative flex max-w-[960px] flex-col justify-center ">
       {/* Testimonial slider */}{" "}
       <div className="max-w-full max-md:pt-4">
         <div className="embla__viewport" ref={emblaRef}>
@@ -440,309 +392,102 @@ function TestimonialSlider() {
     </div>
   );
 }
-function PropertyListCard() {
+
+function PricingSection() {
   return (
-    <div className="relative w-full cursor-pointer flex-col overflow-hidden rounded-lg border border-solid border-gray-100 bg-white shadow-sm transition-all duration-300 ease-in-out hover:shadow-lg max-md:ml-0 max-md:w-full ">
-      {/* THUMBNAIL BOX */}
-      <div className="relative flex w-full flex-col rounded-lg">
-        {/* THUMBNAIL */}
-        <div className="relative h-[260px]">
-          <Image
-            loading="lazy"
-            src={"/sites/real-estate/demo-real-estate-slider-01.jpg"}
-            alt="Picture of the author"
-            fill
-          />
-        </div>
-        {/* TAGS */}
-        <div className="absolute flex w-full flex-col items-start">
-          <div className="flex items-stretch pl-6 pt-6">
-            <span className="justify-self-start whitespace-nowrap rounded-md border border-solid border-white border-opacity-10 bg-red-600 px-3.5 py-1.5 text-center text-xs leading-3 text-white">
-              Rent
-            </span>
+    <div className="section-box-w section-py flex flex-row-reverse gap-24 pt-0 max-xl:flex-col-reverse   max-md:gap-10">
+      {/* Image */}
+      <div className="grid w-full grid-cols-2    gap-10   max-md:max-w-full max-md:grid-cols-1">
+        {[
+          {
+            title: "Silver Pack",
+            desc: "Great for private individuals",
+            price: 99,
+            features: ["1 User", "Unlimited Projects", "Download prototypes"],
+          },
+          {
+            title: "Gold Pack",
+            desc: "Great for small teams",
+            price: 199,
+            features: ["5 Users", "Unlimited Projects", "Download prototypes"],
+          },
+        ].map((item, i) => (
+          <div
+            key={i}
+            className="flex w-full  flex-col place-items-center gap-10 bg-black p-14"
+          >
+            <div className="flex flex-col items-center gap-4 text-center">
+              <h4 className="text-2xl font-bold"> {item.title}</h4>
+              <Text> {item.desc}</Text>
+            </div>
+            <div className="relative flex items-end">
+              <div className="absolute left-[-1em] top-0 text-lg">$</div>
+              <div className="text-[60px] font-bold leading-tight">
+                {item.price}
+              </div>
+              <div className="relative bottom-3 left-2 text-base font-bold">
+                /Mo
+              </div>
+            </div>
+            <div className="flex flex-col gap-4 text-center">
+              {item.features.map((feature, i) => (
+                <Text key={i}>{feature}</Text>
+              ))}
+            </div>
+            <div className="content-end">
+              <PrimaryButton>Get started</PrimaryButton>
+            </div>
           </div>
-        </div>
+        ))}
       </div>
-      {/* DETAILS BOX */}
-      <div className="flex flex-col gap-6 px-10 py-6 max-md:px-6  ">
-        {/* Title */}
-        <div className="">
-          <h3 className="text-lg font-bold">Luxury villa in Texas</h3>
-          <p className="text-base opacity-80 ">982 Monroe ave, rochester</p>
-        </div>
-        {/* convinience */}
-        <div className="flex flex-wrap justify-between gap-2">
+      {/* Text box */}
+      <div className="flex  flex-col gap-4  max-[1300px]:max-w-[50em]">
+        <Heading3>FLEXIBLE & AFFORDABLE</Heading3>
+        <Heading2>Our Pricing Plans</Heading2>
+        <Text>
+          Adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua. Ut enim ad minim veniam, quis.
+        </Text>
+        <div className="flex w-full flex-col flex-wrap  gap-10 pt-14  ">
           {[
             {
-              icon: <IoBedOutline />,
-              title: "Beds",
-              amount: "04",
+              text: "10,000+ people trusting our models.",
+              desc: "Adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis.",
+              icon: <IoCheckmark />,
             },
             {
-              icon: <PiBathtubLight />,
-              title: "Baths",
-              amount: "05",
+              text: "No hidden fees or extra charges",
+              desc: "Adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis.",
+              icon: <IoCheckmark />,
             },
-            {
-              icon: <BiArea />,
-              title: "Area",
-              amount: "780m2",
-            },
-          ].map((conv, index) => (
+          ].map((item, i) => (
             <div
-              key={index}
-              className="flex flex-col flex-wrap gap-2 text-black first:pl-0 last:pr-0"
+              key={i}
+              className="flex flex-wrap  items-start gap-6 max-sm:flex-col"
             >
-              <div className="text-[24px]">{conv.icon}</div>
-              <div className="text-base font-bold">{conv.amount}</div>
-              <div className="text-[14px]">{conv.title}</div>
+              <div className="relative size-10 max-w-[80px]   overflow-hidden rounded-[100%] text-[40px] text-purple-500">
+                <IoCheckmark />
+              </div>
+              <div className="flex flex-1 flex-col gap-4">
+                <div className="font-bold">{item.text}</div>
+                <div className="opacity-70">{item.desc}</div>
+              </div>
             </div>
           ))}
         </div>
       </div>
-      {/* buttons and price */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-t-2 px-10 py-6 max-md:px-6">
-        <p className="text-[20px] font-bold opacity-80">$600,000</p>
-        <Button className="uppercase">View details</Button>
-      </div>
     </div>
-  );
-}
-
-function PropertyListSection() {
-  return (
-    <>
-      <div className="section-py bg-gray-100">
-        <div className="section-box-w">
-          {/* SECTION TITLE 
-          -----------------*/}
-          <div className="flex w-full place-items-center content-center items-center justify-between gap-10 pb-20 max-md:grid max-md:justify-center max-sm:place-items-start max-sm:gap-6">
-            <div className="">
-              <Heading2>
-                Property for{" "}
-                <span className="underline-green-300 font-bold text-purple-600 underline">
-                  sell and rent
-                </span>
-              </Heading2>
-            </div>
-            <Button
-              variant="link"
-              className="flex-center m-0 gap-2 p-0 text-lg"
-            >
-              View all properties{" "}
-              <div className="flex-center ml-2 h-10 w-10 rounded-full bg-black text-[20px] text-white">
-                <FaArrowRight />
-              </div>
-            </Button>
-          </div>
-
-          {/* Propertiy List
-          -----------------*/}
-          <div className="autofit-grid-250 grid w-full  gap-6 ">
-            <PropertyListCard />
-            <PropertyListCard />
-            <PropertyListCard />
-            <PropertyListCard />
-            <PropertyListCard />
-            <PropertyListCard />
-          </div>
-        </div>
-      </div>
-    </>
-  );
-}
-function WhyUs1Section() {
-  return (
-    <>
-      <div className="section-box-w section-py flex flex-row-reverse gap-24 max-xl:gap-10 max-md:flex-col max-md:gap-10">
-        {/* Image */}
-        <div className="w-full max-w-[500px] max-md:max-w-full">
-          <div className=" relative h-[600px] max-md:h-[300px]">
-            <Image
-              src={"/sites/real-estate/demo-real-estate-slider-01.jpg"}
-              fill
-              alt="Picture of the author"
-              className="z-0 object-cover"
-            />
-          </div>
-        </div>
-        {/* Text box */}
-        <div className="flex w-full  flex-col  gap-4">
-          <Heading3>Online property marketplace</Heading3>
-          <Heading2>
-            Accurate to 99% of a{" "}
-            <span className="underline-green-300 font-bold text-purple-600 underline">
-              property`s
-            </span>{" "}
-            details.
-          </Heading2>
-
-          <div className="flex w-full  flex-col gap-10 pt-14  ">
-            {[
-              {
-                text: "10,000+ people trusting our agency.",
-                desc: "Browse millions of properties in your city save your favorites.",
-                icon: (
-                  <Image
-                    src={`${imageRoute}/loan.png`}
-                    alt=""
-                    fill
-                    objectFit="cover"
-                  />
-                ),
-              },
-              {
-                text: "Highest rental income projects",
-                desc: "Browse millions of properties in your city save your favorites.",
-                icon: (
-                  <Image
-                    src={`${imageRoute}/satisfaction.png`}
-                    alt=""
-                    fill
-                    objectFit="cover"
-                  />
-                ),
-              },
-            ].map((item, i) => (
-              <div
-                key={i}
-                className="flex flex-wrap  items-start gap-6 max-sm:flex-col"
-              >
-                <div className="relative h-[80px] w-[80px] max-w-[80px]   overflow-hidden rounded-[100%] bg-green-100   text-green-500">
-                  {item.icon}
-                </div>
-                <div className="flex flex-1 flex-col gap-4">
-                  <div className="font-bold">{item.text}</div>
-                  <div className="opacity-70">{item.desc}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="flex gap-4 pt-10">
-            <Button>Learn more</Button>{" "}
-            <Button
-              variant={"outline"}
-              className="flex-center gap-2 border-2 border-black"
-            >
-              Trusted agents <FaArrowRight />
-            </Button>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-}
-
-function LocationSliderItem() {
-  return (
-    <div className="ml-10 flex max-sm:ml-4">
-      <div className="relative  h-[485px] w-[360px] max-sm:h-[280px] max-sm:w-[200px]">
-        <Image
-          src={"/sites/real-estate/demo-real-estate-slider-01.jpg"}
-          fill
-          alt="Picture of the author"
-          className="z-0 object-cover"
-        />
-        <div className="absolute h-full w-full bg-gradient-to-t from-gray-800 mix-blend-overlay" />
-        <div className="relative h-full  w-full text-white">
-          <div className="absolute bottom-0 left-0 w-full p-6">
-            <div className="pb-4 text-2xl font-bold max-sm:pb-2 max-sm:text-base">
-              Washington DC, USA
-            </div>
-            <div className="">20 property listing</div>
-          </div>
-          <div className="absolute flex w-full flex-col items-start">
-            <div className="flex items-stretch pl-6 pt-6">
-              <span className="justify-self-start whitespace-nowrap rounded-md border border-solid border-white border-opacity-10 bg-red-600 px-3.5 py-1.5 text-center text-xs leading-3 text-white">
-                Rent
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function LocationsSection() {
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    {
-      slidesToScroll: 1,
-      align: "start",
-      loop: true,
-    },
-    [Autoplay()],
-  );
-
-  const {
-    prevBtnDisabled,
-    nextBtnDisabled,
-    onPrevButtonClick,
-    onNextButtonClick,
-  } = useEmblaNavigation(emblaApi);
-
-  return (
-    <>
-      <div className="section-py bg-gray-100">
-        <div className="section-box-w relative flex gap-14 max-lg:flex-wrap">
-          {/* text box */}
-          <div className="grid content-center items-center gap-4">
-            <Heading3>Online property marketplace</Heading3>
-            <Heading2>
-              We are available in{" "}
-              <span className="underline-green-300 font-bold text-purple-600 underline">
-                many countries
-              </span>
-            </Heading2>
-            <p className="max-w-[400px] pb-10 pt-6 max-md:pb-0">
-              Online property marketplace to buy, sell, and rent residential and
-              commercial properties. Used by millions of renters to find
-              property.
-            </p>
-            <div className="relative flex gap-4 max-md:hidden">
-              <Button
-                onClick={onPrevButtonClick}
-                disabled={prevBtnDisabled}
-                className="h-20 w-20 rounded-full   bg-white text-[20px]  text-gray-600"
-              >
-                <FaArrowLeft />
-              </Button>
-              <Button
-                onClick={onNextButtonClick}
-                disabled={nextBtnDisabled}
-                className="h-20 w-20  rounded-full     bg-white text-[20px]  text-gray-600"
-              >
-                <FaArrowRight />
-              </Button>
-            </div>
-          </div>
-          {/* slider */}
-          <div className=" mr-[-20vw] ">
-            <div className="overflow-hidden" ref={emblaRef}>
-              <div className="flex max-w-[60em]  max-xl:max-w-[44em] max-lg:max-w-[100vw]">
-                {" "}
-                {Array(4)
-                  .fill(0)
-                  .map((_, i) => (
-                    <LocationSliderItem key={i} />
-                  ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
   );
 }
 
 function CTASection() {
   return (
     <>
-      <div className="min-h-[10em] border-t-2 bg-gray-50 ">
+      <div className="min-h-[10em]  bg-gray-900">
         <div className="section-box-w mt-[-6em] max-md:mt-0 max-md:pt-20 max-sm:pt-10">
-          <div className="flex flex-wrap items-center justify-between gap-10 rounded-xl bg-purple-500 px-14 py-14 max-md:flex-wrap max-md:justify-center max-sm:gap-4 max-sm:px-4 max-sm:py-4">
+          <div className="flex flex-wrap items-center justify-between gap-10 rounded-xl bg-purple-600 px-14 py-14 max-md:flex-wrap max-md:justify-center max-sm:gap-4 max-sm:px-4 max-sm:py-4">
             <div className="flex flex-col  gap-5 max-md:w-full max-md:text-center max-sm:gap-0 ">
-              <Heading2 reverseColor>
+              <Heading2>
                 Subscribe to{" "}
                 <span className="font-bold underline">newsletter</span>
               </Heading2>
@@ -835,12 +580,9 @@ export function View() {
     <main className="bg-gray-900 text-white">
       <WelcomeSection />
       <AboutSection />
-      <TestimonialSlider />
+      <TestimonialSection />
       <AboutSection2 />
-      <LogosSection />
-      <PropertyListSection />
-      <WhyUs1Section />
-      <LocationsSection />
+      <PricingSection />
       <CTASection />
     </main>
   );

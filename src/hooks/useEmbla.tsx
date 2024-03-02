@@ -1,4 +1,6 @@
-import { type EmblaCarouselType } from "embla-carousel";
+import { type EmblaCarouselType, type EmblaOptionsType } from "embla-carousel";
+import Autoplay from "embla-carousel-autoplay";
+import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useEffect, useState } from "react";
 
 type UsePrevNextButtonsType = {
@@ -12,6 +14,53 @@ type UseDotButtonType = {
   scrollSnaps: number[];
   onDotButtonClick: (index: number) => void;
 };
+
+export function useEmbla({
+  options = {
+    slidesToScroll: 1,
+    align: "start",
+    loop: true,
+  },
+}: {
+  options?: EmblaOptionsType;
+}) {
+  const [emblaRef, emblaApi] = useEmblaCarousel(options, [Autoplay()]);
+
+  const onNavButtonClick = useCallback((emblaApi: EmblaCarouselType) => {
+    const autoplay = emblaApi?.plugins()?.autoplay;
+    if (!autoplay) return;
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    if (autoplay.options.stopOnInteraction === false) {
+      autoplay.reset;
+    } else {
+      autoplay.stop;
+    }
+  }, []);
+
+  const { selectedIndex, scrollSnaps, onDotButtonClick } = useDotButton(
+    emblaApi,
+    onNavButtonClick,
+  );
+
+  const {
+    prevBtnDisabled,
+    nextBtnDisabled,
+    onPrevButtonClick,
+    onNextButtonClick,
+  } = useEmblaNavigation(emblaApi);
+
+  return {
+    emblaRef,
+    prevBtnDisabled,
+    nextBtnDisabled,
+    onPrevButtonClick,
+    onNextButtonClick,
+    selectedIndex,
+    scrollSnaps,
+    onDotButtonClick,
+  };
+}
 
 export const useDotButton = (
   emblaApi: EmblaCarouselType | undefined,
@@ -53,6 +102,7 @@ export const useDotButton = (
     onDotButtonClick,
   };
 };
+
 export const useEmblaNavigation = (
   emblaApi: EmblaCarouselType | undefined,
 ): UsePrevNextButtonsType => {

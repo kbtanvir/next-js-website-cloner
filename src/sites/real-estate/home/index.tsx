@@ -10,7 +10,7 @@ import {
 } from "react-icons/fa";
 import { IoCarSportOutline } from "react-icons/io5";
 import { PiBathtubLight } from "react-icons/pi";
-import { useEmblaNavigation } from "../../../hooks/useEmblaNavigation";
+import { useEmblaNavigation } from "../../../hooks/useEmbla";
 
 import { Button } from "@/components/ui/button";
 import {

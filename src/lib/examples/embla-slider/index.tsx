@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { useDotButton, useEmblaNavigation } from "@/hooks/useEmblaNavigation";
+import { useDotButton, useEmblaNavigation } from "@/hooks/useEmbla";
 import { type EmblaCarouselType } from "embla-carousel";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
