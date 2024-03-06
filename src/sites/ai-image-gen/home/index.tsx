@@ -15,6 +15,8 @@ import { IoCheckmark } from "react-icons/io5";
 import { LuBox } from "react-icons/lu";
 import { useEmbla } from "../../../hooks/useEmbla";
 import { GenerationForm } from "./GenerationForm";
+import { VariationsForm } from "./VariationsForm";
+import { UpscaleForm } from "./UpscaleForm";
 
 function Heading3({
   children = <>This is heading 3</>,
@@ -67,14 +69,19 @@ function Text({
 export function PrimaryButton({
   children = <>Primary Button</>,
   onClick,
+  className,
 }: {
   children: React.ReactNode;
   onClick?: () => void;
+  className?: string;
 }) {
   return (
     <Button
       onClick={onClick}
-      className="max-sm:max-w-auto h-[45px] bg-purple-600"
+      className={cn(
+        "max-sm:max-w-auto h-[45px] bg-purple-600 text-white hover:bg-purple-700",
+        className,
+      )}
     >
       {children}
     </Button>
@@ -192,13 +199,13 @@ function FormTabs() {
           {/* VARIATIONS FORM */}
 
           <TabsContent value={formTabs[2]}>
-            <BasicForm />
+            <VariationsForm />
           </TabsContent>
 
           {/* UPSCALE FORM */}
 
           <TabsContent value={formTabs[3]}>
-            <BasicForm />
+            <UpscaleForm />
           </TabsContent>
         </Tabs>
       </div>
@@ -208,48 +215,51 @@ function FormTabs() {
 
 function WelcomeSection() {
   return (
-    <div
-      className={`section-box-w  flex-center  relative cursor-pointer  flex-col gap-5  overflow-hidden pt-44 text-center  `}
-    >
-      <h2 className="gap-0 text-[60px] font-semibold leading-tight text-white max-lg:text-[44px] max-md:text-[32px]">
-        Create beautiful art with
-        <span
-          className="mb-[-20px]  max-sm:mb-0"
+    <div className="">
+      <div
+        className={`section-box-w  flex-center  relative cursor-pointer  flex-col gap-5  overflow-hidden pt-44 text-center  `}
+      >
+        <h2 className="gap-0 text-[60px] font-semibold leading-tight text-white max-lg:text-[44px] max-md:text-[32px]">
+          Create beautiful art with
+          <span
+            className="mb-[-20px]  max-sm:mb-0"
+            style={{
+              backgroundImage:
+                "linear-gradient(315deg, #7F00FF 35%, #E100FF 50%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            {" "}
+            Artificial Intelligence
+          </span>
+        </h2>
+
+        <div className="flex flex-col items-center justify-center gap-10">
+          <h3 className="text-base text-white">
+            Be advised that image generation requires an active OpenAI,
+            Stability AI or Stable Diffusion token.
+          </h3>
+          <FormTabs />
+
+          <Text>
+            Limits per hour: 80 images for all visitors and up to 2 requests
+            from a single visitor.
+          </Text>
+        </div>
+
+        <div
+          className="flex-center mt-10  px-10 py-5 text-xl"
           style={{
             backgroundImage:
-              "linear-gradient(315deg, #7F00FF 35%, #E100FF 50%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
+              "linear-gradient(315deg, #7606E7 35%, #C300FF 50%)",
           }}
         >
-          {" "}
-          Artificial Intelligence
-        </span>
-      </h2>
-
-      <div className="flex flex-col items-center justify-center gap-10">
-        <h3 className="text-base text-white">
-          Be advised that image generation requires an active OpenAI, Stability
-          AI or Stable Diffusion token.
-        </h3>
-        <FormTabs />
-
-        <Text>
-          Limits per hour: 80 images for all visitors and up to 2 requests from
-          a single visitor.
-        </Text>
+          Three APIs integrated: OpenAI, Stable Diffusion and Stability AI (100+
+          models combined)
+        </div>
+        <Slider1 />
       </div>
-
-      <div
-        className="flex-center mt-10  px-10 py-5 text-xl"
-        style={{
-          backgroundImage: "linear-gradient(315deg, #7606E7 35%, #C300FF 50%)",
-        }}
-      >
-        Three APIs integrated: OpenAI, Stable Diffusion and Stability AI (100+
-        models combined)
-      </div>
-      <Slider1 />
     </div>
   );
 }

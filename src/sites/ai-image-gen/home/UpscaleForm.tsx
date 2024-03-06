@@ -18,26 +18,25 @@ import { z } from "zod";
 import { PrimaryButton } from ".";
 
 export const FormSchema = z.object({
-  prompt: z.string().min(3).max(255),
-  negativePrompt: z.string().min(3).max(255).optional(),
+  image: z.string().min(3).max(255),
   model: z.string().min(3).max(255).optional(),
-  size: z.string().min(3).max(255).optional(),
+  scaleFactor: z.string().min(0).max(255).optional(),
 });
 
 type IFormSchema = z.infer<typeof FormSchema>;
 type IFormFields = {
   name: keyof IFormSchema;
   label: string;
-  type: "text" | "selection";
+  type: "text" | "selection" | "file" | "number";
   placeholder: string;
   options?: Record<string, Record<string, string>>;
 }[];
 const fields: IFormFields = [
   {
-    name: "prompt",
-    label: "Full name",
-    type: "text",
-    placeholder: "Describe what you want or hit a tag below",
+    name: "image",
+    label: "Image",
+    type: "file",
+    placeholder: "Enter an image URL",
   },
   {
     name: "model",
@@ -64,29 +63,14 @@ const fields: IFormFields = [
     } as const,
   },
   {
-    name: "negativePrompt",
-    label: "Negative Prompt (Optional)",
-    type: "text",
-    placeholder: "Describe what you don't want",
-  },
-
-  {
-    name: "size",
-    label: "Size (Optional)",
-    type: "selection",
-    placeholder: "Enter a size",
-    options: {
-      Sizes: {
-        "256x256": "256x256",
-        "512x512": "512x512",
-        "1024x1024": "1024x1024",
-        "2048x2048": "2048x2048",
-      },
-    },
+    name: "scaleFactor",
+    label: "Scale Factor",
+    type: "number",
+    placeholder: "Enter a scale factor",
   },
 ];
 
-export function GenerationForm() {
+export function UpscaleForm() {
   const form = useForm<IFormSchema>({
     resolver: zodResolver(FormSchema),
     defaultValues: {},
@@ -100,7 +84,7 @@ export function GenerationForm() {
       <div className="grid w-full gap-10">
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid w-full grid-cols-2 gap-5 max-md:grid-cols-1 "
+          className="grid w-full grid-cols-2 items-end gap-5 max-md:grid-cols-1"
         >
           {fields.map((row, i) => (
             <Fragment key={i}>
@@ -158,13 +142,34 @@ export function GenerationForm() {
                   </>
                 )}
 
+                {row.type === "file" && (
+                  <Input
+                    {...row}
+                    type="file"
+                    className="text-black"
+                    onChange={(e) => form.setValue(row.name, e.target.value)}
+                    value={form.watch(row.name) ?? ""}
+                    required
+                  />
+                )}
+
+                {row.type === "number" && (
+                  <Input
+                    {...row}
+                    type="number"
+                    min={2}
+                    className="text-black"
+                    onChange={(e) => form.setValue(row.name, e.target.value)}
+                    value={form.watch(row.name) ?? ""}
+                    required
+                  />
+                )}
+
                 <FormErrorMessage name={row.name} />
               </div>
             </Fragment>
           ))}
-          <div className="col-span-2">
-            <PrimaryButton className="w-full">Generate</PrimaryButton>
-          </div>
+          <PrimaryButton className="h-[41px] w-full">Generate</PrimaryButton>
         </form>
         {/* Tags */}
         <div className="flex flex-wrap items-center justify-center gap-10">
