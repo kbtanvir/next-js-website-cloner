@@ -115,9 +115,11 @@ export function ProductItem({
               </Button>
             )}
           </div>
-          <div className="mt-6 self-start rounded-md border-2 px-2 py-1 text-sm text-gray-600">
-            {item.categories[0]?.name}
-          </div>
+          {/* {item.categories.length > 0 && (
+            <div className="mt-6 self-start rounded-md border-2 px-2 py-1 text-sm text-gray-600">
+              {item.categories[0]?.name}
+            </div>
+          )} */}
           <div className="text-md mt-4  leading-7 text-zinc-800">
             {item.title}
           </div>
