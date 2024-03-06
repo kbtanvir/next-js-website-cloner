@@ -92,6 +92,9 @@
   .section-py {
     @apply py-44 max-md:py-20;
   }
+  .section-pb {
+    @apply pb-44 max-md:pb-20;
+  }
   .section-box-w {
     @apply section-px mx-auto w-full max-w-7xl;
   }
@@ -125,14 +128,11 @@
     overflow: hidden;
   }
   .embla__container {
-    
-
   }
   .embla__slide {
     /* position: relative;
     flex: 0 0 var(--slide-size);
     margin: 0 var(--slide-spacing); */
-
   }
   .embla__slide__content {
     box-shadow: inset 0 0 0 0.2rem var(--detail-medium-contrast);

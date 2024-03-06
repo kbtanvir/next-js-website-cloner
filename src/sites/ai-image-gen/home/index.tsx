@@ -1,8 +1,10 @@
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Routes, sitePath } from "@/pages/sites/ai-image-gen";
+import { cn } from "@/lib/utils";
+import { sitePath } from "@/pages/sites/ai-image-gen";
 import Image from "next/image";
-import Link from "next/link";
 import { BiSupport } from "react-icons/bi";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import { FaArrowRight, FaRegEnvelope } from "react-icons/fa";
@@ -12,6 +14,7 @@ import { IoMdQuote } from "react-icons/io";
 import { IoCheckmark } from "react-icons/io5";
 import { LuBox } from "react-icons/lu";
 import { useEmbla } from "../../../hooks/useEmbla";
+import { GenerationForm } from "./GenerationForm";
 
 function Heading3({
   children = <>This is heading 3</>,
@@ -113,18 +116,91 @@ function Slider1() {
           </div>
         </div>
       </div>
-      <div className="flex gap-4 pt-10">
+      <div className="flex gap-4 pt-10 max-sm:pt-4">
         <div className="embla__dots flex w-full justify-center gap-4">
           {scrollSnaps.map((_, index) => (
             <Button
               key={index}
               onClick={() => onDotButtonClick(index)}
-              className={"size-5 rounded-full p-0 hover:bg-purple-600".concat(
+              className={"size-5 rounded-full p-0 hover:bg-purple-600 max-sm:size-2".concat(
                 index === selectedIndex ? " bg-purple-600" : " bg-gray-300",
               )}
             />
           ))}
         </div>
+      </div>
+    </>
+  );
+}
+
+const formTabs = ["Basic", "Generation", "Variations", "Upscales"] as const;
+
+function BasicForm() {
+  return (
+    <div className="flex flex-col gap-10">
+      <div className="relative mx-auto flex w-full max-w-[500px] items-center justify-between gap-4 rounded-lg bg-white p-1  ">
+        <Input
+          type="text"
+          placeholder="Describe what you want or hit a tag below"
+          className="rounded-md border-none bg-gray-100 px-4 text-black max-sm:text-[12px]"
+        />
+        <PrimaryButton>
+          <span className="">Generate</span>
+        </PrimaryButton>
+      </div>
+      {/* Tags */}
+      <div className="flex flex-wrap items-center justify-center gap-10">
+        <span className="text-white">Popular Tags</span>
+        <div className="flex gap-2">
+          {["House", "Apartment", "Villa", "Office"].map((tag, i) => (
+            <Button
+              key={i}
+              size={"sm"}
+              className=" bg-black/30 px-4 text-[10px]  text-white"
+            >
+              {tag}
+            </Button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FormTabs() {
+  return (
+    <>
+      <div className=" w-full">
+        <Tabs defaultValue={formTabs[0]} className="bg-none">
+          <TabsList className="mb-10 gap-5 bg-transparent max-md:mb-20 max-md:grid max-md:grid-cols-2">
+            {formTabs.map((tab, i) => (
+              <TabsTrigger key={i} value={tab}>
+                {tab}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+
+          {/* BASIC FORM */}
+          <TabsContent value={formTabs[0]}>
+            <BasicForm />
+          </TabsContent>
+
+          {/* GENERATION FORM */}
+          <TabsContent value={formTabs[1]}>
+            <GenerationForm />
+          </TabsContent>
+          {/* VARIATIONS FORM */}
+
+          <TabsContent value={formTabs[2]}>
+            <BasicForm />
+          </TabsContent>
+
+          {/* UPSCALE FORM */}
+
+          <TabsContent value={formTabs[3]}>
+            <BasicForm />
+          </TabsContent>
+        </Tabs>
       </div>
     </>
   );
@@ -156,33 +232,8 @@ function WelcomeSection() {
           Be advised that image generation requires an active OpenAI, Stability
           AI or Stable Diffusion token.
         </h3>
-        {/* Form */}
-        <div className="relative flex w-full max-w-[500px] items-center justify-between gap-4 rounded-lg bg-white p-1  ">
-          <Input
-            type="text"
-            placeholder="Describe what you want or hit a tag below"
-            className="rounded-md border-none bg-gray-100 px-4 text-black max-sm:text-[12px]"
-          />
-          <PrimaryButton>
-            <span className="max-md:hidden">Generate</span>
-          </PrimaryButton>
-        </div>
-        {/* Tags */}
-        <div className="flex flex-wrap items-center justify-center gap-10">
-          <span className="text-white">Popular Tags</span>
-          <div className="flex gap-2">
-            {["House", "Apartment", "Villa", "Office"].map((tag, i) => (
-              <Link href={Routes.shop.path} key={i}>
-                <Button
-                  size={"sm"}
-                  className=" bg-black/30 px-4 text-[10px]  text-white"
-                >
-                  {tag}
-                </Button>
-              </Link>
-            ))}
-          </div>
-        </div>
+        <FormTabs />
+
         <Text>
           Limits per hour: 80 images for all visitors and up to 2 requests from
           a single visitor.
@@ -575,11 +626,64 @@ function AboutSection() {
     </div>
   );
 }
+
+const galleryTabs = ["Art Direction", "Illustration", "Design", "Creative"];
+
+function GalleryTabSection() {
+  return (
+    <>
+      <div className="section-box-w section-pb">
+        <Tabs defaultValue={galleryTabs[0]} className="bg-none">
+          <TabsList className="mb-10 gap-5 bg-transparent">
+            {galleryTabs.map((tab, i) => (
+              <TabsTrigger key={i} value={tab}>
+                {tab}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+
+          {galleryTabs.map((tab, i) => (
+            <TabsContent key={i} value={tab}>
+              <div className="grid h-[1000px] grid-cols-4 grid-rows-3 gap-4 max-lg:grid-cols-2  max-lg:grid-rows-none">
+                {Array(7)
+                  .fill(0)
+                  .map((_, i) => (
+                    <div
+                      key={i}
+                      className={cn(
+                        (i === 0 || i == 3) && "max-lg:col-span-2",
+                        i === 1 && "col-span-2 row-span-2  max-lg:col-span-1 ",
+                        i === 3 && "row-span-2",
+                        i === 6 && "col-span-2",
+                        "relative w-full bg-gray-300   max-lg:row-span-1",
+                      )}
+                    >
+                      {i}
+                      <Image
+                        src={
+                          "/sites/real-estate/demo-real-estate-slider-01.jpg"
+                        }
+                        fill
+                        alt="Picture of the author"
+                        objectFit="cover"
+                      />
+                    </div>
+                  ))}
+              </div>
+            </TabsContent>
+          ))}
+        </Tabs>
+      </div>
+    </>
+  );
+}
+
 export function View() {
   return (
     <main className="bg-gray-900 text-white">
       <WelcomeSection />
       <AboutSection />
+      <GalleryTabSection />
       <TestimonialSection />
       <AboutSection2 />
       <PricingSection />
