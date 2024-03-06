@@ -74,7 +74,7 @@ export const authOptions: NextAuthOptions = {
 
       // token.isInvited = !!isInvited;
 
-      // token.role = dbUser?.role;
+      token.role = dbUser?.role;
       token.id = dbUser?.id;
 
       return token;

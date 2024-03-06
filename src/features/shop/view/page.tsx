@@ -58,13 +58,13 @@ function ProductGrid() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query]);
 
-  // if (infiniteQuery.error) {
-  //   return <div>{infiniteQuery.error.message}</div>
-  // }
+  if (infiniteQuery.error) {
+    return <div>{infiniteQuery.error.message}</div>;
+  }
 
   if (infiniteQuery.isLoading) {
     return (
-      <div className="grid w-full grid-cols-3 gap-10">
+      <div className="grid w-full grid-cols-3 gap-10 max-md:grid-cols-1">
         <Skeleton count={1} height="300px" />
         <Skeleton count={1} height="300px" />
         <Skeleton count={1} height="300px" />
@@ -81,7 +81,7 @@ function ProductGrid() {
 
   return (
     <div className="flex w-full flex-col gap-10">
-      <div className={`autofit-grid-250 grid w-full gap-8 `}>
+      <div className={`grid w-full grid-cols-3 gap-4 max-[1100px]:grid-cols-2`}>
         {data.map((item) => (
           <ProductItem
             key={item.id}

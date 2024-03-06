@@ -29,17 +29,16 @@ export function ProductItem({
   }, [item.discount, item.price]);
 
   return (
-    <div className="relative w-full cursor-pointer flex-col overflow-hidden rounded-md border border-solid border-gray-100 p-3 shadow-sm transition-all duration-300 ease-in-out hover:bg-gray-50 hover:shadow-lg max-md:ml-0 max-md:w-full">
+    <div className="relative w-full cursor-pointer flex-col overflow-hidden rounded-xl border border-solid border-gray-200 p-3 shadow-lg transition-all duration-300 ease-in-out hover:bg-gray-50 hover:shadow-md max-md:ml-0 max-md:w-full">
       <div className="relative w-full flex-col overflow-hidden max-md:ml-0 max-md:w-full">
         <span className="flex flex-col items-stretch ">
-          <div className="flex-co relative  flex aspect-[2/2.5] w-full overflow-hidden rounded-lg">
+          <div className="relative flex aspect-[2/2.5] w-full flex-col overflow-hidden rounded-lg">
             <Image
               loading="lazy"
               src={item.image}
               alt={item.title}
-              className="absolute h-full w-full object-cover object-center"
-              width={279}
-              height={330}
+              className="object-cover object-center"
+              fill
             />
 
             <div className="flex w-full flex-col items-stretch border  pb-px pt-2.5">
@@ -117,7 +116,7 @@ export function ProductItem({
             )}
           </div>
           <div className="mt-6 self-start rounded-md border-2 px-2 py-1 text-sm text-gray-600">
-            Category
+            {item.categories[0]?.name}
           </div>
           <div className="text-md mt-4  leading-7 text-zinc-800">
             {item.title}

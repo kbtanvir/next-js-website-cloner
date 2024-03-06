@@ -14,6 +14,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { FaArrowRight } from "react-icons/fa";
+import Skeleton from "react-loading-skeleton";
 import { offeringCardsDemoList } from "../../../features/home/model/demo";
 
 function DiscountSlider() {
@@ -107,7 +108,20 @@ function FeaturedProducts() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [featuredProductActiveTab]);
 
-  if (query.isLoading) return <div>Loading...</div>;
+  if (query.isLoading)
+    return (
+      <div>
+        {" "}
+        <div className="grid w-full grid-cols-3 gap-10 max-md:grid-cols-1">
+          <Skeleton count={1} height="300px" />
+          <Skeleton count={1} height="300px" />
+          <Skeleton count={1} height="300px" />
+          <Skeleton count={1} height="300px" />
+          <Skeleton count={1} height="300px" />
+          <Skeleton count={1} height="300px" />
+        </div>
+      </div>
+    );
 
   if (query.isError) return <div>Error...</div>;
 
@@ -188,14 +202,13 @@ function FeaturedProductsSection() {
               <Image
                 src={"/images/fpbg.jpg"}
                 fill
-                className="object-cover"
                 alt="Picture of the author"
                 className="absolute left-0 top-0 z-0 h-full w-full object-cover"
               />
             </div>
           </div>
         </div>
-        <div className="autofit-grid-250 grid w-full  gap-5 ">
+        <div className="grid w-full grid-cols-3 gap-4 max-[1100px]:grid-cols-2 max-sm:grid-cols-1">
           {" "}
           <FeaturedProducts />
         </div>

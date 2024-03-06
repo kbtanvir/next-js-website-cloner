@@ -15,5 +15,5 @@ export function useDeleteAllQuery() {
   return api.product.deleteAll.useMutation();
 }
 export function useAddFakeQuery() {
-  return api.product.addFakeProducts.useMutation();
+  return api.product.generate.useMutation();
 }

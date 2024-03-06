@@ -6,6 +6,9 @@ import { z } from "zod";
 import { productsQueryInput } from "../model";
 
 export const productRouter = createTRPCRouter({
+  getAll: publicProcedure.query(async ({ ctx }) => {
+    return await ctx.db.product.findMany();
+  }),
   infiniteProducts: publicProcedure
     .input(productsQueryInput)
     .query(async ({ input, ctx }) => {
@@ -124,6 +127,7 @@ export const productRouter = createTRPCRouter({
             take: 1,
           },
           discount: true,
+          categories: true,
         },
       });
     }),
@@ -212,87 +216,90 @@ export const productRouter = createTRPCRouter({
       return true;
     }),
 
-  addFakeProducts: publicProcedure.mutation(async ({ ctx }) => {
-    const productCount = 30;
+  generate: publicProcedure
+    .input(
+      z.object({
+        category: z.string().optional(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const productCount = 30;
 
-    await ctx.db.product.deleteMany();
-    // await ctx.db.size.deleteMany()
-    // await ctx.db.category.deleteMany()
-    await ctx.db.discount.deleteMany();
+      await ctx.db.product.deleteMany();
+      // await ctx.db.size.deleteMany()
+      // await ctx.db.category.deleteMany()
+      await ctx.db.discount.deleteMany();
 
-    // await ctx.db.size.createMany({
-    //   data: ["S", "L", "M", "XL"].map((size) => ({
-    //     name: size,
-    //   })),
-    // })
+      // await ctx.db.size.createMany({
+      //   data: ["S", "L", "M", "XL"].map((size) => ({
+      //     name: size,
+      //   })),
+      // })
 
-    // await ctx.db.category.createMany({
-    //   data: ["men", "women", "kids"].map((category) => ({
-    //     name: category,
-    //   })),
-    // })
-    await ctx.db.discount.createMany({
-      data: [
-        {
-          code: "DISCOUNT10",
-          amount: 0.1,
-          expires: new Date("2022-12-12"),
-        },
-        {
-          code: "NEWYEAR20",
-          amount: 0.2,
-          expires: new Date("2022-12-12"),
-        },
-      ].map((item) => ({
-        ...item,
-      })) as Prisma.DiscountCreateManyInput[],
-    });
-
-    // Create new products without sizes
-    const PRODUCTS = Array.from({ length: productCount }).map(
-      () =>
-        ({
-          // id: faker.string.uuid(),
-          title: faker.commerce.productName(),
-          description: faker.commerce.productDescription(),
-          price: parseFloat(faker.commerce.price()),
-          image: faker.image.url(),
-          inStock: faker.datatype.boolean({ probability: 0.5 }),
-          sizes: {
-            connectOrCreate: faker.helpers
-              .arrayElements(["S", "L", "M", "XL"], {
-                min: 1,
-                max: 4,
-              })
-              .map((size) => ({
-                where: { name: size },
-                create: { name: size },
-              })),
+      // await ctx.db.category.createMany({
+      //   data: ["men", "women", "kids"].map((category) => ({
+      //     name: category,
+      //   })),
+      // })
+      await ctx.db.discount.createMany({
+        data: [
+          {
+            code: "DISCOUNT10",
+            amount: 0.1,
+            expires: new Date("2022-12-12"),
           },
-          categories: {
-            connectOrCreate: faker.helpers
-              .arrayElements(["men", "women", "kids"], {
-                min: 1,
-                max: 4,
-              })
-              .map((categories) => ({
+          {
+            code: "NEWYEAR20",
+            amount: 0.2,
+            expires: new Date("2022-12-12"),
+          },
+        ].map((item) => ({
+          ...item,
+        })) as Prisma.DiscountCreateManyInput[],
+      });
+
+      // Create new products without sizes
+      const PRODUCTS = Array.from({ length: productCount }).map(
+        () =>
+          ({
+            // id: faker.string.uuid(),
+            title: faker.commerce.productName(),
+            description: faker.commerce.productDescription(),
+            price: parseFloat(faker.commerce.price()),
+            image: faker.image.urlLoremFlickr({
+              category: input.category ?? "electronics",
+            }),
+            inStock: faker.datatype.boolean({ probability: 0.5 }),
+            sizes: {
+              connectOrCreate: faker.helpers
+                .arrayElements(["S", "L", "M", "XL"], {
+                  min: 1,
+                  max: 4,
+                })
+                .map((size) => ({
+                  where: { name: size },
+                  create: { name: size },
+                })),
+            },
+            categories: {
+              connectOrCreate: [input.category].map((categories) => ({
                 where: { name: categories },
                 create: { name: categories },
               })),
-          },
-          discountCode: Math.random() > 0.5 ? "DISCOUNT10" : "NEWYEAR20",
-        }) as Partial<Prisma.ProductCreateInput>,
-    );
+            },
+            discountCode: Math.random() > 0.5 ? "DISCOUNT10" : "NEWYEAR20",
+          }) as Partial<Prisma.ProductCreateInput>,
+      );
 
-    // Use bulk promise to update all products with sizes
-    const updatePromises = PRODUCTS.map(
-      async (productData) =>
-        await ctx.db.product.create({
-          data: productData as Prisma.ProductCreateInput,
-        }),
-    );
-    await Promise.all(updatePromises);
+      // Use bulk promise to update all products with sizes
+      const updatePromises = PRODUCTS.map(
+        async (productData) =>
+          await ctx.db.product.create({
+            data: productData as Prisma.ProductCreateInput,
+          }),
+      );
+      await Promise.all(updatePromises);
 
-    // await addToWishList(ctx, userID, PRODUCTS)
-  }),
+      // await addToWishList(ctx, userID, PRODUCTS)
+    }),
 });
