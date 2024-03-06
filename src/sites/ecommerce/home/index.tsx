@@ -188,7 +188,7 @@ function FeaturedProductsSection() {
               <Image
                 src={"/images/fpbg.jpg"}
                 fill
-                objectFit="cover"
+                className="object-cover"
                 alt="Picture of the author"
                 className="absolute left-0 top-0 z-0 h-full w-full object-cover"
               />

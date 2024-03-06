@@ -78,7 +78,7 @@
     @apply text-balance;
   }
   html {
-    @apply overflow-x-hidden;
+    @apply overflow-x-hidden scroll-smooth;
   }
   body {
     @apply overflow-x-hidden bg-background text-foreground;
@@ -90,7 +90,7 @@
     @apply px-10 max-md:px-10 max-sm:px-4;
   }
   .section-py {
-    @apply py-44 max-md:py-20;
+    @apply py-44 max-md:py-20 max-sm:py-20;
   }
   .section-pb {
     @apply pb-44 max-md:pb-20;

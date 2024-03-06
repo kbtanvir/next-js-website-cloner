@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/select";
 
 import { FormErrorMessage } from "@/components/FormMessage";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Fragment } from "react";
@@ -100,11 +99,11 @@ export function GenerationForm() {
       <div className="grid w-full gap-10">
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid w-full grid-cols-2 gap-5 max-md:grid-cols-1 "
+          className="grid w-full grid-cols-1 items-end gap-5 max-md:flex max-md:grid-cols-1 max-md:flex-col max-md:items-stretch"
         >
           {fields.map((row, i) => (
             <Fragment key={i}>
-              <div className="grid gap-3">
+              <div className="grid gap-3 ">
                 <label
                   htmlFor={row.name}
                   className="text-left text-sm font-medium leading-none"
@@ -121,41 +120,33 @@ export function GenerationForm() {
                   />
                 )}
                 {row.type === "selection" && (
-                  <>
-                    <Select
-                      onValueChange={(value) => form.setValue(row.name, value)}
-                      defaultValue={form.watch(row.name) ?? ""}
-                    >
-                      <SelectTrigger className="text-black">
-                        <SelectValue placeholder={row.placeholder} />
-                      </SelectTrigger>
+                  <Select
+                    onValueChange={(value) => form.setValue(row.name, value)}
+                    defaultValue={form.watch(row.name) ?? ""}
+                  >
+                    <SelectTrigger className="text-black">
+                      <SelectValue placeholder={row.placeholder} />
+                    </SelectTrigger>
 
-                      {row.options && (
-                        <SelectContent className="">
-                          {Object.entries(row.options).map(
-                            ([label, options]) => (
-                              <SelectGroup key={label}>
-                                <SelectLabel className="px-4">
-                                  {label}
-                                </SelectLabel>
-                                {Object.entries(options).map(
-                                  ([value, label]) => (
-                                    <SelectItem
-                                      key={value}
-                                      value={value}
-                                      className="px-4"
-                                    >
-                                      {label}
-                                    </SelectItem>
-                                  ),
-                                )}
-                              </SelectGroup>
-                            ),
-                          )}
-                        </SelectContent>
-                      )}
-                    </Select>
-                  </>
+                    {row.options && (
+                      <SelectContent className="">
+                        {Object.entries(row.options).map(([label, options]) => (
+                          <SelectGroup key={label}>
+                            <SelectLabel className="px-4">{label}</SelectLabel>
+                            {Object.entries(options).map(([value, label]) => (
+                              <SelectItem
+                                key={value}
+                                value={value}
+                                className="px-4"
+                              >
+                                {label}
+                              </SelectItem>
+                            ))}
+                          </SelectGroup>
+                        ))}
+                      </SelectContent>
+                    )}
+                  </Select>
                 )}
 
                 <FormErrorMessage name={row.name} />
@@ -166,21 +157,6 @@ export function GenerationForm() {
             <PrimaryButton className="w-full">Generate</PrimaryButton>
           </div>
         </form>
-        {/* Tags */}
-        <div className="flex flex-wrap items-center justify-center gap-10">
-          <span className="text-white">Popular Tags</span>
-          <div className="flex gap-2">
-            {["House", "Apartment", "Villa", "Office"].map((tag, i) => (
-              <Button
-                key={i}
-                size={"sm"}
-                className=" bg-black/30 px-4 text-[10px]  text-white"
-              >
-                {tag}
-              </Button>
-            ))}
-          </div>
-        </div>
       </div>
     </FormProvider>
   );

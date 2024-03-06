@@ -1,6 +1,7 @@
 import { Routes } from "@/pages/sites/eshopper";
 import Image from "next/image";
 import Link from "next/link";
+import { LinkText } from "../home";
 
 const footerCompanyNavLinks = [
   {
@@ -60,9 +61,11 @@ function FooterTop() {
         <div className="text-xl font-bold leading-7 ">Company</div>
         <div className="mt-8 grid gap-4">
           {footerCompanyNavLinks.map((item, index) => (
-            <div key={index} className="text-sm ">
-              <Link href={"#"}>{item.title}</Link>
-            </div>
+            <Link href={"#"} key={index}>
+              <LinkText className="text-sm transition-all hover:text-purple-500">
+                {item.title}
+              </LinkText>
+            </Link>
           ))}
         </div>
       </span>
@@ -71,9 +74,11 @@ function FooterTop() {
         <div className="text-xl font-bold leading-7 ">Quicklinks</div>
         <div className="mt-8 grid gap-5">
           {footerQuickLinks.map((item, index) => (
-            <div key={index} className="text-sm ">
-              <Link href={"#"}>{item.title}</Link>
-            </div>
+            <Link href={"#"} key={index}>
+              <LinkText className="text-sm">
+                {item.title}
+              </LinkText>
+            </Link>
           ))}
         </div>
       </span>
@@ -94,7 +99,7 @@ function FooterTop() {
 export function FooterSection() {
   return (
     <div className="bg-gray-900 text-white">
-      <div className="section-box-w pt-10 max-lg:mt-10 max-md:mt-0">
+      <div className="section-box-w pt-10 ">
         <FooterTop />
         <div className=" mt-10 flex h-px shrink-0 flex-col bg-gray-800 bg-opacity-10" />
         <span className="relative flex w-full items-center justify-between gap-5 py-11 max-md:flex-wrap max-md:justify-center">

@@ -1,36 +1,59 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { CiFaceMeh } from "react-icons/ci";
+import { GoGitCompare } from "react-icons/go";
+import { MdSensorOccupied } from "react-icons/md";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { sitePath } from "@/pages/sites/ai-image-gen";
 import Image from "next/image";
-import { BiSupport } from "react-icons/bi";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import { FaArrowRight, FaRegEnvelope } from "react-icons/fa";
-import { FiTruck } from "react-icons/fi";
-import { GrSecure } from "react-icons/gr";
-import { IoMdQuote } from "react-icons/io";
+import { IoIosGitNetwork, IoMdQuote } from "react-icons/io";
 import { IoCheckmark } from "react-icons/io5";
-import { LuBox } from "react-icons/lu";
 import { useEmbla } from "../../../hooks/useEmbla";
 import { GenerationForm } from "./GenerationForm";
-import { VariationsForm } from "./VariationsForm";
 import { UpscaleForm } from "./UpscaleForm";
+import { VariationsForm } from "./VariationsForm";
 
-function Heading3({
-  children = <>This is heading 3</>,
+export function LinkText({
+  children = <>This is a link</>,
   reverseColor = false,
+  className,
 }: {
   children?: React.ReactNode;
   reverseColor?: boolean;
+  className?: string;
 }) {
   return (
-    // <h3 className="text-[20px] font-bold text-purple-600 max-sm:text-base">
+    <div
+      className={cn(
+        "transition-all hover:text-purple-500",
+        reverseColor ? "text-purple-500" : `text-white`,
+        className,
+      )}
+    >
+      {children}
+    </div>
+  );
+}
+function Heading3({
+  children = <>This is heading 3</>,
+  reverseColor = false,
+  className,
+}: {
+  children?: React.ReactNode;
+  reverseColor?: boolean;
+  className?: string;
+}) {
+  return (
     <h3
-      className={`text-[20px] uppercase ${
-        !reverseColor ? "text-white" : `text-black`
-      } max-sm:text-base`}
+      className={cn(
+        "text-[20px] uppercase  max-sm:text-[14px]",
+        !reverseColor ? "text-white" : `text-black`,
+        className,
+      )}
     >
       {children}
     </h3>
@@ -39,13 +62,19 @@ function Heading3({
 function Heading2({
   reverseColor = false,
   children = <>This is heading 2</>,
+  className,
 }: {
   reverseColor?: boolean;
   children?: React.ReactNode;
+  className?: string;
 }) {
   return (
     <h2
-      className={`text-[44px] font-bold leading-[1.3em] ${!reverseColor ? "text-white" : `text-black`}  max-sm:text-[32px] max-sm:leading-normal`}
+      className={cn(
+        "text-[44px] font-bold leading-[1.3em] max-sm:text-[28px] max-sm:leading-normal",
+        !reverseColor ? "text-white" : `text-black`,
+        className,
+      )}
     >
       {children}
     </h2>
@@ -54,13 +83,20 @@ function Heading2({
 function Text({
   children = <>This is a text</>,
   reverseColor = false,
+  className,
 }: {
   children: React.ReactNode;
   reverseColor?: boolean;
+  className?: string;
 }) {
   return (
     <p
-      className={`max-sm:text-[14px] ${reverseColor ? "text-white" : `text-gray-400`} `}
+      // className={`max-sm:text-[14px] ${reverseColor ? "text-white" : `text-gray-400`} `}
+      className={cn(
+        "max-sm:text-[14px]",
+        reverseColor ? "text-white" : `text-gray-400`,
+        className,
+      )}
     >
       {children}
     </p>
@@ -79,7 +115,7 @@ export function PrimaryButton({
     <Button
       onClick={onClick}
       className={cn(
-        "max-sm:max-w-auto h-[45px] bg-purple-600 text-white hover:bg-purple-700",
+        "max-sm:max-w-auto h-[45px] bg-purple-600 text-white hover:bg-transparent  hover:ring-2 hover:ring-purple-500",
         className,
       )}
     >
@@ -107,7 +143,7 @@ function Slider1() {
                   className="embla__slide w-1/3 pl-[20px] max-md:w-1/2 max-sm:w-full"
                 >
                   <div className="flex">
-                    <div className=" relative h-[300px] w-[700px] max-md:h-[300px]">
+                    <div className=" relative h-[300px] w-[700px] max-md:h-[300px] max-sm:h-[200px]">
                       <Image
                         src={
                           "/sites/real-estate/demo-real-estate-slider-01.jpg"
@@ -155,21 +191,6 @@ function BasicForm() {
           <span className="">Generate</span>
         </PrimaryButton>
       </div>
-      {/* Tags */}
-      <div className="flex flex-wrap items-center justify-center gap-10">
-        <span className="text-white">Popular Tags</span>
-        <div className="flex gap-2">
-          {["House", "Apartment", "Villa", "Office"].map((tag, i) => (
-            <Button
-              key={i}
-              size={"sm"}
-              className=" bg-black/30 px-4 text-[10px]  text-white"
-            >
-              {tag}
-            </Button>
-          ))}
-        </div>
-      </div>
     </div>
   );
 }
@@ -178,10 +199,14 @@ function FormTabs() {
   return (
     <>
       <div className=" w-full">
-        <Tabs defaultValue={formTabs[0]} className="bg-none">
-          <TabsList className="mb-10 gap-5 bg-transparent max-md:mb-20 max-md:grid max-md:grid-cols-2">
+        <Tabs defaultValue={formTabs[0]} className="bg-none ">
+          <TabsList className="mx-auto mb-14 flex max-w-[500px] flex-wrap gap-5 bg-transparent max-md:mb-24 max-md:grid max-md:grid-cols-2">
             {formTabs.map((tab, i) => (
-              <TabsTrigger key={i} value={tab}>
+              <TabsTrigger
+                key={i}
+                value={tab}
+                className=" hover:bg-purple-600 hover:text-white max-md:h-[40px]   max-md:text-sm max-md:text-white max-md:ring-1 max-md:ring-purple-500 "
+              >
                 {tab}
               </TabsTrigger>
             ))}
@@ -215,7 +240,7 @@ function FormTabs() {
 
 function WelcomeSection() {
   return (
-    <div className="">
+    <div id="home">
       <div
         className={`section-box-w  flex-center  relative cursor-pointer  flex-col gap-5  overflow-hidden pt-44 text-center  `}
       >
@@ -242,6 +267,22 @@ function WelcomeSection() {
           </h3>
           <FormTabs />
 
+          {/* Tags */}
+
+          <div className="flex flex-wrap items-center justify-center gap-10">
+            <span className="text-white">Popular Tags</span>
+            <div className="flex gap-4 max-sm:flex-wrap max-sm:justify-center">
+              {["House", "Apartment", "Villa", "Office"].map((tag, i) => (
+                <Button
+                  key={i}
+                  size={"sm"}
+                  className=" bg-black/30 px-4 !text-[12px] text-white ring-1 ring-purple-600 hover:bg-purple-600 hover:text-white  max-sm:px-2 max-sm:py-1"
+                >
+                  {tag}
+                </Button>
+              ))}
+            </div>
+          </div>
           <Text>
             Limits per hour: 80 images for all visitors and up to 2 requests
             from a single visitor.
@@ -278,7 +319,7 @@ function AboutSection2() {
                 alt="Picture of the author"
                 className="z-0 object-cover"
               />
-              <h2 className="absolute bottom-0 right-0 w-full max-w-[300px] bg-black px-10 py-10 text-3xl font-semibold">
+              <h2 className="absolute bottom-0 right-0 w-full max-w-[300px] bg-black px-10 py-10 text-3xl font-semibold max-sm:p-4 max-sm:text-base">
                 We develop & create digital future.
               </h2>
             </div>
@@ -288,10 +329,10 @@ function AboutSection2() {
             <Heading3>WHAT WE DO</Heading3>
             <Heading2>Create your own AI business easily</Heading2>
 
-            <p className="max-w-[400px] pb-6 leading-9 max-md:max-w-full max-sm:py-2 max-sm:leading-normal ">
+            <Text className="max-w-[400px] pb-6   max-md:max-w-full max-sm:py-2  ">
               Adipiscing elit, sed do eiusmod tempor incididunt ut labore et
               dolore magna aliqua. Ut enim ad minim veniam, quis.
-            </p>
+            </Text>
 
             <div className="max-sm:item-start flex w-full flex-wrap items-center gap-5 self-start   max-md:pt-5   max-sm:justify-start">
               <PrimaryButton>About community</PrimaryButton>
@@ -309,7 +350,8 @@ function AboutSection2() {
                     src={sitePath.concat("/logos/agl.png")}
                     alt="Picture of the author"
                     fill
-                    objectFit="contain"
+                    className="object-contain"
+                    // className="object-contain"
                   />
                 ),
               },
@@ -320,7 +362,7 @@ function AboutSection2() {
                     src={sitePath.concat("/logos/citi.png")}
                     alt="Picture of the author"
                     fill
-                    objectFit="contain"
+                    className="object-contain"
                   />
                 ),
               },
@@ -331,7 +373,7 @@ function AboutSection2() {
                     src={sitePath.concat("/logos/energy.png")}
                     alt="Picture of the author"
                     fill
-                    objectFit="contain"
+                    className="object-contain"
                   />
                 ),
               },
@@ -342,7 +384,7 @@ function AboutSection2() {
                     src={sitePath.concat("/logos/github.png")}
                     alt="Picture of the author"
                     fill
-                    objectFit="contain"
+                    className="object-contain"
                   />
                 ),
               },
@@ -353,7 +395,7 @@ function AboutSection2() {
                     src={sitePath.concat("/logos/theater.png")}
                     alt="Picture of the author"
                     fill
-                    objectFit="contain"
+                    className="object-contain"
                   />
                 ),
               },
@@ -364,7 +406,7 @@ function AboutSection2() {
                     src={sitePath.concat("/logos/elo.png")}
                     alt="Picture of the author"
                     fill
-                    objectFit="contain"
+                    className="object-contain"
                   />
                 ),
               },
@@ -382,15 +424,7 @@ function AboutSection2() {
     </>
   );
 }
-function LogosSection() {
-  return (
-    <>
-      <div className="">
-        <div className="section-box-w flex items-center max-md:max-w-full  max-md:px-0"></div>
-      </div>
-    </>
-  );
-}
+
 function TestimonialSection() {
   const { onPrevButtonClick, onNextButtonClick, emblaRef } = useEmbla({});
 
@@ -407,7 +441,7 @@ function TestimonialSection() {
                   <div className="flex">
                     <div className="flex-center  w-[100vw] flex-col text-center">
                       <IoMdQuote className="rotate-180 text-[60px] text-purple-500" />
-                      <p className="text-xl leading-loose">
+                      <p className="text-xl leading-loose max-sm:text-base">
                         Lorem ipsum dolor, sit amet consectetur adipisicing
                         elit. Perferendis officia nostrum libero veritatis nisi
                         quasi ullam tenetur nobis odio debitis! Deserunt, ipsum
@@ -439,13 +473,13 @@ function TestimonialSection() {
       <div className="absolute flex w-full gap-4 pt-10  text-[40px] text-white">
         <span
           onClick={onPrevButtonClick}
-          className="absolute left-[-6em] h-20 w-20 rounded-full bg-transparent   text-white"
+          className="absolute left-[-6em] h-20 w-20 cursor-pointer rounded-full bg-transparent   text-white"
         >
           <BsArrowLeft />
         </span>
         <span
           onClick={onNextButtonClick}
-          className="absolute  right-[-6em] h-20  w-20  rounded-full bg-transparent    text-white"
+          className="absolute  right-[-6em] h-20 w-20  cursor-pointer  rounded-full bg-transparent    text-white"
         >
           <BsArrowRight />
         </span>
@@ -456,9 +490,12 @@ function TestimonialSection() {
 
 function PricingSection() {
   return (
-    <div className="section-box-w section-py flex flex-row-reverse gap-24 pt-0 max-xl:flex-col-reverse   max-md:gap-10">
+    <div
+      id="pricing"
+      className="section-box-w section-py flex flex-row-reverse gap-10 pt-0   max-xl:flex-col-reverse"
+    >
       {/* Image */}
-      <div className="grid w-full grid-cols-2    gap-10   max-md:max-w-full max-md:grid-cols-1">
+      <div className="grid w-full max-w-full grid-cols-2 gap-10 max-[600px]:grid-cols-1 max-sm:gap-4">
         {[
           {
             title: "Silver Pack",
@@ -475,7 +512,7 @@ function PricingSection() {
         ].map((item, i) => (
           <div
             key={i}
-            className="flex w-full  flex-col place-items-center gap-10 bg-black p-14"
+            className="flex w-full  flex-col place-items-center gap-10 rounded-xl bg-black   px-4 py-10 max-sm:p-10"
           >
             <div className="flex flex-col items-center gap-4 text-center">
               <h4 className="text-2xl font-bold"> {item.title}</h4>
@@ -483,7 +520,7 @@ function PricingSection() {
             </div>
             <div className="relative flex items-end">
               <div className="absolute left-[-1em] top-0 text-lg">$</div>
-              <div className="text-[60px] font-bold leading-tight">
+              <div className="text-[60px] font-bold leading-tight max-sm:text-[44px]">
                 {item.price}
               </div>
               <div className="relative bottom-3 left-2 text-base font-bold">
@@ -531,7 +568,7 @@ function PricingSection() {
               </div>
               <div className="flex flex-1 flex-col gap-4">
                 <div className="font-bold">{item.text}</div>
-                <div className="opacity-70">{item.desc}</div>
+                <Text>{item.desc}</Text>
               </div>
             </div>
           ))}
@@ -544,17 +581,17 @@ function PricingSection() {
 function CTASection() {
   return (
     <>
-      <div className="min-h-[10em]  bg-gray-900">
-        <div className="section-box-w mt-[-6em] max-md:mt-0 max-md:pt-20 max-sm:pt-10">
-          <div className="flex flex-wrap items-center justify-between gap-10 rounded-xl bg-purple-600 px-14 py-14 max-md:flex-wrap max-md:justify-center max-sm:gap-4 max-sm:px-4 max-sm:py-4">
-            <div className="flex flex-col  gap-5 max-md:w-full max-md:text-center max-sm:gap-0 ">
+      <div className="bg-gray-900">
+        <div className="section-box-w">
+          <div className="flex flex-wrap items-center justify-between gap-10 rounded-xl bg-purple-600 px-14 py-14 max-md:flex-wrap max-md:justify-center max-sm:gap-4 max-sm:px-6 max-sm:py-6">
+            <div className="flex flex-col  gap-5 max-md:w-full max-md:text-center">
               <Heading2>
                 Subscribe to{" "}
                 <span className="font-bold underline">newsletter</span>
               </Heading2>
               <Text reverseColor>Social media its ways of our excellence.</Text>
             </div>
-            <div className="relative flex h-[60px] w-full max-w-[400px] items-center justify-between gap-4  rounded-lg bg-white px-4  ">
+            <div className="relative flex h-[60px] w-full max-w-[500px] items-center justify-between gap-4  rounded-lg bg-white px-4  ">
               <Input
                 type="text"
                 placeholder="Enter your email"
@@ -577,7 +614,7 @@ function CTASection() {
 
 function AboutSection() {
   return (
-    <div className="section-box-w section-py flex flex-col gap-10">
+    <div id="about" className="section-box-w section-py flex flex-col gap-10">
       {/* about text */}
       <div className="grid grid-cols-2 gap-10 max-md:grid-cols-1">
         <div className="flex  flex-col gap-4">
@@ -599,37 +636,41 @@ function AboutSection() {
         {[
           {
             title: "Natural Language",
-            icon: <GrSecure />,
+            icon: <IoIosGitNetwork />,
             bg: "bg-yellow-100",
           },
           {
             title: "Face Recognition",
-            icon: <FiTruck />,
+            icon: <CiFaceMeh />,
             bg: "bg-red-100",
           },
           {
             title: "Computer Vision",
-            icon: <LuBox />,
+            icon: <MdSensorOccupied />,
             bg: "bg-orange-100",
           },
           {
             title: "Automated Reasoning",
-            icon: <BiSupport />,
+            icon: <GoGitCompare />,
             bg: "bg-yellow-100",
           },
         ].map((item, i) => (
           <div
             key={i}
-            className="flex min-h-[150px] flex-col items-start justify-center gap-2  border-r-2 border-gray-700 pl-4 first:p-0 last:border-none max-md:border-none max-md:p-0  "
+            className="flex min-h-[150px] flex-col items-start justify-center gap-2  border-r-2 border-gray-700 pl-4 first:p-0 last:border-none max-md:border-none max-md:p-0 [&>.icon]:hover:text-purple-500 [&>a]:hover:text-purple-400 "
           >
-            <div className={`text-[50px] text-gray-600`}>{item.icon}</div>
+            <div
+              className={`icon text-[50px] text-gray-600 transition-all duration-300 ease-in-out`}
+            >
+              {item.icon}
+            </div>
             <h3 className="max-w-[100px] pb-6 pt-3 text-xl font-bold max-sm:text-base">
               {item.title}
             </h3>
-            <div className="flex-center gap-4">
+            <a className="flex-center cursor-pointer gap-4 transition-all duration-300 ease-in-out">
               Read more
               <FaArrowRight />
-            </div>
+            </a>
           </div>
         ))}
       </div>
@@ -642,11 +683,15 @@ const galleryTabs = ["Art Direction", "Illustration", "Design", "Creative"];
 function GalleryTabSection() {
   return (
     <>
-      <div className="section-box-w section-pb">
+      <div id="showcase" className="section-box-w section-pb">
         <Tabs defaultValue={galleryTabs[0]} className="bg-none">
-          <TabsList className="mb-10 gap-5 bg-transparent">
+          <TabsList className="max-h-auto mb-10 flex h-auto justify-start gap-5 bg-transparent max-md:flex-wrap">
             {galleryTabs.map((tab, i) => (
-              <TabsTrigger key={i} value={tab}>
+              <TabsTrigger
+                key={i}
+                value={tab}
+                className="hover:bg-purple-600 hover:text-white"
+              >
                 {tab}
               </TabsTrigger>
             ))}
@@ -654,7 +699,7 @@ function GalleryTabSection() {
 
           {galleryTabs.map((tab, i) => (
             <TabsContent key={i} value={tab}>
-              <div className="grid h-[1000px] grid-cols-4 grid-rows-3 gap-4 max-lg:grid-cols-2  max-lg:grid-rows-none">
+              <div className="grid h-[1000px] grid-cols-4 grid-rows-3 gap-4  max-lg:grid-cols-2 max-lg:grid-rows-none">
                 {Array(7)
                   .fill(0)
                   .map((_, i) => (
@@ -675,7 +720,7 @@ function GalleryTabSection() {
                         }
                         fill
                         alt="Picture of the author"
-                        objectFit="cover"
+                        className="object-cover"
                       />
                     </div>
                   ))}

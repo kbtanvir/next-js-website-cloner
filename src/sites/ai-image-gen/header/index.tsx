@@ -9,7 +9,7 @@ import {
 import { Routes } from "@/pages/sites/eshopper";
 import Link from "next/link";
 import { RiCloseLine, RiMenu2Line } from "react-icons/ri";
-import { PrimaryButton } from "../home";
+import { LinkText, PrimaryButton } from "../home";
 
 function NavLinks() {
   return (
@@ -17,31 +17,25 @@ function NavLinks() {
       {[
         {
           text: "Home",
-          url: `${Routes.shop.path}?category=juices`,
+          url: "#home",
         },
         {
           text: "About",
-          url: `${Routes.shop.path}?category=fruits`,
+          url: `#about`,
         },
         {
-          text: "Rent",
-          url: `${Routes.shop.path}?category=dairy`,
+          text: "Showcase",
+          url: "#showcase",
         },
         {
-          text: "Agents",
-          url: `${Routes.shop.path}?category=dairy`,
-        },
-        {
-          text: "Contact",
-          url: `${Routes.shop.path}?category=dairy`,
+          text: "Pricing",
+          url: "#pricing",
         },
       ].map((item, i) => (
-        <Link
-          key={i}
-          href={item.url}
-          className="self-start whitespace-nowrap text-base font-normal transition-all duration-300 ease-in-out hover:text-emerald-600 max-[850px]:py-4 max-md:text-sm"
-        >
-          {item.text}
+        <Link href={item.url} key={i}>
+          <LinkText className="border-b-white/20 py-4 hover:border-b-purple-500 max-md:border-b-[1px]">
+            {item.text}
+          </LinkText>
         </Link>
       ))}
     </>
@@ -69,9 +63,12 @@ export default function MainHeader() {
             <DrawerTrigger className="min-[850px]:hidden">
               <RiMenu2Line />
             </DrawerTrigger>
-            <DrawerContent className="h-full max-w-lg rounded-none px-6 py-6">
+            <DrawerContent className="h-full max-w-lg rounded-none border-none bg-gray-800 px-6 py-6 text-white [&>.bg-muted]:hidden">
               <DrawerClose className="absolute right-6 top-6 ">
-                <Button variant="outline">
+                <Button
+                  variant="outline"
+                  className="size-10 p-0 text-2xl  text-black"
+                >
                   <RiCloseLine />
                 </Button>
               </DrawerClose>
@@ -83,11 +80,11 @@ export default function MainHeader() {
                   >
                     Property
                   </Link>
-                  <div className="my-auto grid divide-y-2">
+                  <div className="my-auto grid">
                     <NavLinks />
                   </div>
                   <Link href={Routes.cart.path} className="relative">
-                    <Button>Contact us</Button>
+                    <PrimaryButton>Get Started</PrimaryButton>
                   </Link>
                 </span>
               </DrawerHeader>

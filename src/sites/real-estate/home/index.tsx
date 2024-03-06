@@ -463,7 +463,7 @@ function WhyUs1Section() {
                     src={`${imageRoute}/loan.png`}
                     alt=""
                     fill
-                    objectFit="cover"
+                    className="object-cover"
                   />
                 ),
               },
@@ -475,7 +475,7 @@ function WhyUs1Section() {
                     src={`${imageRoute}/satisfaction.png`}
                     alt=""
                     fill
-                    objectFit="cover"
+                    className="object-cover"
                   />
                 ),
               },

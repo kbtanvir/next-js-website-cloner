@@ -182,21 +182,7 @@ export function VariationsForm() {
           ))}
           <PrimaryButton className="h-[41px] w-full">Generate</PrimaryButton>
         </form>
-        {/* Tags */}
-        <div className="flex flex-wrap items-center justify-center gap-10">
-          <span className="text-white">Popular Tags</span>
-          <div className="flex gap-2">
-            {["House", "Apartment", "Villa", "Office"].map((tag, i) => (
-              <Button
-                key={i}
-                size={"sm"}
-                className=" bg-black/30 px-4 text-[10px]  text-white"
-              >
-                {tag}
-              </Button>
-            ))}
-          </div>
-        </div>
+        
       </div>
     </FormProvider>
   );
