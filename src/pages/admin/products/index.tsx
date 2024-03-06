@@ -1,8 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { api } from "@/utils/api";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { type Product } from "@prisma/client";
 import Image from "next/image";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 function useProductQueries() {
   const query = api.product.getAll.useQuery();
@@ -68,19 +72,40 @@ function List() {
   );
 }
 
+const FormSchema = z.object({
+  category: z.string().min(3).max(255),
+});
+type IFormSchema = z.infer<typeof FormSchema>;
+
 function Generate() {
   const { generate } = useProductQueries();
+  const form = useForm<IFormSchema>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {},
+  });
+  function onSubmit(data: IFormSchema) {
+    generate.mutate({
+      category: data.category,
+    });
+  }
   return (
-    <Button
-      disabled={generate.isLoading}
-      onClick={() =>
-        generate.mutate({
-          category: "fruit",
-        })
-      }
-    >
-      Generate fake products
-    </Button>
+    <>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="grid w-full grid-cols-2 items-end gap-5 max-md:grid-cols-1"
+      >
+        <Input
+          name="category"
+          className="text-black"
+          onChange={(e) => form.setValue("category", e.target.value)}
+          value={form.watch("category") ?? ""}
+          required
+        />
+        <Button disabled={generate.isLoading} type="submit">
+          Generate fake products
+        </Button>
+      </form>
+    </>
   );
 }
 

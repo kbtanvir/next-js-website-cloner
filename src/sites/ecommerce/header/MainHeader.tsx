@@ -188,9 +188,9 @@ export default function MainHeader() {
       </Link>
       <SearchProducts />
       <div className="flex w-full max-w-[116px] items-center justify-end gap-5 pr-3 max-md:order-2 max-md:self-end">
-        <div className="relative">
+        {/* <div className="relative">
           <UserButton />
-        </div>
+        </div> */}
         {/* <Link href="/wishlist" className="relative">
           <div className="relative">
             <WishIcon />

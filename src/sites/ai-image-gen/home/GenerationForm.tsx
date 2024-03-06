@@ -16,7 +16,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 import { PrimaryButton } from ".";
 
-export const FormSchema = z.object({
+const FormSchema = z.object({
   prompt: z.string().min(3).max(255),
   negativePrompt: z.string().min(3).max(255).optional(),
   model: z.string().min(3).max(255).optional(),
