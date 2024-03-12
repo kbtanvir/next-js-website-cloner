@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { sitePath } from "@/pages/sites/ai-image-gen";
 import Image from "next/image";
+
+import { useEffect, useState } from "react";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import { CiFaceMeh } from "react-icons/ci";
 import { FaArrowRight, FaRegEnvelope } from "react-icons/fa";
@@ -14,9 +15,83 @@ import { IoCheckmark } from "react-icons/io5";
 import { MdSensorOccupied } from "react-icons/md";
 import { useEmbla } from "../../../hooks/useEmbla";
 import { Slider } from "../components/slider";
+import { Text } from "../components/text";
 import { Heading2, Heading3, PrimaryButton, colors } from "../theme";
 
-import { Text } from "../components/Text";
+function CountDown({
+  targetDate = new Date(new Date().setHours(new Date().getHours() + 1)),
+}: {
+  targetDate?: Date;
+}) {
+  const [time, setTime] = useState({
+    days: "00",
+    hours: "00",
+    minutes: "00",
+    seconds: "00",
+  });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = targetDate.getTime() - now;
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor(
+        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+      );
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      setTime({
+        days: days.toString().padStart(2, "0"),
+        hours: hours.toString().padStart(2, "0"),
+        minutes: minutes.toString().padStart(2, "0"),
+        seconds: seconds.toString().padStart(2, "0"),
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="flex w-full justify-center gap-8 pt-10">
+      {[
+        {
+          text: "Days",
+          time: time.days,
+          color: colors.hover,
+        },
+        {
+          text: "Hours",
+          time: time.hours,
+          color: colors.orange,
+        },
+        {
+          text: "Minutes",
+          time: time.minutes,
+          color: colors.red,
+        },
+        {
+          text: "Seconds",
+          time: time.seconds,
+          color: colors.green,
+        },
+      ].map((item, i) => (
+        <div
+          key={i}
+          className="flex flex-col items-center gap-1 rounded-lg bg-gray-800/50 px-10 py-4"
+        >
+          <Text
+            className={cn(`text-[35px] font-bold max-sm:text-[24px]`)}
+            style={{
+              color: item.color,
+            }}
+          >
+            {item.time}
+          </Text>
+          <Text className="text-[14px] text-gray-200">{item.text}</Text>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 function WelcomeSection() {
   return (
@@ -92,6 +167,9 @@ function WelcomeSection() {
           </div>
         </div>
         {/* COUNTDOWN */}
+        <div className="flex">
+          <CountDown />
+        </div>
       </div>
     </div>
   );

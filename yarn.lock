@@ -3404,6 +3404,11 @@ queue-microtask@^1.2.2:
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
+react-countdown-simple@^1.0.12:
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/react-countdown-simple/-/react-countdown-simple-1.0.12.tgz#3505a0b8790ba60e9900d46146bedde551f1a6be"
+  integrity sha512-ROW264Ly7r/XbRWiUBMhSdXLuodVNPW4hUWN0ufneJ13N4zRdr0p9clbkGDsNDeVQP2dtjb/ZTGiXGrUK2Judg==
+
 react-creative-cursor@^1.2.7:
   version "1.2.7"
   resolved "https://registry.yarnpkg.com/react-creative-cursor/-/react-creative-cursor-1.2.7.tgz#2d1d215b0e67537d14d39e8f429afc1a69e41a19"

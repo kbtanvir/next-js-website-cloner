@@ -6,6 +6,7 @@ export const colors = {
   hover: "#00C4F4",
   orange: "#FF9700",
   green: "#12D176",
+  red: "#FF1D45",
 };
 
 export function LinkText({
