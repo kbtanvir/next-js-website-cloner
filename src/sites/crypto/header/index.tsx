@@ -9,7 +9,7 @@ import {
 import { Paths } from "@/lib/const/navigation";
 import Link from "next/link";
 import { RiCloseLine, RiMenu2Line } from "react-icons/ri";
-import { LinkText, PrimaryButton } from "../home";
+import { LinkText, PrimaryButton } from "../theme";
 
 function NavLinks() {
   return (
@@ -24,16 +24,20 @@ function NavLinks() {
           url: `#about`,
         },
         {
-          text: "Showcase",
-          url: "#showcase",
+          text: "Sales",
+          url: "#sales",
         },
         {
-          text: "Pricing",
-          url: "#pricing",
+          text: "Roadmap",
+          url: "#roadmap",
+        },
+        {
+          text: "Contact us",
+          url: "#contact",
         },
       ].map((item, i) => (
         <Link href={item.url} key={i}>
-          <LinkText className="border-b-white/20 py-4 hover:border-b-purple-500 max-md:border-b-[1px]">
+          <LinkText className="border-b-white/20 py-4 uppercase hover:border-b-purple-500 max-md:border-b-[1px]">
             {item.text}
           </LinkText>
         </Link>
@@ -44,7 +48,7 @@ function NavLinks() {
 
 export default function MainHeader() {
   return (
-    <div className="fixed left-0 top-0 z-50 w-full   shadow-lg">
+    <div className="fixed left-0 top-0 z-50 w-full bg-gray-900 text-white shadow-lg">
       <div
         className={`section-box-w flex items-center justify-between gap-20 py-5 max-md:gap-5 max-md:gap-y-0 max-md:py-5`}
       >
@@ -97,7 +101,7 @@ export default function MainHeader() {
               <NavLinks />
             </span>
             <Link href={Paths.cart.path} className="relative">
-              <PrimaryButton>Get Started For Free</PrimaryButton>
+              <PrimaryButton>Get Started</PrimaryButton>
             </Link>
           </div>
         </div>

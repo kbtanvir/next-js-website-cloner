@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/carousel";
 import { type IProduct } from "@/features/shop/model";
 import { ProductItem } from "@/features/shop/view/ProductItem";
-import { Routes } from "@/pages/sites/eshopper";
+import { Paths } from "@/lib/const/navigation";
 import { api } from "@/utils/api";
 import { globalStore, useGlobalStore } from "@/utils/global.store";
 import Autoplay from "embla-carousel-autoplay";
@@ -83,7 +83,7 @@ function DiscountSlider() {
                   off on first order
                 </h5>
 
-                <Link href={Routes.shop.path}>
+                <Link href={Paths.shop.path}>
                   <Button className="mt-2 bg-emerald-500">Shop now</Button>
                 </Link>
               </div>
@@ -194,7 +194,7 @@ function FeaturedProductsSection() {
               <h5 className="flex gap-4 text-[20px] font-semibold text-gray-500 max-md:text-base">
                 100% Natural
               </h5>
-              <Link href={Routes.shop.path}>
+              <Link href={Paths.shop.path}>
                 <Button className="mt-4 bg-emerald-500">Shop now</Button>
               </Link>
             </div>
@@ -354,7 +354,7 @@ function WelcomeSection() {
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet
             reiciendis beatae consequuntur.
           </p>
-          <Link href={Routes.shop.path}>
+          <Link href={Paths.shop.path}>
             <Button className="mt-4 bg-emerald-500">Shop now</Button>
           </Link>
         </div>

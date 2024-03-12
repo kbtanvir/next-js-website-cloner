@@ -2,18 +2,19 @@ import { Toaster } from "@/components/ui/toaster";
 import { EcomLayout } from "@/sites/ecommerce/layouts/RootLayout";
 
 import { cartStore } from "@/features/cart/controller/store";
+import { siteNavigation } from "@/lib/const/navigation";
 import { persistStore } from "@/lib/persist";
+import AdminLayout from "@/sites/admin/layouts/AdminLayout";
+import { AiImageGenLayout } from "@/sites/ai-image-gen/layouts/RootLayout";
+import { CryptoLayout } from "@/sites/crypto/layouts/RootLayout";
+import { RealEstateLayout } from "@/sites/real-estate/layouts/RootLayout";
+import "@/styles/globals.css";
 import { api } from "@/utils/api";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
 import { type AppType } from "next/app";
 import { Inter as FontSans } from "next/font/google";
-
-import AdminLayout from "@/sites/admin/layouts/AdminLayout";
-import { AiImageGenLayout } from "@/sites/ai-image-gen/layouts/RootLayout";
-import { RealEstateLayout } from "@/sites/real-estate/layouts/RootLayout";
-import "@/styles/globals.css";
 import { useRouter } from "next/router";
 import { AdminHeader } from "../sites/admin/header/AdminHeader";
 
@@ -57,22 +58,29 @@ function LayoutRouter({
   pageProps: any;
 }) {
   const router = useRouter();
-
-  if (router.pathname.startsWith("/sites/eshopper")) {
+  if (router.pathname.startsWith(siteNavigation.admin.home.path)) {
+    return (
+      <AdminLayout>
+        <AdminHeader />
+        <Component {...pageProps} />
+      </AdminLayout>
+    );
+  }
+  if (router.pathname.startsWith(siteNavigation.ecommerce.home.path)) {
     return (
       <EcomLayout>
         <Component {...pageProps} />
       </EcomLayout>
     );
   }
-  if (router.pathname.startsWith("/sites/real-estate")) {
+  if (router.pathname.startsWith(siteNavigation.realEstate.home.path)) {
     return (
       <RealEstateLayout>
         <Component {...pageProps} />
       </RealEstateLayout>
     );
   }
-  if (router.pathname.startsWith("/sites/ai-image-gen")) {
+  if (router.pathname.startsWith(siteNavigation.aiImageGen.home.path)) {
     return (
       <AiImageGenLayout>
         <Component {...pageProps} />
@@ -80,12 +88,11 @@ function LayoutRouter({
     );
   }
 
-  if (router.pathname.startsWith("/admin")) {
+  if (router.pathname.startsWith(siteNavigation.crypto.home.path)) {
     return (
-      <AdminLayout>
-        <AdminHeader />
+      <CryptoLayout>
         <Component {...pageProps} />
-      </AdminLayout>
+      </CryptoLayout>
     );
   }
 

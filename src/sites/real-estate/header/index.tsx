@@ -6,7 +6,7 @@ import {
   DrawerHeader,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { Routes } from "@/pages/sites/eshopper";
+import { Paths } from "@/lib/const/navigation";
 import Link from "next/link";
 import { RiCloseLine, RiMenu2Line } from "react-icons/ri";
 
@@ -35,23 +35,23 @@ function NavLinks() {
       {[
         {
           text: "Home",
-          url: `${Routes.shop.path}?category=juices`,
+          url: `${Paths.shop.path}?category=juices`,
         },
         {
           text: "About",
-          url: `${Routes.shop.path}?category=fruits`,
+          url: `${Paths.shop.path}?category=fruits`,
         },
         {
           text: "Rent",
-          url: `${Routes.shop.path}?category=dairy`,
+          url: `${Paths.shop.path}?category=dairy`,
         },
         {
           text: "Agents",
-          url: `${Routes.shop.path}?category=dairy`,
+          url: `${Paths.shop.path}?category=dairy`,
         },
         {
           text: "Contact",
-          url: `${Routes.shop.path}?category=dairy`,
+          url: `${Paths.shop.path}?category=dairy`,
         },
       ].map((item, i) => (
         <Link
@@ -74,7 +74,7 @@ export default function MainHeader() {
       >
         <div className="">
           <Link
-            href={Routes.home.path}
+            href={Paths.home.path}
             className="text-nowrap text-[30px] font-light uppercase max-md:self-start max-md:text-2xl"
           >
             Property{" "}
@@ -96,7 +96,7 @@ export default function MainHeader() {
               <DrawerHeader className="">
                 <span className="grid gap-10">
                   <Link
-                    href={Routes.home.path}
+                    href={Paths.home.path}
                     className=" text-nowrap text-[30px] font-light uppercase max-md:self-start max-md:text-2xl"
                   >
                     Property
@@ -104,7 +104,7 @@ export default function MainHeader() {
                   <div className="my-auto grid divide-y-2">
                     <NavLinks />
                   </div>
-                  <Link href={Routes.cart.path} className="relative">
+                  <Link href={Paths.cart.path} className="relative">
                     <Button>Contact us</Button>
                   </Link>
                 </span>
@@ -117,7 +117,7 @@ export default function MainHeader() {
             <span className="my-auto flex gap-10 self-start justify-self-start max-md:max-w-full max-md:flex-wrap">
               <NavLinks />
             </span>
-            <Link href={Routes.cart.path} className="relative">
+            <Link href={Paths.cart.path} className="relative">
               <Button>Contact us</Button>
             </Link>
           </div>

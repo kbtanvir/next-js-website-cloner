@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { Routes } from "@/pages/sites/eshopper";
 import { ChevronLeft } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { Paths } from "../../lib/const/navigation";
 
 export const metadata = {
   title: "Sign in",
@@ -13,7 +13,7 @@ export default function SignInPage() {
   return (
     <div className=" ">
       <Link
-        href={Routes.home.path}
+        href={Paths.home.path}
         className="absolute left-4 top-4 md:left-8 md:top-8"
       >
         <Button variant="ghost">

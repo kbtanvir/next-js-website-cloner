@@ -5,7 +5,7 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 
-export function AiImageGenLayout({ children }: LayoutProps) {
+export function CryptoLayout({ children }: LayoutProps) {
   return (
     <>
       <MainHeader />

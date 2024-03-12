@@ -1,5 +1,5 @@
-import View from "@/sites/ecommerce/home";
-
+import { View } from "@/sites/crypto/home";
+ 
 export default function Page() {
   return <View />;
 }

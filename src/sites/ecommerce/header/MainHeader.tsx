@@ -5,7 +5,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useCartStore } from "@/features/cart/controller/store";
-import { Routes } from "@/pages/sites/eshopper";
+import { Paths } from "@/lib/const/navigation";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -15,7 +15,6 @@ import { GiFruitBowl, GiSlicedBread } from "react-icons/gi";
 import { IoCartOutline } from "react-icons/io5";
 import { RiMenu2Line } from "react-icons/ri";
 import { SearchProducts } from "./SearchProducts";
-import UserButton from "./user-button";
 
 export const Categories = {
   "Dairy & Backery": {
@@ -105,17 +104,17 @@ export function NavigationSection() {
           {[
             {
               text: "Juices",
-              url: `${Routes.shop.path}?category=juices`,
+              url: `${Paths.shop.path}?category=juices`,
               icon: <BiDrink />,
             },
             {
               text: "Fruits",
-              url: `${Routes.shop.path}?category=fruits`,
+              url: `${Paths.shop.path}?category=fruits`,
               icon: <GiFruitBowl />,
             },
             {
               text: "Dairy",
-              url: `${Routes.shop.path}?category=dairy`,
+              url: `${Paths.shop.path}?category=dairy`,
               icon: <GiSlicedBread />,
             },
           ].map((item, i) => (
@@ -179,7 +178,7 @@ export default function MainHeader() {
       className={`section-px section-box-w mx-auto flex items-center justify-between gap-20   py-10  max-lg:justify-between max-md:flex-wrap max-md:gap-5 max-md:py-5`}
     >
       <Link
-        href={Routes.home.path}
+        href={Paths.home.path}
         className="text-nowrap max-md:order-1 max-md:self-start"
       >
         <div className="text-[30px]   font-light uppercase max-md:text-2xl">
@@ -197,7 +196,7 @@ export default function MainHeader() {
             <WishCount />
           </div>
         </Link> */}
-        <Link href={Routes.cart.path} className="relative">
+        <Link href={Paths.cart.path} className="relative">
           <IoCartOutline size={30} />
           <div className="absolute right-[-10px] top-[-8px] flex h-4  items-center justify-center rounded-full bg-blue-600 px-1 align-middle text-[10px] text-white">
             {cTotal}

@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { Routes } from "@/pages/sites/eshopper";
 import Link from "next/link";
+import { Paths } from "../../../../lib/const/navigation";
 
 export default function OrderCompletePage() {
   return (
@@ -16,7 +16,7 @@ export default function OrderCompletePage() {
         </div>
         {/* expolore shop  button */}
         <div className="mt-10">
-          <Link href={Routes.home.path}>
+          <Link href={Paths.home.path}>
             <Button className="">Explore Shop</Button>
           </Link>
         </div>

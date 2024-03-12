@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Routes } from "@/pages/sites/eshopper";
+import { Paths } from "@/lib/const/navigation";
 import { debounce } from "lodash";
 import { Trash } from "lucide-react";
 import Image from "next/image";
@@ -68,7 +68,7 @@ function ProductGrid() {
           </span>
         </div>
         {cart.length > 0 && (
-          <Link className="self-end" href={Routes.checkout.path}>
+          <Link className="self-end" href={Paths.checkout.path}>
             <Button className="h-12 bg-black px-10 py-5 text-base text-white">
               Checkout
             </Button>
