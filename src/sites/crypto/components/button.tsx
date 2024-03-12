@@ -10,7 +10,9 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: `max-sm:px-4 max-sm:text-sm bg-primary text-primary-foreground hover:bg-primary/90 max-sm:max-w-auto h-[50px]  min-w-[200px] rounded-full bg-transparent px-5 font-bold uppercase text-white ring-[3px] ring-[${colors.hover}] hover:bg-transparent  hover:text-[${colors.hover}] hover:ring-2`,
+        default: cn(
+          `max-sm:px-4 max-sm:text-sm bg-primary text-primary-foreground hover:bg-primary/90 max-sm:max-w-auto   min-w-[200px] rounded-full bg-transparent px-5 font-bold uppercase text-white ring-[3px] ring-[${colors.hover}] hover:bg-transparent  hover:text-[${colors.hover}] hover:ring-2`,
+        ),
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
@@ -21,7 +23,7 @@ const buttonVariants = cva(
         link: "px-0 max-sm:text-sm text-primary underline-offset-4 hover:underline",
       },
       size: {
-        default: "h-10 px-4 py-2",
+        default: `h-[50px] px-4 py-2`,
         sm: "h-9 rounded-md px-3",
         lg: "h-11 rounded-md px-8",
         icon: "h-10 w-10",

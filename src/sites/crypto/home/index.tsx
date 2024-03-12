@@ -1,19 +1,17 @@
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { sitePath } from "@/pages/sites/ai-image-gen";
 import Image from "next/image";
 
+import { siteNavigation } from "@/lib/const/navigation";
 import { useEffect, useState } from "react";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
-import { CiFaceMeh } from "react-icons/ci";
-import { FaArrowRight, FaRegEnvelope } from "react-icons/fa";
-import { GoGitCompare } from "react-icons/go";
-import { IoIosGitNetwork, IoMdQuote } from "react-icons/io";
+import { FaRegEnvelope } from "react-icons/fa";
+import { IoMdQuote } from "react-icons/io";
 import { IoCheckmark } from "react-icons/io5";
-import { MdSensorOccupied } from "react-icons/md";
 import { useEmbla } from "../../../hooks/useEmbla";
+import { Button } from "../components/button";
 import { Slider } from "../components/slider";
 import { Text } from "../components/text";
 import { Heading2, Heading3, PrimaryButton, colors } from "../theme";
@@ -167,7 +165,8 @@ function WelcomeSection() {
           </div>
         </div>
         {/* COUNTDOWN */}
-        <div className="flex">
+        <div className="flex flex-col">
+          <Heading3>ICO Will Start In..</Heading3>
           <CountDown />
         </div>
       </div>
@@ -484,67 +483,120 @@ function CTASection() {
 
 function AboutSection() {
   return (
-    <div id="about" className="section-box-w section-py flex flex-col gap-10">
-      {/* about text */}
-      <div className="grid grid-cols-2 gap-10 max-md:grid-cols-1">
-        <div className="flex  flex-col gap-4">
-          <Heading3>HUGE COLLECTION</Heading3>
-          <Heading2>More algorithms than anywhere else.</Heading2>
-        </div>
-        <div className="flex flex-col ">
-          <Text>
-            Adipiscing elit, sed do euismod tempor incidunt ut labore et dolore
-            magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-            ullamco. <br /> <br />
-            Adipiscing elit, sed do euismod tempor incidunt ut labore et dolore
-            magna aliqua. Ut enim ad minim veniam.
-          </Text>
-        </div>
-      </div>
-      {/* icon box grid */}
-      <div className="grid w-full  grid-cols-4  content-center  gap-8 pt-10 max-xl:grid-cols-2 max-md:gap-y-20 max-md:py-10 max-sm:grid-cols-2   max-sm:py-4 ">
-        {[
-          {
-            title: "Natural Language",
-            icon: <IoIosGitNetwork />,
-            bg: "bg-yellow-100",
-          },
-          {
-            title: "Face Recognition",
-            icon: <CiFaceMeh />,
-            bg: "bg-red-100",
-          },
-          {
-            title: "Computer Vision",
-            icon: <MdSensorOccupied />,
-            bg: "bg-orange-100",
-          },
-          {
-            title: "Automated Reasoning",
-            icon: <GoGitCompare />,
-            bg: "bg-yellow-100",
-          },
-        ].map((item, i) => (
-          <div
-            key={i}
-            className="flex min-h-[150px] flex-col items-start justify-center gap-2  border-r-2 border-gray-700 pl-4 first:p-0 last:border-none max-md:border-none max-md:p-0 [&>.icon]:hover:text-purple-500 [&>a]:hover:text-purple-400 "
-          >
-            <div
-              className={`icon text-[50px] text-gray-600 transition-all duration-300 ease-in-out`}
-            >
-              {item.icon}
+    <>
+      <div className="section-box-w section-py grid gap-10 pb-14">
+        <div className="  flex gap-24 max-xl:gap-10   max-md:flex-col max-md:gap-10 ">
+          {/* Image */}
+          <div className="w-full max-w-[450px] max-md:max-w-full">
+            <div className=" relative h-[600px] max-md:h-[300px]">
+              <Image
+                src={`${siteNavigation.crypto.home.path}/bitcoinparticle.png`}
+                fill
+                alt="Picture of the author"
+                className="z-0 object-contain"
+              />
             </div>
-            <h3 className="max-w-[100px] pb-6 pt-3 text-xl font-bold max-sm:text-base">
-              {item.title}
-            </h3>
-            <a className="flex-center cursor-pointer gap-4 transition-all duration-300 ease-in-out">
-              Read more
-              <FaArrowRight />
-            </a>
           </div>
-        ))}
+          {/* Text box */}
+          <div className="flex flex-col justify-center gap-4  max-md:w-full">
+            <Heading3>WHAT WE DO</Heading3>
+            <Heading2>
+              The World’s <span>1st ICO</span> Platform That Offers Rewards
+            </Heading2>
+
+            <Text className="max-w-[400px] pb-6   max-md:max-w-full max-sm:py-2  ">
+              The World’s 1st ICO Platform That Offers Rewards and The platform
+              helps investors to make easy to purchase and sell their tokens
+            </Text>
+
+            <div className="max-sm:item-start flex w-full flex-wrap items-center gap-5 self-start   max-md:pt-5   max-sm:justify-start">
+              <Button>Purchase token</Button>
+            </div>
+          </div>
+        </div>
+        {/* LOGOS grid*/}
+        <div className="flex w-full items-center justify-stretch  max-md:grid">
+          <div className="grid w-full grid-cols-6 flex-wrap gap-5 max-md:grid-cols-3 max-sm:grid-cols-2">
+            {[
+              {
+                icon: (
+                  <Image
+                    loading="lazy"
+                    src={sitePath.concat("/logos/agl.png")}
+                    alt="Picture of the author"
+                    fill
+                    className="object-contain"
+                    // className="object-contain"
+                  />
+                ),
+              },
+              {
+                icon: (
+                  <Image
+                    loading="lazy"
+                    src={sitePath.concat("/logos/citi.png")}
+                    alt="Picture of the author"
+                    fill
+                    className="object-contain"
+                  />
+                ),
+              },
+              {
+                icon: (
+                  <Image
+                    loading="lazy"
+                    src={sitePath.concat("/logos/energy.png")}
+                    alt="Picture of the author"
+                    fill
+                    className="object-contain"
+                  />
+                ),
+              },
+              {
+                icon: (
+                  <Image
+                    loading="lazy"
+                    src={sitePath.concat("/logos/github.png")}
+                    alt="Picture of the author"
+                    fill
+                    className="object-contain"
+                  />
+                ),
+              },
+              {
+                icon: (
+                  <Image
+                    loading="lazy"
+                    src={sitePath.concat("/logos/theater.png")}
+                    alt="Picture of the author"
+                    fill
+                    className="object-contain"
+                  />
+                ),
+              },
+              {
+                icon: (
+                  <Image
+                    loading="lazy"
+                    src={sitePath.concat("/logos/elo.png")}
+                    alt="Picture of the author"
+                    fill
+                    className="object-contain"
+                  />
+                ),
+              },
+            ].map((item, i) => (
+              <div
+                className="relative grid h-[180px] w-full place-items-center content-center justify-center gap-2 opacity-30  transition-all   duration-300 ease-in-out hover:scale-105 hover:opacity-100 max-md:h-[130px] max-sm:h-[100px]"
+                key={i}
+              >
+                <div className="relative size-40">{item.icon}</div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
