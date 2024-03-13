@@ -1,4 +1,3 @@
-import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
@@ -7,7 +6,7 @@ import { siteNavigation } from "@/lib/const/navigation";
 import { useEffect, useState } from "react";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import { CiCreditCard1 } from "react-icons/ci";
-import { FaArrowRight, FaRegEnvelope } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
 import { IoMdQuote } from "react-icons/io";
 import { IoCheckmark } from "react-icons/io5";
 import {
@@ -20,6 +19,7 @@ import { Button } from "../components/button";
 import { Slider } from "../components/slider";
 import { Text } from "../components/text";
 import { Heading2, Heading3, PrimaryButton, colors } from "../theme";
+import { Contactform } from "./GenerationForm";
 
 function CountDown({
   targetDate = new Date(new Date().setHours(new Date().getHours() + 1)),
@@ -264,6 +264,13 @@ function TestimonialSection() {
 
   return (
     <div className="section-box-w section-py relative flex max-w-[960px] flex-col justify-center ">
+      {/* SECTION TITLE */}
+      <div className="flex-center flex-col pb-10">
+        <Heading3>Testimonials</Heading3>
+        <Heading2 className="capitalize">
+          We are loved by our <span>Customers</span>
+        </Heading2>
+      </div>
       {/* Testimonial slider */}{" "}
       <div className="max-w-full max-md:pt-4">
         <div className="embla__viewport" ref={emblaRef}>
@@ -415,31 +422,9 @@ function PricingSection() {
 function CTASection() {
   return (
     <>
-      <div className="bg-gray-900">
+      <div className="section-py bg-black">
         <div className="section-box-w">
-          <div className="flex flex-wrap items-center justify-between gap-10 rounded-xl bg-purple-600 px-14 py-14 max-md:flex-wrap max-md:justify-center max-sm:gap-4 max-sm:px-6 max-sm:py-6">
-            <div className="flex flex-col  gap-5 max-md:w-full max-md:text-center">
-              <Heading2>
-                Subscribe to{" "}
-                <span className="font-bold underline">newsletter</span>
-              </Heading2>
-              <Text>Social media its ways of our excellence.</Text>
-            </div>
-            <div className="relative flex h-[60px] w-full max-w-[500px] items-center justify-between gap-4  rounded-lg bg-white px-4  ">
-              <Input
-                type="text"
-                placeholder="Enter your email"
-                className="rounded-md border-none bg-gray-100 px-4 text-black max-sm:text-[12px]"
-              />
-              <Button
-                variant={"outline"}
-                className=" right-2 flex gap-2 bg-white uppercase text-black"
-              >
-                <FaRegEnvelope className="text-purple-500 max-md:text-xl max-sm:text-base" />
-                <span className="max-md:hidden">Subscribe</span>
-              </Button>
-            </div>
-          </div>
+          <Contactform />
         </div>
       </div>
     </>
@@ -755,7 +740,7 @@ function GalleryTabSection() {
 function RoadmapSection() {
   return (
     <>
-      <div className="section-py grid gap-20  ">
+      <div className="section-py section-px grid">
         {/* SECTION TITLE */}
         <div className="flex-center flex-col">
           <Heading3>OUR ROADMAP</Heading3>
@@ -813,7 +798,7 @@ function RoadmapSection() {
             ].map((item, i) => (
               <>
                 <div
-                  className="relative z-10 ml-[-120px] first:ml-0"
+                  className="relative z-10 ml-[-120px] first:ml-0 max-md:ml-[-180px]"
                   style={{
                     top: i % 2 !== 0 ? "80px" : "240px",
                   }}
@@ -868,7 +853,7 @@ export function View() {
       <SalesReportSection />
       <RoadmapSection />
       <TestimonialSection />
-      <PricingSection />
+      {/* <PricingSection /> */}
       <CTASection />
     </main>
   );

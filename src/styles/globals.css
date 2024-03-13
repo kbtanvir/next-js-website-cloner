@@ -64,6 +64,25 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
   }
+  /* width */
+  ::-webkit-scrollbar {
+    @apply h-2 w-2;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-900;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-xl bg-gray-600 dark:bg-violet-600;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-violet-700;
+  }
 }
 
 @layer base {

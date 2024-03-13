@@ -78,8 +78,9 @@ export function Heading2({
   return (
     <h2
       className={cn(
-        `[&>span]:text-[${colors.hover}] text-[44px] font-bold leading-[1.3em] max-sm:text-[28px] max-sm:leading-normal`,
+        `text-[44px] font-bold leading-[1.3em] max-sm:text-[28px] max-sm:leading-normal`,
         !reverseColor ? "text-white" : `text-black`,
+        `[&>span]:text-[#00C4F4]`,
         className,
       )}
     >
