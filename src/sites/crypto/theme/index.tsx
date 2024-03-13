@@ -42,12 +42,25 @@ export function Heading3({
   return (
     <h3
       className={cn(
-        "text-[20px] uppercase  max-sm:text-[14px]",
+        "relative flex items-center gap-4  text-[16px] font-bold uppercase max-sm:text-[14px]",
         !reverseColor ? "text-white" : `text-black`,
         className,
       )}
     >
+      <span
+        className="size-2 rounded-full"
+        style={{
+          backgroundColor: colors.hover,
+        }}
+      />
       {children}
+
+      <span
+        className=" size-2 rounded-full"
+        style={{
+          backgroundColor: colors.hover,
+        }}
+      />
     </h3>
   );
 }

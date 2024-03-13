@@ -7,9 +7,15 @@ import Image from "next/image";
 import { siteNavigation } from "@/lib/const/navigation";
 import { useEffect, useState } from "react";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
-import { FaRegEnvelope } from "react-icons/fa";
+import { CiCreditCard1 } from "react-icons/ci";
+import { FaArrowRight, FaRegEnvelope } from "react-icons/fa";
 import { IoMdQuote } from "react-icons/io";
 import { IoCheckmark } from "react-icons/io5";
+import {
+  MdMobileFriendly,
+  MdOutlineSecurity,
+  MdSensorOccupied,
+} from "react-icons/md";
 import { useEmbla } from "../../../hooks/useEmbla";
 import { Button } from "../components/button";
 import { Slider } from "../components/slider";
@@ -485,6 +491,7 @@ function AboutSection() {
   return (
     <>
       <div className="section-box-w section-py grid gap-10 pb-14">
+        {/* ABOUT US */}
         <div className="  flex gap-24 max-xl:gap-10   max-md:flex-col max-md:gap-10 ">
           {/* Image */}
           <div className="w-full max-w-[450px] max-md:max-w-full">
@@ -498,8 +505,8 @@ function AboutSection() {
             </div>
           </div>
           {/* Text box */}
-          <div className="flex flex-col justify-center gap-4  max-md:w-full">
-            <Heading3>WHAT WE DO</Heading3>
+          <div className="flex flex-col justify-center gap-10 max-md:w-full">
+            <Heading3>WHO WE ARE</Heading3>
             <Heading2>
               The World’s <span>1st ICO</span> Platform That Offers Rewards
             </Heading2>
@@ -514,15 +521,18 @@ function AboutSection() {
             </div>
           </div>
         </div>
-        {/* LOGOS grid*/}
-        <div className="flex w-full items-center justify-stretch  max-md:grid">
-          <div className="grid w-full grid-cols-6 flex-wrap gap-5 max-md:grid-cols-3 max-sm:grid-cols-2">
+        {/* PARTNERS */}
+        <div className="flex w-full flex-col items-center justify-stretch gap-10  ">
+          <Heading3>Our Top Partners</Heading3>
+          <div className="grid w-full grid-cols-5 flex-wrap   max-md:grid-cols-3 max-sm:grid-cols-2">
             {[
               {
                 icon: (
                   <Image
                     loading="lazy"
-                    src={sitePath.concat("/logos/agl.png")}
+                    src={siteNavigation.crypto.home.path.concat(
+                      "/logos/agl.png",
+                    )}
                     alt="Picture of the author"
                     fill
                     className="object-contain"
@@ -534,7 +544,9 @@ function AboutSection() {
                 icon: (
                   <Image
                     loading="lazy"
-                    src={sitePath.concat("/logos/citi.png")}
+                    src={siteNavigation.crypto.home.path.concat(
+                      "/logos/citi.png",
+                    )}
                     alt="Picture of the author"
                     fill
                     className="object-contain"
@@ -545,7 +557,9 @@ function AboutSection() {
                 icon: (
                   <Image
                     loading="lazy"
-                    src={sitePath.concat("/logos/energy.png")}
+                    src={siteNavigation.crypto.home.path.concat(
+                      "/logos/energy.png",
+                    )}
                     alt="Picture of the author"
                     fill
                     className="object-contain"
@@ -556,7 +570,9 @@ function AboutSection() {
                 icon: (
                   <Image
                     loading="lazy"
-                    src={sitePath.concat("/logos/github.png")}
+                    src={siteNavigation.crypto.home.path.concat(
+                      "/logos/github.png",
+                    )}
                     alt="Picture of the author"
                     fill
                     className="object-contain"
@@ -567,7 +583,9 @@ function AboutSection() {
                 icon: (
                   <Image
                     loading="lazy"
-                    src={sitePath.concat("/logos/theater.png")}
+                    src={siteNavigation.crypto.home.path.concat(
+                      "/logos/theater.png",
+                    )}
                     alt="Picture of the author"
                     fill
                     className="object-contain"
@@ -578,7 +596,61 @@ function AboutSection() {
                 icon: (
                   <Image
                     loading="lazy"
-                    src={sitePath.concat("/logos/elo.png")}
+                    src={siteNavigation.crypto.home.path.concat(
+                      "/logos/elo.png",
+                    )}
+                    alt="Picture of the author"
+                    fill
+                    className="object-contain"
+                  />
+                ),
+              },
+              {
+                icon: (
+                  <Image
+                    loading="lazy"
+                    src={siteNavigation.crypto.home.path.concat(
+                      "/logos/catalog.png",
+                    )}
+                    alt="Picture of the author"
+                    fill
+                    className="object-contain"
+                  />
+                ),
+              },
+              {
+                icon: (
+                  <Image
+                    loading="lazy"
+                    src={siteNavigation.crypto.home.path.concat(
+                      "/logos/trustpilot.png",
+                    )}
+                    alt="Picture of the author"
+                    fill
+                    className="object-contain"
+                  />
+                ),
+              },
+              {
+                icon: (
+                  <Image
+                    loading="lazy"
+                    src={siteNavigation.crypto.home.path.concat(
+                      "/logos/monzo.png",
+                    )}
+                    alt="Picture of the author"
+                    fill
+                    className="object-contain"
+                  />
+                ),
+              },
+              {
+                icon: (
+                  <Image
+                    loading="lazy"
+                    src={siteNavigation.crypto.home.path.concat(
+                      "/logos/calendly.png",
+                    )}
                     alt="Picture of the author"
                     fill
                     className="object-contain"
@@ -587,16 +659,82 @@ function AboutSection() {
               },
             ].map((item, i) => (
               <div
-                className="relative grid h-[180px] w-full place-items-center content-center justify-center gap-2 opacity-30  transition-all   duration-300 ease-in-out hover:scale-105 hover:opacity-100 max-md:h-[130px] max-sm:h-[100px]"
+                className="relative grid h-[180px] w-full place-items-center content-center justify-center gap-2 border-2  border-white/30   opacity-50 transition-all  duration-300 ease-in-out hover:opacity-100 max-md:h-[130px] max-sm:h-[100px]"
                 key={i}
               >
-                <div className="relative size-40">{item.icon}</div>
+                <div className="relative size-[130px]">{item.icon}</div>
               </div>
             ))}
           </div>
         </div>
       </div>
     </>
+  );
+}
+
+function WhyUs1() {
+  return (
+    <div id="about" className="section-box-w section-py flex flex-col gap-10">
+      {/* about text */}
+      <div className="flex-center flex-col place-items-center gap-10 text-center max-md:grid-cols-1">
+        <div className="flex-center flex-col gap-10">
+          <Heading3>Why choose Us</Heading3>
+          <Heading2>
+            Why Choose Our Bigtech <span>Token</span>
+          </Heading2>
+        </div>
+      </div>
+      {/* icon box grid */}
+      <div className="grid w-full  grid-cols-4  content-center  gap-8 pt-10 max-xl:grid-cols-2 max-md:gap-y-20 max-md:py-10 max-sm:grid-cols-2   max-sm:py-4 ">
+        {[
+          {
+            title: "Lifetime free transaction",
+            icon: <CiCreditCard1 />,
+            desc: "Adipiscing elit, sed do eiusmod tempor incididunt ut",
+          },
+          {
+            title: "Security & Control",
+            icon: <MdOutlineSecurity />,
+            bg: "bg-red-100",
+            desc: "Adipiscing elit, sed do eiusmod tempor incididunt ut",
+          },
+          {
+            title: "Protect the Identity",
+            icon: <MdSensorOccupied />,
+            bg: "bg-orange-100",
+            desc: "Adipiscing elit, sed do eiusmod tempor incididunt ut",
+          },
+          {
+            title: "Mobile Payment",
+            icon: <MdMobileFriendly />,
+            bg: "bg-yellow-100",
+            desc: "Adipiscing elit, sed do eiusmod tempor incididunt ut",
+          },
+        ].map((item, i) => (
+          <div
+            key={i}
+            className={cn(
+              `grid min-h-[150px] w-full flex-col   items-start justify-start gap-4 rounded-xl border-2 border-gray-700 px-8 py-12  max-md:border-none max-md:p-0`,
+              `[&>.icon]:hover:ring-[#00C4F4] [&>a]:hover:text-[#00C4F4] `,
+            )}
+          >
+            <div
+              className={`icon  flex-center size-[70px] rounded-full p-4 text-[35px] text-gray-300 ring-[3px] transition-all duration-300 ease-in-out`}
+            >
+              {item.icon}
+            </div>
+            <h3 className="max-w-[130px] pb-2 pt-3 text-xl font-bold max-sm:text-base">
+              {item.title}
+            </h3>
+            <Text className="text-sm">{item.desc}</Text>
+            <a className="flex cursor-pointer content-end items-center gap-4 pt-4 text-gray-600 transition-all duration-300 ease-in-out ">
+              Read more
+              <FaArrowRight />
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -660,6 +798,7 @@ export function View() {
     <main className="bg-gray-900 text-white">
       <WelcomeSection />
       <AboutSection />
+      <WhyUs1 />
       <GalleryTabSection />
       <TestimonialSection />
       <AboutSection2 />
