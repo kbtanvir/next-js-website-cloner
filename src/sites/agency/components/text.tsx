@@ -7,7 +7,7 @@ const Text = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={cn("text-gray-400 max-sm:text-[14px]", className)}
+    className={cn("text-gray-700 max-sm:text-[14px]", className)}
     {...props}
   />
 ));

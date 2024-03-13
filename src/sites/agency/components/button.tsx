@@ -14,7 +14,7 @@ const buttonVariants = cva(
 
         outline: `max-sm:px-4 max-sm:text-sm  max-sm:max-w-auto min-w-[200px] text-black rounded-full bg-transparent px-5 font-bold uppercase ring-[3px] ${classes.ringColor}   ${classes.hoverBg} hover:text-white`,
 
-        link: "px-0 max-sm:text-sm text-primary underline-offset-4 hover:underline",
+        link: "px-0 max-sm:text-sm text-black uppercase underline-offset-4 hover:underline",
       },
       size: {
         default: `h-[50px] px-4 py-2`,

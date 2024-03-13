@@ -30,7 +30,7 @@ export function LinkText({
   return (
     <div
       className={cn(
-        `font-semibold transition-all ${classes.textHoverColor}`,
+        `cursor-pointer  transition-all hover:underline ${classes.textHoverColor}`,
         className,
       )}
     >
@@ -79,7 +79,7 @@ export function Heading2({
   return (
     <h2
       className={cn(
-        `text-[54px] font-bold capitalize leading-[1.3em] max-sm:text-[28px] max-sm:leading-normal`,
+        `text-[44px] font-bold capitalize leading-[1.3em] max-sm:text-[28px] max-sm:leading-normal`,
         classes.span,
         className,
       )}

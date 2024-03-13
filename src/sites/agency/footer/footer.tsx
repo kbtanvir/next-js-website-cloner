@@ -1,6 +1,7 @@
 import { Paths } from "@/lib/const/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { LinkText } from "../theme";
 
 const footerCompanyNavLinks = [
   {
@@ -47,7 +48,7 @@ function FooterTop() {
       <div className="col-span-2 flex w-full max-w-[300px] flex-col items-start justify-start max-lg:col-start-1 max-lg:col-end-4 max-md:items-center ">
         <Link href={Paths.home.path} className="text-nowrap ">
           <div className="text-[30px] font-light uppercase max-md:text-2xl ">
-            E-shopper
+            Agency
           </div>
         </Link>
         <div className="mt-4 self-stretch text-base leading-7 text-gray-800 text-opacity-80">
@@ -61,7 +62,7 @@ function FooterTop() {
         <div className="mt-8 grid gap-4">
           {footerCompanyNavLinks.map((item, index) => (
             <div key={index} className="text-sm text-gray-800">
-              <Link href={"#"}>{item.title}</Link>
+              <LinkText>{item.title}</LinkText>
             </div>
           ))}
         </div>
@@ -74,7 +75,7 @@ function FooterTop() {
         <div className="mt-8 grid gap-5">
           {footerQuickLinks.map((item, index) => (
             <div key={index} className="text-sm text-gray-800">
-              <Link href={"#"}>{item.title}</Link>
+              <LinkText>{item.title}</LinkText>
             </div>
           ))}
         </div>
