@@ -5,7 +5,7 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 
-export function RealEstateLayout({ children }: LayoutProps) {
+export function AgencyLayout({ children }: LayoutProps) {
   return (
     <>
       <MainHeader />

@@ -62,4 +62,5 @@ export const siteNavigation = {
   realEstate: makeNavigation("/sites/real-estate"),
   admin: makeNavigation("/admin"),
   crypto: makeNavigation("/sites/crypto"),
+  agency: makeNavigation("/sites/agency"),
 };

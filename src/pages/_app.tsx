@@ -5,6 +5,7 @@ import { cartStore } from "@/features/cart/controller/store";
 import { siteNavigation } from "@/lib/const/navigation";
 import { persistStore } from "@/lib/persist";
 import AdminLayout from "@/sites/admin/layouts/AdminLayout";
+import { AgencyLayout } from "@/sites/agency/layouts/RootLayout";
 import { AiImageGenLayout } from "@/sites/ai-image-gen/layouts/RootLayout";
 import { CryptoLayout } from "@/sites/crypto/layouts/RootLayout";
 import { RealEstateLayout } from "@/sites/real-estate/layouts/RootLayout";
@@ -93,6 +94,13 @@ function LayoutRouter({
       <CryptoLayout>
         <Component {...pageProps} />
       </CryptoLayout>
+    );
+  }
+  if (router.pathname.startsWith(siteNavigation.agency.home.path)) {
+    return (
+      <AgencyLayout>
+        <Component {...pageProps} />
+      </AgencyLayout>
     );
   }
 
