@@ -11,8 +11,9 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: cn(
-          `max-sm:px-4 max-sm:text-sm bg-primary text-primary-foreground hover:bg-primary/90 max-sm:max-w-auto   min-w-[200px] rounded-full bg-transparent px-5 font-bold uppercase text-white ring-[3px] ring-[${colors.hover}] hover:bg-transparent  hover:text-[${colors.hover}] hover:ring-2`,
+          `max-sm:px-4 max-sm:text-sm bg-primary text-primary-foreground hover:bg-primary/90 max-sm:max-w-auto min-w-[200px] rounded-full bg-transparent px-5 font-bold uppercase text-white ring-[3px] ring-[${colors.hover}] hover:bg-transparent  hover:text-[${colors.hover}] hover:ring-2`,
         ),
+        filled: `max-sm:px-4 max-sm:text-sm  text-primary-foreground  max-sm:max-w-auto bg-[#00C4F4] min-w-[200px] rounded-full   px-5 font-bold uppercase text-white ring-[3px] ring-[#00C4F4] hover:bg-white text-black`,
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:

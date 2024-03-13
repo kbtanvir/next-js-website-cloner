@@ -7,6 +7,8 @@ export const colors = {
   orange: "#FF9700",
   green: "#12D176",
   red: "#FF1D45",
+  blue: "#007FF4",
+  green2: "#005F73",
 };
 
 export function LinkText({

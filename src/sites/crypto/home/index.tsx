@@ -1,7 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
-import { sitePath } from "@/pages/sites/ai-image-gen";
 import Image from "next/image";
 
 import { siteNavigation } from "@/lib/const/navigation";
@@ -52,6 +51,8 @@ function CountDown({
       });
     }, 1000);
     return () => clearInterval(interval);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -180,119 +181,77 @@ function WelcomeSection() {
   );
 }
 
-function AboutSection2() {
+function SalesReportSection() {
   return (
     <>
-      <div className="section-box-w section-py grid gap-10 pb-14">
-        <div className="  flex gap-24 max-xl:gap-10   max-md:flex-col max-md:gap-10 ">
-          {/* Image */}
-          <div className="w-full max-w-[450px] max-md:max-w-full">
-            <div className=" relative h-[600px] max-md:h-[300px]">
-              <Image
-                src={"/sites/real-estate/demo-real-estate-slider-01.jpg"}
-                fill
-                alt="Picture of the author"
-                className="z-0 object-cover"
-              />
-              <h2 className="absolute bottom-0 right-0 w-full max-w-[300px] bg-black px-10 py-10 text-3xl font-semibold max-sm:p-4 max-sm:text-base">
-                We develop & create digital future.
-              </h2>
-            </div>
-          </div>
-          {/* Text box */}
-          <div className="flex flex-col justify-center gap-4  max-md:w-full">
-            <Heading3>WHAT WE DO</Heading3>
-            <Heading2>Create your own AI business easily</Heading2>
+      <div className="section-py bg-black">
+        <div className="section-box-w  grid gap-10 pt-0">
+          <div className="  flex gap-24 max-xl:gap-10   max-md:flex-col max-md:gap-10 ">
+            {/* Text box */}
+            <div className="flex flex-col justify-center gap-4  max-md:w-full">
+              <Heading3>Allocation</Heading3>
+              <Heading2>1 CNL = 0.0863 BTC</Heading2>
 
-            <Text className="max-w-[400px] pb-6   max-md:max-w-full max-sm:py-2  ">
-              Adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua. Ut enim ad minim veniam, quis.
-            </Text>
+              <Text className="max-w-[400px] pb-6   max-md:max-w-full max-sm:py-2  ">
+                The World’s 1st ICO Platform That Offers Rewards and The
+                platform helps investors to make easy to purchase and sell their
+                tokens
+              </Text>
 
-            <div className="max-sm:item-start flex w-full flex-wrap items-center gap-5 self-start   max-md:pt-5   max-sm:justify-start">
-              <PrimaryButton>About community</PrimaryButton>
-            </div>
-          </div>
-        </div>
-        {/* LOGOS grid*/}
-        <div className="flex w-full items-center justify-stretch  max-md:grid">
-          <div className="grid w-full grid-cols-6 flex-wrap gap-5 max-md:grid-cols-3 max-sm:grid-cols-2">
-            {[
-              {
-                icon: (
-                  <Image
-                    loading="lazy"
-                    src={sitePath.concat("/logos/agl.png")}
-                    alt="Picture of the author"
-                    fill
-                    className="object-contain"
-                    // className="object-contain"
-                  />
-                ),
-              },
-              {
-                icon: (
-                  <Image
-                    loading="lazy"
-                    src={sitePath.concat("/logos/citi.png")}
-                    alt="Picture of the author"
-                    fill
-                    className="object-contain"
-                  />
-                ),
-              },
-              {
-                icon: (
-                  <Image
-                    loading="lazy"
-                    src={sitePath.concat("/logos/energy.png")}
-                    alt="Picture of the author"
-                    fill
-                    className="object-contain"
-                  />
-                ),
-              },
-              {
-                icon: (
-                  <Image
-                    loading="lazy"
-                    src={sitePath.concat("/logos/github.png")}
-                    alt="Picture of the author"
-                    fill
-                    className="object-contain"
-                  />
-                ),
-              },
-              {
-                icon: (
-                  <Image
-                    loading="lazy"
-                    src={sitePath.concat("/logos/theater.png")}
-                    alt="Picture of the author"
-                    fill
-                    className="object-contain"
-                  />
-                ),
-              },
-              {
-                icon: (
-                  <Image
-                    loading="lazy"
-                    src={sitePath.concat("/logos/elo.png")}
-                    alt="Picture of the author"
-                    fill
-                    className="object-contain"
-                  />
-                ),
-              },
-            ].map((item, i) => (
-              <div
-                className="relative grid h-[180px] w-full place-items-center content-center justify-center gap-2 opacity-30  transition-all   duration-300 ease-in-out hover:scale-105 hover:opacity-100 max-md:h-[130px] max-sm:h-[100px]"
-                key={i}
-              >
-                <div className="relative size-40">{item.icon}</div>
+              <div className="max-sm:item-start flex w-full flex-wrap items-center gap-5 self-start   max-md:pt-5   max-sm:justify-start">
+                <Button variant={"filled"}>Buy Now</Button>
               </div>
-            ))}
+            </div>
+            {/* Image */}
+            <div className="flex w-full max-w-[520px] flex-col items-center gap-20 rounded-xl bg-gray-900 px-10 py-10 max-md:max-w-full max-md:flex-col-reverse max-md:bg-transparent max-md:px-0 max-md:pb-0">
+              <div className="relative size-[250px]">
+                <Image
+                  src={`${siteNavigation.crypto.home.path}/chart-round.png`}
+                  fill
+                  alt="Picture of the author"
+                  className="z-0 object-contain"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-x-5 gap-y-4">
+                {[
+                  { text: "Total Supply", value: 70, color: colors.green },
+                  {
+                    text: "Public Sale",
+                    value: 10,
+                    color: colors.red,
+                  },
+                  { text: "Investor", value: 30, color: colors.red },
+                  {
+                    text: "Team & Advisor",
+                    value: 40,
+                    color: colors.orange,
+                  },
+                  {
+                    text: "Marketing & Airdrop",
+                    value: 10,
+                    color: colors.blue,
+                  },
+                  {
+                    text: "Reserve",
+                    value: 10,
+                    color: colors.green2,
+                  },
+                ].map((item, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center gap-4 font-semibold "
+                  >
+                    <span
+                      className="size-5 rounded-full"
+                      style={{ backgroundColor: item.color }}
+                    ></span>
+                    <Text className="text-sm text-white">
+                      {item.text} : {item.value}%
+                    </Text>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -304,7 +263,7 @@ function TestimonialSection() {
   const { onPrevButtonClick, onNextButtonClick, emblaRef } = useEmbla({});
 
   return (
-    <div className="section-box-w relative flex max-w-[960px] flex-col justify-center ">
+    <div className="section-box-w section-py relative flex max-w-[960px] flex-col justify-center ">
       {/* Testimonial slider */}{" "}
       <div className="max-w-full max-md:pt-4">
         <div className="embla__viewport" ref={emblaRef}>
@@ -672,7 +631,7 @@ function AboutSection() {
   );
 }
 
-function WhyUs1() {
+function WhyUs1Section() {
   return (
     <div id="about" className="section-box-w section-py flex flex-col gap-10">
       {/* about text */}
@@ -793,15 +752,122 @@ function GalleryTabSection() {
   );
 }
 
+function RoadmapSection() {
+  return (
+    <>
+      <div className="section-py grid gap-20  ">
+        {/* SECTION TITLE */}
+        <div className="flex-center flex-col">
+          <Heading3>OUR ROADMAP</Heading3>
+          <Heading2>
+            Bigtech Strategy And Project <span>Plan</span>
+          </Heading2>
+        </div>
+        <div className="relative  overflow-x-hidden">
+          {/* ROADMAP */}
+          <div className="absolute top-[330px] h-[1px] w-full bg-gray-500" />
+          <div className="flex h-[600px] items-start justify-start  gap-10 overflow-x-auto px-10 py-20">
+            {[
+              {
+                title: "Concept",
+                desc: "Adipiscing elit, sed do eiusmod tempor incididunt ut",
+                date: "MID OF Q4 2021",
+                color: colors.hover,
+              },
+              {
+                title: "Research",
+                desc: "Adipiscing elit, sed do eiusmod tempor incididunt ut",
+                date: "MID OF Q2 2021",
+                color: colors.orange,
+              },
+              {
+                title: "App Beta Test",
+                desc: "Adipiscing elit, sed do eiusmod tempor incididunt ut",
+                date: "MID OF Q3 2021",
+                color: colors.red,
+              },
+              {
+                title: "Token Test",
+                desc: "Adipiscing elit, sed do eiusmod tempor incididunt ut",
+                date: "MID OF Q4 2021",
+                color: colors.green,
+              },
+              {
+                title: "Alpha Test",
+                desc: "Adipiscing elit, sed do eiusmod tempor incididunt ut",
+                date: "MID OF Q2 2021",
+                color: colors.blue,
+              },
+              {
+                title: "Benefits",
+                desc: "Adipiscing elit, sed do eiusmod tempor incididunt ut",
+                date: "MID OF Q3 2021",
+                color: colors.green2,
+              },
+              {
+                title: "Operational",
+                desc: "Adipiscing elit, sed do eiusmod tempor incididunt ut",
+                date: "MID OF Q4 2021",
+                color: colors.hover,
+              },
+            ].map((item, i) => (
+              <>
+                <div
+                  className="relative z-10 ml-[-120px] first:ml-0"
+                  style={{
+                    top: i % 2 !== 0 ? "80px" : "240px",
+                  }}
+                >
+                  <div
+                    className="absolute bottom-[-16px] left-[-11px] z-10  size-6 rounded-full border-[5px] border-black/40 bg-gray-900"
+                    style={{
+                      backgroundColor: item.color,
+                      bottom: i % 2 === 0 ? "0" : undefined,
+                      top: i % 2 === 0 ? 0 : undefined,
+                    }}
+                  />
+                  <div
+                    key={i}
+                    className="relative flex min-w-[300px] flex-col items-start justify-start gap-4 border-l-2   border-gray-700   px-10 "
+                    style={{
+                      borderColor: item.color,
+                      paddingTop: i % 2 !== 0 ? "0" : "80px",
+                      paddingBottom: i % 2 === 0 ? "0" : "80px",
+                    }}
+                  >
+                    <div
+                      className="absolute bottom-[-20px] left-[-15px] h-[50px]   rounded-full"
+                      style={{
+                        bottom: i % 2 === 0 ? undefined : "-5em",
+                        top: i % 2 !== 0 ? undefined : "-3em",
+                        color: item.color,
+                      }}
+                    >
+                      {item.date}
+                    </div>
+                    <h3 className="text-xl font-bold">{item.title}</h3>
+                    <Text className="text-sm">{item.desc}</Text>
+                  </div>
+                </div>
+              </>
+            ))}
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
 export function View() {
   return (
     <main className="bg-gray-900 text-white">
       <WelcomeSection />
       <AboutSection />
-      <WhyUs1 />
-      <GalleryTabSection />
+      <WhyUs1Section />
+      {/* <GalleryTabSection /> */}
+      <SalesReportSection />
+      <RoadmapSection />
       <TestimonialSection />
-      <AboutSection2 />
       <PricingSection />
       <CTASection />
     </main>
