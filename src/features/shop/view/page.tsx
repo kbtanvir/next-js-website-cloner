@@ -4,6 +4,7 @@ import { PageTitle } from "@/sites/ecommerce/header/PageTitle";
 import { type Product } from "@prisma/client";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { TbMoodEmpty } from "react-icons/tb";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
@@ -16,6 +17,7 @@ function ProductGrid() {
   const [data, setData] = useState<Product[]>([]);
 
   const router = useRouter();
+  
   const { productsQueryDTO } = useGlobalStore();
   const infiniteQuery = api.product.infiniteProducts.useInfiniteQuery(
     productsQueryDTO,
@@ -65,18 +67,23 @@ function ProductGrid() {
   if (infiniteQuery.isLoading) {
     return (
       <div className="grid w-full grid-cols-3 gap-10 max-md:grid-cols-1">
-        <Skeleton count={1} height="300px" />
-        <Skeleton count={1} height="300px" />
-        <Skeleton count={1} height="300px" />
-        <Skeleton count={1} height="300px" />
-        <Skeleton count={1} height="300px" />
-        <Skeleton count={1} height="300px" />
+        {Array.from({ length: 6 }).map((_, i) => (
+          <div key={i} className="w-full">
+            <Skeleton count={1} height="300px" />
+          </div>
+        ))}
       </div>
     );
   }
 
   if (!data.length) {
-    return <div className="w-full self-start">Nothing found</div>;
+    return (
+      <div className="flex-center min-h-[400px] w-full flex-col self-start rounded-lg bg-gray-50  ">
+        <TbMoodEmpty className="text-[80px]  text-slate-300" />
+
+        <h3 className="text-[40px]  text-slate-300">We ran out of stock</h3>
+      </div>
+    );
   }
 
   return (

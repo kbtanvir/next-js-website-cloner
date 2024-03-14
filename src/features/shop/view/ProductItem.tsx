@@ -5,7 +5,6 @@ import { type IProduct } from "@/features/shop/model";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { BsCartPlus } from "react-icons/bs";
-import { IoCartOutline } from "react-icons/io5";
 
 export function ProductItem({
   item,

@@ -51,12 +51,13 @@ export const productRouter = createTRPCRouter({
           },
         };
       }
-
+      console.log(input);
       if (input.categories) {
         whereClause.categories = {
           some: {
             name: {
-              in: input.categories,
+              contains: input.categories[0],
+              mode: "insensitive",
             },
           },
         };
@@ -225,10 +226,10 @@ export const productRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const productCount = 30;
 
-      await ctx.db.product.deleteMany();
+      // await ctx.db.product.deleteMany();
       // await ctx.db.size.deleteMany()
       // await ctx.db.category.deleteMany()
-      await ctx.db.discount.deleteMany();
+      // await ctx.db.discount.deleteMany();
 
       // await ctx.db.size.createMany({
       //   data: ["S", "L", "M", "XL"].map((size) => ({
@@ -241,22 +242,22 @@ export const productRouter = createTRPCRouter({
       //     name: category,
       //   })),
       // })
-      await ctx.db.discount.createMany({
-        data: [
-          {
-            code: "DISCOUNT10",
-            amount: 0.1,
-            expires: new Date("2022-12-12"),
-          },
-          {
-            code: "NEWYEAR20",
-            amount: 0.2,
-            expires: new Date("2022-12-12"),
-          },
-        ].map((item) => ({
-          ...item,
-        })) as Prisma.DiscountCreateManyInput[],
-      });
+      // await ctx.db.discount.createMany({
+      //   data: [
+      //     {
+      //       code: "DISCOUNT10",
+      //       amount: 0.1,
+      //       expires: new Date("2022-12-12"),
+      //     },
+      //     {
+      //       code: "NEWYEAR20",
+      //       amount: 0.2,
+      //       expires: new Date("2022-12-12"),
+      //     },
+      //   ].map((item) => ({
+      //     ...item,
+      //   })) as Prisma.DiscountCreateManyInput[],
+      // });
 
       // Create new products without sizes
       const PRODUCTS = Array.from({ length: productCount }).map(

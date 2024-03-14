@@ -104,17 +104,17 @@ export function NavigationSection() {
           {[
             {
               text: "Juices",
-              url: `${Paths.shop.path}?category=juices`,
+              url: `${Paths.shop.path}?category=juice`,
               icon: <BiDrink />,
             },
             {
               text: "Fruits",
-              url: `${Paths.shop.path}?category=fruits`,
+              url: `${Paths.shop.path}?category=fruit`,
               icon: <GiFruitBowl />,
             },
             {
               text: "Dairy",
-              url: `${Paths.shop.path}?category=dairy`,
+              url: `${Paths.shop.path}?category=cheese`,
               icon: <GiSlicedBread />,
             },
           ].map((item, i) => (
