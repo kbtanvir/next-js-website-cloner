@@ -3,7 +3,7 @@ import { useCartStore } from "@/features/cart/controller/store";
 import { api } from "@/utils/api";
 import { useEffect } from "react";
 import { FooterSection } from "../footer/footer";
-import MainHeader, { NavigationSection } from "../header/MainHeader";
+import MainHeader, { NavigationSection } from "../header";
 
 interface LayoutProps {
   children: React.ReactNode;

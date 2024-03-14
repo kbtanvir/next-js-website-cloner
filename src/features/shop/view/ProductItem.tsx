@@ -4,6 +4,7 @@ import { cartService } from "@/features/cart/controller/service";
 import { type IProduct } from "@/features/shop/model";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { BsCartPlus } from "react-icons/bs";
 import { IoCartOutline } from "react-icons/io5";
 
 export function ProductItem({
@@ -110,7 +111,7 @@ export function ProductItem({
                 disabled={!item.inStock}
               >
                 <span className="flex items-center gap-5">
-                  <IoCartOutline color="white" size="26" />
+                  <BsCartPlus color="white" size="26" />
                 </span>
               </Button>
             )}

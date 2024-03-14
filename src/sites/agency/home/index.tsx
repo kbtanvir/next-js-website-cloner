@@ -27,7 +27,7 @@ function WelcomeSection() {
   return (
     <Carousel className=" w-full ">
       <CarouselContent>
-        <CarouselItem className="relative h-[60vh] max-md:h-[50vh] max-sm:h-[40vh]">
+        <CarouselItem className="section-box-w relative h-[60vh] max-md:h-[50vh] max-sm:h-[40vh]">
           {/* image */}
           <div className="relative z-0 h-full">
             <div className="absolute top-0 z-10 h-full w-full  bg-gradient-to-l from-black/5 to-gray-900 mix-blend-multiply"></div>

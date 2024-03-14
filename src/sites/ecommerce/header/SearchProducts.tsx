@@ -3,24 +3,27 @@ import { api } from "@/utils/api";
 import { type Product } from "@prisma/client";
 import { PopoverTrigger } from "@radix-ui/react-popover";
 
+import { Button } from "@/components/ui/button";
+import { cartService } from "@/features/cart/controller/service";
 import { debounce } from "lodash";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { BsCartPlus } from "react-icons/bs";
 import { IoSearch } from "react-icons/io5";
 import { Input } from "../../../components/ui/input";
 
-function ListItem({ product }: { product: Product }) {
+function ListItem({ item }: { item: Product }) {
   return (
     <div
-      key={product.id}
-      className="border-b-2 px-5 py-2 last:border-b-0 hover:cursor-pointer hover:bg-gray-200"
+      key={item.id}
+      className="flex justify-between border-b-2 px-5 py-2 last:border-b-0 hover:cursor-pointer hover:bg-gray-200"
     >
       {/* <Link href={`/products/${product.id}`}> */}
       <a className="flex items-center gap-5">
         <div className="h-[50px] w-[50px]">
           <Image
             loading="lazy"
-            src={product.image}
+            src={item.image}
             className="h-full w-full object-contain object-center"
             width={50}
             height={50}
@@ -31,10 +34,24 @@ function ListItem({ product }: { product: Product }) {
           />
         </div>
         <div className="flex flex-col gap-2">
-          <span className="text-sm">{product.title}</span>
-          <span className="text-sm">${product.price}</span>
+          <span className="text-sm">{item.title}</span>
+          <span className="text-sm">${item.price}</span>
         </div>
       </a>
+      <Button
+        className="bottom-[10px] left-[10px] h-10 w-10  min-w-0 rounded-md bg-emerald-600"
+        onClick={() => {
+          cartService.addToCart({
+            id: item.id,
+            product: item,
+          });
+        }}
+        disabled={!item.inStock}
+      >
+        <span className="flex items-center gap-5">
+          <BsCartPlus color="white" size="26" />
+        </span>
+      </Button>
       {/* </Link> */}
     </div>
   );
@@ -58,7 +75,7 @@ function List({
   return (
     <div className="">
       {products.map((product) => (
-        <ListItem key={product.id} product={product} />
+        <ListItem key={product.id} item={product} />
       ))}
     </div>
   );
@@ -71,14 +88,15 @@ export function SearchProducts() {
 
   const muation = api.product.searchProducts.useMutation();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch("");
     if (isOpen || e.target.value === "") {
       return;
     }
-    setProducts([]);
-    setisOpen(true);
+
     setSearch(e.target.value);
-    muation.mutate(search);
+
+    console.log(search);
   };
 
   useEffect(() => {
@@ -86,6 +104,14 @@ export function SearchProducts() {
       setProducts(muation.data);
     }
   }, [muation.data, muation.isSuccess]);
+
+  useEffect(() => {
+    if(search === "") return;
+    setProducts([]);
+    setisOpen(true);
+    muation.mutate(search);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search]);
 
   return (
     <Popover open={isOpen}>

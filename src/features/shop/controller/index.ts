@@ -139,25 +139,25 @@ export const productRouter = createTRPCRouter({
   searchProducts: publicProcedure
     .input(z.string())
     .mutation(async ({ input, ctx }) => {
-      const data = await ctx.db.product.findMany({
+      return await ctx.db.product.findMany({
         take: 10,
         where: {
           OR: [
             {
               title: {
                 contains: input,
+                mode: "insensitive",
               },
             },
             {
               description: {
                 contains: input,
+                mode: "insensitive",
               },
             },
           ],
         },
       });
-
-      return data;
     }),
   getWishListCount: publicProcedure.query(async ({ ctx }) => {
     const userId = ctx.session?.user.id;

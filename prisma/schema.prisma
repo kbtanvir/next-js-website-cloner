@@ -1,5 +1,6 @@
 generator client {
-    provider = "prisma-client-js"
+    provider        = "prisma-client-js"
+   
 }
 
 datasource db {
@@ -242,7 +243,6 @@ model Footer {
 // @SECTION: Blog Models
 // ------------------------------------------------------------
 
-
 model Bookmark {
     id         String    @id @default(cuid())
     createdAt  DateTime  @default(now())
@@ -253,29 +253,29 @@ model Bookmark {
     @@index([businessId])
 }
 
-model Resource { // houses, buisnesses, contractors, etc
-    id           String         @id @default(cuid())
+model Resource {
+    id           String              @id @default(cuid())
     name         String
-    createdAt    DateTime       @default(now())
-    updatedAt    DateTime       @updatedAt
+    createdAt    DateTime            @default(now())
+    updatedAt    DateTime            @updatedAt
     logo         String?
     coverImage   String?
     gallery      String[]
     l1           String?
     l2           String?
     l3           String?
-    l1Term       ProfessionCategory?      @relation("ResourceL1Term", fields: [l1], references: [name])
-    l2Term       ProfessionCategory?      @relation("ResourceL2Term", fields: [l2], references: [name])
-    l3Term       ProfessionCategory?      @relation("ResourceL3Term", fields: [l3], references: [name])
-    info         PersonalInfo?  @relation(fields: [infoId], references: [id])
+    l1Term       ProfessionCategory? @relation("ResourceL1Term", fields: [l1], references: [name])
+    l2Term       ProfessionCategory? @relation("ResourceL2Term", fields: [l2], references: [name])
+    l3Term       ProfessionCategory? @relation("ResourceL3Term", fields: [l3], references: [name])
+    info         PersonalInfo?       @relation(fields: [infoId], references: [id])
     infoId       String?
     rating       Float?
     reviews      Review[]
     reviewsCount Int?
-    source       Source?        @relation(fields: [sourceId], references: [id])
+    source       Source?             @relation(fields: [sourceId], references: [id])
     sourceId     String?
     bookMark     Bookmark[]
-    owner        BusinessOwner? @relation(fields: [ownerId], references: [id])
+    owner        BusinessOwner?      @relation(fields: [ownerId], references: [id])
     ownerId      String?
 
     @@index([infoId])
@@ -308,8 +308,6 @@ model Source {
     business  Resource[]
 }
 
-
-
 model ProfessionCategory {
     id         String   @id @default(cuid())
     name       String   @unique
@@ -327,7 +325,6 @@ model ProfessionCategory {
 
     @@index([name])
 }
-
 
 model PersonalInfo {
     id             String          @id @default(cuid())
@@ -367,4 +364,3 @@ model YelpData {
     apiData   String
     localData String
 }
-
