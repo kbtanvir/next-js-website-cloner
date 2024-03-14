@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { IoIosSend } from "react-icons/io";
 import { Input } from "../../../components/ui/input";
+import { LinkText } from "../theme";
 
 const footerCompanyNavLinks = [
   {
@@ -63,7 +64,7 @@ function FooterTop() {
         <div className="mt-8 grid gap-4">
           {footerCompanyNavLinks.map((item, index) => (
             <div key={index} className="text-sm text-gray-800">
-              <Link href={"#"}>{item.title}</Link>
+              <LinkText>{item.title}</LinkText>
             </div>
           ))}
         </div>
@@ -76,7 +77,7 @@ function FooterTop() {
         <div className="mt-8 grid gap-5">
           {footerQuickLinks.map((item, index) => (
             <div key={index} className="text-sm text-gray-800">
-              <Link href={"#"}>{item.title}</Link>
+              <LinkText>{item.title}</LinkText>
             </div>
           ))}
         </div>

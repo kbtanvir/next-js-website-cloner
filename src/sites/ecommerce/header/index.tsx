@@ -37,7 +37,7 @@ export const Categories = {
 
 function MegaMenu() {
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger className="flex cursor-pointer items-center gap-2.5 rounded-md border-[1px] border-gray-200 p-2 transition-all duration-300 ease-linear hover:border-emerald-600 hover:text-emerald-600">
         <RiMenu2Line />
       </DropdownMenuTrigger>
@@ -46,7 +46,7 @@ function MegaMenu() {
           defaultValue={"Dairy & Backery"}
           className="flex gap-4 p-3 max-sm:flex-col "
         >
-          <TabsList className="m-0 grid   justify-start gap-1 bg-transparent p-0 pr-1 text-left max-sm:grid-cols-2  ">
+          <TabsList className="m-0 grid justify-start gap-1 bg-transparent p-0 pr-1 text-left max-sm:grid-cols-2  ">
             {Object.keys(Categories).map((category, i) => (
               <TabsTrigger
                 key={i}
@@ -61,7 +61,7 @@ function MegaMenu() {
             <TabsContent
               key={i}
               value={category}
-              className="mt-0 w-[380px] border-none px-5 py-2 max-sm:w-[300px] "
+              className="mt-0 max-sm:mt-8 w-[380px] border-none px-5 py-2 max-sm:w-[300px] "
             >
               <div className="grid grid-cols-2 gap-2">
                 {Object.entries(subCategories).map(

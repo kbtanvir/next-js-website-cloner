@@ -17,7 +17,7 @@ function ProductGrid() {
   const [data, setData] = useState<Product[]>([]);
 
   const router = useRouter();
-  
+
   const { productsQueryDTO } = useGlobalStore();
   const infiniteQuery = api.product.infiniteProducts.useInfiniteQuery(
     productsQueryDTO,
@@ -154,7 +154,7 @@ export function PageContent() {
   return (
     <div className="">
       <PageTitle />
-      <div className="section-box-w section-px section-py mx-auto flex w-full justify-between gap-10">
+      <div className="section-box-w section-px mx-auto flex  w-full justify-between gap-10 py-20 max-md:py-10">
         {showSidebar && (
           <div
             className={`static h-full w-full max-w-[280px] bg-white ${
