@@ -12,17 +12,19 @@ import { IoCarSportOutline } from "react-icons/io5";
 import { PiBathtubLight } from "react-icons/pi";
 import { useEmblaNavigation } from "../../../hooks/useEmbla";
 
-import { Button } from "@/components/ui/button";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
 import { Input } from "@/components/ui/input";
+import { siteNavigation } from "@/lib/const/navigation";
 import Image from "next/image";
-import Link from "next/link";
 import { IoBedOutline } from "react-icons/io5";
-import { Routes, imageRoute } from "../../../pages/sites/real-estate";
+import { imageRoute } from "../../../pages/sites/real-estate";
+import { Button } from "../components/button";
+import { Text } from "../components/text";
+import { Heading2, Heading3, classes } from "../theme";
 
 function WelcomeSliderItem({
   item,
@@ -44,26 +46,17 @@ function WelcomeSliderItem({
       <div
         className={`${item.bg} section-box-w  grid cursor-pointer items-start gap-5 overflow-hidden max-md:gap-0`}
       >
-        <div className="absolute z-10 flex h-full w-full flex-col justify-center gap-4 bg-opacity-50 max-sm:pb-[20vh]">
+        <div className="absolute z-10 flex h-full w-full flex-col justify-center gap-4 bg-opacity-50 max-sm:pb-[16vh]">
           <h3 className="text-base text-white">Some location in the city</h3>
-          <h2 className="grid gap-0 text-[60px] text-white max-sm:text-[44px]">
+          <h2 className="grid  gap-0 text-[80px] text-white max-md:text-[44px] max-sm:text-[28px]">
             <span className="mb-[-20px] font-light max-sm:mb-0">Luxurious</span>
             <span className="font-bold">Mension</span>
           </h2>
-          <div className="flex gap-4">
-            <Link href={Routes.shop.path}>
-              <Button className="mt-2 bg-white text-[10px] uppercase text-black">
-                Schedule Visit
-              </Button>
-            </Link>
-            <Link href={Routes.shop.path}>
-              <Button
-                className="mt-2 bg-transparent  text-[10px] uppercase text-white"
-                variant="outline"
-              >
-                View details
-              </Button>
-            </Link>
+          <div className="flex flex-wrap gap-4">
+            <Button className="mt-2">Schedule Visit</Button>
+            <Button className="mt-2 text-white" variant="outline">
+              View details
+            </Button>
           </div>
         </div>
         <div className="absolute bottom-0 right-0 z-10 flex flex-wrap place-items-center gap-10 rounded-tl-lg bg-white px-10 py-10 max-sm:justify-between   max-sm:gap-6  max-sm:bg-white/65 max-sm:px-10 max-sm:py-6">
@@ -128,70 +121,7 @@ function WelcomeSection() {
     </Carousel>
   );
 }
-function Heading3({
-  children = <>This is heading 3</>,
-  reverseColor = false,
-}: {
-  children: React.ReactNode;
-  reverseColor?: boolean;
-}) {
-  return (
-    // <h3 className="text-[20px] font-bold text-purple-600 max-sm:text-base">
-    <h3
-      className={`text-[20px] font-bold ${
-        reverseColor ? "text-white" : `text-black`
-      } max-sm:text-base`}
-    >
-      {children}
-    </h3>
-  );
-}
-function Heading2({
-  reverseColor = false,
-  children = <>This is heading 2</>,
-}: {
-  reverseColor?: boolean;
-  children: React.ReactNode;
-}) {
-  return (
-    <h2
-      className={`text-[44px] font-light leading-[1.3em] ${reverseColor ? "text-white" : `text-black`}  max-sm:text-[32px] max-sm:leading-normal`}
-    >
-      {children}
-    </h2>
-  );
-}
-function Text({
-  children = <>This is a text</>,
-  reverseColor = false,
-}: {
-  children: React.ReactNode;
-  reverseColor?: boolean;
-}) {
-  return (
-    <p
-      className={`max-sm:text-[14px] ${reverseColor ? "text-white" : `text-black`} `}
-    >
-      {children}
-    </p>
-  );
-}
-function PrimaryButton({
-  children = <>Primary Button</>,
-  onClick,
-}: {
-  children: React.ReactNode;
-  onClick?: () => void;
-}) {
-  return (
-    <Button
-      onClick={onClick}
-      className="max-sm:max-w-auto h-[50px] bg-purple-600"
-    >
-      {children}
-    </Button>
-  );
-}
+
 function AboutSection() {
   return (
     <>
@@ -240,8 +170,8 @@ function AboutSection() {
             ))}
           </div>
           <div className="max-sm:item-start flex w-full flex-wrap items-center gap-5 self-start pt-10 max-md:pt-5   max-sm:justify-start">
-            <PrimaryButton>About community</PrimaryButton>
-            <Button variant={"link"} className="flex-center gap-2">
+            <Button>About community</Button>
+            <Button variant={"outline"} className="flex-center gap-2">
               Our services <FaArrowRight />
             </Button>
           </div>
@@ -268,43 +198,48 @@ function CategorySection() {
             <div className="grid w-full grid-cols-5 flex-wrap   divide-x-2 max-md:border-t-gray-800 max-sm:grid-cols-2">
               {[
                 {
-                  icon: <IoBedOutline />,
-                  title: "House",
-                  count: 100,
+                  imageUrl: `${siteNavigation.realEstate.home.path}/categories/appartments.png`,
+                  title: "Apartment",
+                  count: 159,
                 },
                 {
-                  icon: <IoBedOutline />,
-                  title: "House",
-                  count: 100,
+                  imageUrl: `${siteNavigation.realEstate.home.path}/categories/home.png`,
+                  title: "Home",
+                  count: 211,
                 },
                 {
-                  icon: <IoBedOutline />,
-                  title: "House",
-                  count: 100,
+                  imageUrl: `${siteNavigation.realEstate.home.path}/categories/condo.png`,
+                  title: "Condo",
+                  count: 652,
                 },
                 {
-                  icon: <IoBedOutline />,
-                  title: "House",
-                  count: 100,
+                  imageUrl: `${siteNavigation.realEstate.home.path}/categories/office.png`,
+                  title: "Office",
+                  count: 925,
                 },
                 {
-                  icon: <IoBedOutline />,
-                  title: "House",
-                  count: 100,
+                  imageUrl: `${siteNavigation.realEstate.home.path}/categories/shop.png`,
+                  title: "Shop",
+                  count: 520,
                 },
               ].map((item, i) => (
                 <div
-                  className="relative grid h-[180px] w-full place-items-center content-center justify-center gap-2 max-md:h-[130px]  max-sm:border-b-2 last:max-sm:border-b-0"
+                  className="relative grid h-[180px] w-full cursor-pointer place-items-center content-center justify-center  gap-4 transition-all duration-300 ease-in-out hover:bg-gray-50 hover:shadow-lg max-md:h-[130px] max-sm:h-[100px] max-sm:w-full max-sm:gap-2 max-sm:border-b-2 last:max-sm:border-b-0"
                   key={i}
                 >
-                  <div className="text-[40px] font-bold max-md:text-[30px]">
-                    {item.icon}
+                  <div className="relative size-12">
+                    <Image
+                      src={item.imageUrl}
+                      alt=""
+                      fill
+                      className="object-contain"
+                    />
                   </div>
                   <div className="font-semibold max-md:text-[14px]">
                     {item.title}
                   </div>
                   <div className="flex-center absolute left-4 top-4 rounded-md bg-purple-100 px-2 py-1 text-[12px] font-bold text-purple-500">
-                    {item.count}
+                    {item.count}K
                   </div>
                 </div>
               ))}
@@ -324,7 +259,6 @@ function PropertyListCard() {
         {/* THUMBNAIL */}
         <div className="relative h-[260px]">
           <Image
-            loading="lazy"
             src={"/sites/real-estate/demo-real-estate-slider-01.jpg"}
             alt="Picture of the author"
             fill
@@ -377,9 +311,11 @@ function PropertyListCard() {
         </div>
       </div>
       {/* buttons and price */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-t-2 px-10 py-6 max-md:px-6">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-t-2 py-6 pl-10 pr-4  max-md:px-6">
         <p className="text-[20px] font-bold opacity-80">$600,000</p>
-        <Button className="uppercase">View details</Button>
+        <Button className="max-h-[40px] min-w-0 px-5 max-sm:min-w-0 max-sm:text-[12px]">
+          View details
+        </Button>
       </div>
     </div>
   );
@@ -401,14 +337,13 @@ function PropertyListSection() {
                 </span>
               </Heading2>
             </div>
-            <Button
-              variant="link"
-              className="flex-center m-0 gap-2 p-0 text-lg"
-            >
+            <Button variant="link" className="flex-center m-0 gap-2">
               View all properties{" "}
-              <div className="flex-center ml-2 h-10 w-10 rounded-full bg-black text-[20px] text-white">
+              <span
+                className={`flex-center ${classes.ringColor} ml-4 size-10 rounded-[100%] bg-black bg-transparent  p-0 px-0 py-0 text-[20px] text-black ring-[3px]  hover:bg-slate-900  hover:text-white max-sm:size-10 max-sm:text-xl`}
+              >
                 <FaArrowRight />
-              </div>
+              </span>
             </Button>
           </div>
 
@@ -468,7 +403,7 @@ function WhyUs1Section() {
                 ),
               },
               {
-                text: "Highest rental income projects",
+                text: "Highest rental income projects.",
                 desc: "Browse millions of properties in your city save your favorites.",
                 icon: (
                   <Image
@@ -494,12 +429,9 @@ function WhyUs1Section() {
               </div>
             ))}
           </div>
-          <div className="flex gap-4 pt-10">
+          <div className="flex gap-4 pt-10 max-md:flex-wrap">
             <Button>Learn more</Button>{" "}
-            <Button
-              variant={"outline"}
-              className="flex-center gap-2 border-2 border-black"
-            >
+            <Button variant={"outline"} className="flex-center gap-2">
               Trusted agents <FaArrowRight />
             </Button>
           </div>
@@ -579,14 +511,16 @@ function LocationsSection() {
               <Button
                 onClick={onPrevButtonClick}
                 disabled={prevBtnDisabled}
-                className="h-20 w-20 rounded-full   bg-white text-[20px]  text-gray-600"
+                variant={"icon"}
+                className="size-14"
               >
                 <FaArrowLeft />
               </Button>
               <Button
                 onClick={onNextButtonClick}
                 disabled={nextBtnDisabled}
-                className="h-20 w-20  rounded-full     bg-white text-[20px]  text-gray-600"
+                variant={"icon"}
+                className="size-14"
               >
                 <FaArrowRight />
               </Button>
@@ -700,14 +634,14 @@ function TestimonialSection() {
                       rating: 5,
                     },
                   ].map((item, i) => (
-                    <div key={i} className=" ml-10 ">
-                      <div className="grid  w-[400px] gap-10    max-sm:w-[100vw]">
+                    <div key={i} className="ml-10">
+                      <div className=" testimonial-slider-item  grid w-[400px]  gap-10 max-sm:w-[100vw] max-sm:pr-10">
                         <div className="opacity-70">{item.desc}</div>
                         <div className=" flex items-center justify-start gap-10">
                           <div className="relative h-[80px]  w-[80px]  rounded-full bg-green-100   text-green-500">
                             {item.icon}
                           </div>
-                          <div className="grid  gap-4">
+                          <div className="flex flex-col gap-4">
                             <div className="font-bold">{item.text}</div>
                             <div className="flex">
                               {Array(item.rating)
@@ -730,16 +664,16 @@ function TestimonialSection() {
               <Button
                 onClick={onPrevButtonClick}
                 disabled={prevBtnDisabled}
-                variant={"outline"}
-                className="h-20 w-20 rounded-full    text-[20px]  "
+                variant={"icon"}
+                className="size-14"
               >
                 <FaArrowLeft />
               </Button>
               <Button
                 onClick={onNextButtonClick}
                 disabled={nextBtnDisabled}
-                variant={"outline"}
-                className="h-20 w-20  rounded-full      text-[20px]  "
+                variant={"icon"}
+                className="size-14"
               >
                 <FaArrowRight />
               </Button>
@@ -755,25 +689,27 @@ function CTASection() {
     <>
       <div className="min-h-[10em] border-t-2 bg-gray-50 ">
         <div className="section-box-w mt-[-6em] max-md:mt-0 max-md:pt-20 max-sm:pt-10">
-          <div className="flex flex-wrap items-center justify-between gap-10 rounded-xl bg-purple-500 px-14 py-14 max-md:flex-wrap max-md:justify-center max-sm:gap-4 max-sm:px-4 max-sm:py-4">
-            <div className="flex flex-col  gap-5 max-md:w-full max-md:text-center max-sm:gap-0 ">
-              <Heading2 reverseColor>
+          <div className="flex flex-wrap items-center justify-between gap-10 rounded-xl bg-purple-600 px-14 py-14 max-md:flex-wrap max-md:justify-center max-sm:gap-4 max-sm:px-6 max-sm:py-6">
+            <div className="flex flex-col  gap-5 max-md:w-full max-md:text-center">
+              <Heading2 className="text-white [&>span]:text-white">
                 Subscribe to{" "}
                 <span className="font-bold underline">newsletter</span>
               </Heading2>
-              <Text reverseColor>Social media its ways of our excellence.</Text>
+              <Text className="text-white">
+                Social media its ways of our excellence.
+              </Text>
             </div>
-            <div className="relative flex h-[60px] w-full max-w-[400px] items-center justify-between gap-4  rounded-lg bg-white px-4  ">
+            <div className="relative flex h-[62px] w-full max-w-[500px] items-center justify-between gap-4 rounded-full  bg-white px-2 max-sm:h-[54px]  ">
               <Input
                 type="text"
                 placeholder="Enter your email"
-                className="rounded-md border-none bg-gray-100 px-4 text-black max-sm:text-[12px]"
+                className="rounded-md border-none  px-8 text-black max-sm:px-4 max-sm:text-[12px]"
               />
               <Button
                 variant={"outline"}
-                className=" right-2 flex gap-2 bg-white uppercase text-black"
+                className="min-w-34 right-2 ring-purple-500 max-md:min-w-0  max-sm:w-14 max-sm:min-w-0"
               >
-                <FaRegEnvelope className="text-purple-500 max-md:text-xl max-sm:text-base" />
+                <FaRegEnvelope className="icon text-lg  text-purple-500 max-md:text-xl max-sm:text-base" />
                 <span className="max-md:hidden">Subscribe</span>
               </Button>
             </div>

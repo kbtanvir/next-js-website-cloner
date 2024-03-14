@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   Drawer,
   DrawerClose,
@@ -9,6 +8,8 @@ import {
 import { Paths } from "@/lib/const/navigation";
 import Link from "next/link";
 import { RiCloseLine, RiMenu2Line } from "react-icons/ri";
+import { Button } from "../components/button";
+import { LinkText } from "../theme";
 
 export const Categories = {
   "Dairy & Backery": {
@@ -35,32 +36,27 @@ function NavLinks() {
       {[
         {
           text: "Home",
-          url: `${Paths.shop.path}?category=juices`,
+          url: `#welcome`,
         },
         {
           text: "About",
-          url: `${Paths.shop.path}?category=fruits`,
+          url: `#about`,
         },
         {
           text: "Rent",
-          url: `${Paths.shop.path}?category=dairy`,
+          url: `#rent`,
         },
         {
           text: "Agents",
-          url: `${Paths.shop.path}?category=dairy`,
-        },
-        {
-          text: "Contact",
-          url: `${Paths.shop.path}?category=dairy`,
+          url: `#agents`,
         },
       ].map((item, i) => (
-        <Link
+        <LinkText
           key={i}
-          href={item.url}
-          className="self-start whitespace-nowrap text-base font-normal transition-all duration-300 ease-in-out hover:text-emerald-600 max-[850px]:py-4 max-md:text-sm"
+          className=" py-4 uppercase hover:border-purple-500 max-md:border-b-2"
         >
           {item.text}
-        </Link>
+        </LinkText>
       ))}
     </>
   );
@@ -87,9 +83,12 @@ export default function MainHeader() {
             <DrawerTrigger className="min-[850px]:hidden">
               <RiMenu2Line />
             </DrawerTrigger>
-            <DrawerContent className="h-full max-w-lg rounded-none px-6 py-6">
-              <DrawerClose className="absolute right-6 top-6 ">
-                <Button variant="outline">
+            <DrawerContent className="h-full max-w-lg rounded-none border-none bg-white px-6 py-6 text-black [&>.bg-muted]:hidden">
+              <DrawerClose className="absolute right-6 top-8 ">
+                <Button
+                  variant={"icon"}
+                  className="bg-transparent p-0 text-[30px] text-black"
+                >
                   <RiCloseLine />
                 </Button>
               </DrawerClose>
@@ -101,18 +100,18 @@ export default function MainHeader() {
                   >
                     Property
                   </Link>
-                  <div className="my-auto grid divide-y-2">
+                  <div className="my-auto grid  ">
                     <NavLinks />
                   </div>
                   <Link href={Paths.cart.path} className="relative">
-                    <Button>Contact us</Button>
+                    <Button>Get Started</Button>
                   </Link>
                 </span>
               </DrawerHeader>
             </DrawerContent>
           </Drawer>
 
-          <div className="flex w-full flex-wrap items-center justify-between gap-5 pr-3 max-[850px]:hidden">
+          <div className="flex w-full flex-wrap items-center justify-between gap-10 pr-3 max-[850px]:hidden">
             {/* desktop nav */}
             <span className="my-auto flex gap-10 self-start justify-self-start max-md:max-w-full max-md:flex-wrap">
               <NavLinks />

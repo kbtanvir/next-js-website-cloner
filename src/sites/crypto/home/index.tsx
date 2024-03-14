@@ -1,4 +1,3 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
@@ -263,9 +262,9 @@ function TestimonialSection() {
   const { onPrevButtonClick, onNextButtonClick, emblaRef } = useEmbla({});
 
   return (
-    <div className="section-box-w section-py relative flex max-w-[960px] flex-col justify-center ">
+    <div className="section-box-w section-py relative flex max-w-[960px] flex-col justify-center pt-0 ">
       {/* SECTION TITLE */}
-      <div className="flex-center flex-col pb-10">
+      <div className="flex-center flex-col pb-10 text-center">
         <Heading3>Testimonials</Heading3>
         <Heading2 className="capitalize">
           We are loved by our <span>Customers</span>
@@ -468,7 +467,7 @@ function AboutSection() {
         {/* PARTNERS */}
         <div className="flex w-full flex-col items-center justify-stretch gap-10  ">
           <Heading3>Our Top Partners</Heading3>
-          <div className="grid w-full grid-cols-5 flex-wrap   max-md:grid-cols-3 max-sm:grid-cols-2">
+          <div className="grid w-full grid-cols-5 flex-wrap   pt-10 max-md:grid-cols-3 max-sm:grid-cols-2">
             {[
               {
                 icon: (
@@ -603,7 +602,7 @@ function AboutSection() {
               },
             ].map((item, i) => (
               <div
-                className="relative grid h-[180px] w-full place-items-center content-center justify-center gap-2 border-2  border-white/30   opacity-50 transition-all  duration-300 ease-in-out hover:opacity-100 max-md:h-[130px] max-sm:h-[100px]"
+                className="relative grid w-full  place-items-center gap-6 border-b-[1px] border-r-[1px] border-white/30  py-4  transition-all duration-300 ease-in-out last:border-r-0 hover:opacity-100 [&:nth-child(5)]:border-r-0 [&:nth-child(n+6)]:border-b-0"
                 key={i}
               >
                 <div className="relative size-[130px]">{item.icon}</div>
@@ -679,61 +678,6 @@ function WhyUs1Section() {
         ))}
       </div>
     </div>
-  );
-}
-
-const galleryTabs = ["Art Direction", "Illustration", "Design", "Creative"];
-
-function GalleryTabSection() {
-  return (
-    <>
-      <div id="showcase" className="section-box-w section-pb">
-        <Tabs defaultValue={galleryTabs[0]} className="bg-none">
-          <TabsList className="max-h-auto mb-10 flex h-auto justify-start gap-5 bg-transparent max-md:flex-wrap">
-            {galleryTabs.map((tab, i) => (
-              <TabsTrigger
-                key={i}
-                value={tab}
-                className="hover:bg-purple-600 hover:text-white"
-              >
-                {tab}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-
-          {galleryTabs.map((tab, i) => (
-            <TabsContent key={i} value={tab}>
-              <div className="grid h-[1000px] grid-cols-4 grid-rows-3 gap-4  max-lg:grid-cols-2 max-lg:grid-rows-none">
-                {Array(7)
-                  .fill(0)
-                  .map((_, i) => (
-                    <div
-                      key={i}
-                      className={cn(
-                        (i === 0 || i == 3) && "max-lg:col-span-2",
-                        i === 1 && "col-span-2 row-span-2  max-lg:col-span-1 ",
-                        i === 3 && "row-span-2",
-                        i === 6 && "col-span-2",
-                        "relative w-full bg-gray-300   max-lg:row-span-1",
-                      )}
-                    >
-                      {i}
-                      <Image
-                        src={
-                          "/sites/real-estate/demo-real-estate-slider-01.jpg"
-                        }
-                        fill
-                        alt="Picture of the author"
-                        className="object-cover"
-                      />
-                    </div>
-                  ))}
-              </div>
-            </TabsContent>
-          ))}
-        </Tabs>
-      </div>
-    </>
   );
 }
 

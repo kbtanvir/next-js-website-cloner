@@ -13,6 +13,7 @@ import { FaArrowRight, FaRegEnvelope } from "react-icons/fa";
 import { IoIosGitNetwork, IoMdQuote } from "react-icons/io";
 import { IoCheckmark } from "react-icons/io5";
 import { useEmbla } from "../../../hooks/useEmbla";
+import { aiImageGenGalleryItems, galleryTabs } from "../../../lib/const/const";
 import { GenerationForm } from "./GenerationForm";
 import { UpscaleForm } from "./UpscaleForm";
 import { VariationsForm } from "./VariationsForm";
@@ -124,6 +125,23 @@ export function PrimaryButton({
   );
 }
 
+function SliderItem({ imageUrl }: { imageUrl: string }) {
+  return (
+    <div className="embla__slide w-1/3 pl-[20px] max-md:w-1/2 max-sm:w-full">
+      <div className="flex">
+        <div className=" relative h-[300px] w-[700px] max-md:h-[300px] max-sm:h-[200px]">
+          <Image
+            src={imageUrl}
+            fill
+            alt="Picture of the author"
+            className="z-0 object-cover"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Slider1() {
   const { emblaRef, selectedIndex, scrollSnaps, onDotButtonClick } = useEmbla(
     {},
@@ -135,27 +153,28 @@ function Slider1() {
       <div className="max-w-full  pt-20 max-md:pt-4">
         <div className="embla__viewport" ref={emblaRef}>
           <div className="ml-[-20px] flex">
-            {Array(6)
-              .fill(0)
-              .map((_, i) => (
-                <div
-                  key={i}
-                  className="embla__slide w-1/3 pl-[20px] max-md:w-1/2 max-sm:w-full"
-                >
-                  <div className="flex">
-                    <div className=" relative h-[300px] w-[700px] max-md:h-[300px] max-sm:h-[200px]">
-                      <Image
-                        src={
-                          "/sites/real-estate/demo-real-estate-slider-01.jpg"
-                        }
-                        fill
-                        alt="Picture of the author"
-                        className="z-0 object-cover"
-                      />
-                    </div>
-                  </div>
-                </div>
-              ))}
+            {[
+              {
+                imageUrl: `https://img.freepik.com/free-photo/nightlife-illuminates-young-adults-smiling-camera-generated-by-ai_188544-30373.jpg?t=st=1710422310~exp=1710425910~hmac=65f189cd3bfc7a9c9c8af6b89177ea1b1d796f669846a2f3c4df3ceba8388406&w=1380`,
+              },
+              {
+                imageUrl: `https://img.freepik.com/free-photo/digital-art-style-boxing-day-celebration_23-2151040799.jpg?t=st=1710422150~exp=1710425750~hmac=5bb534c43310b724140163b874beb05094c7098f86ee6c731ae5cf46e0904e9d&w=740`,
+              },
+              {
+                imageUrl: `https://img.freepik.com/free-photo/door-leading-magical-world_23-2151038210.jpg?t=st=1710422173~exp=1710425773~hmac=a6802232bbc433abd9f34b933e997a3ed75b99a815734aca25737100ce935517&w=1380`,
+              },
+              {
+                imageUrl: `https://img.freepik.com/free-photo/medium-shot-ninja-wearing-equipment_23-2150961084.jpg?t=st=1710422382~exp=1710425982~hmac=534187458831e04bb991f81a07a7b3e322df689beee7a9d16ecf85bacb5bd4ed&w=1380`,
+              },
+              {
+                imageUrl: `https://img.freepik.com/free-photo/cyberpunk-woman-warrior-urban-scenery_23-2150712332.jpg?t=st=1710422396~exp=1710425996~hmac=350eb5317ddcfac9642d8533a1d24ead679cbde3f886cc792c8f0c720b800c70&w=1380`,
+              },
+              {
+                imageUrl: `https://img.freepik.com/free-photo/medium-shot-female-astronaut-wearing-spacesuit_23-2150417565.jpg?t=st=1710422413~exp=1710426013~hmac=1cb1437e6854153329ff76bd300256ee41d71877df22464497f426cd2fb2c4a6&w=740`,
+              },
+            ].map((item, i) => (
+              <SliderItem key={i} imageUrl={item.imageUrl} />
+            ))}
           </div>
         </div>
       </div>
@@ -678,8 +697,6 @@ function AboutSection() {
   );
 }
 
-const galleryTabs = ["Art Direction", "Illustration", "Design", "Creative"];
-
 function GalleryTabSection() {
   return (
     <>
@@ -700,30 +717,26 @@ function GalleryTabSection() {
           {galleryTabs.map((tab, i) => (
             <TabsContent key={i} value={tab}>
               <div className="grid h-[1000px] grid-cols-4 grid-rows-3 gap-4  max-lg:grid-cols-2 max-lg:grid-rows-none">
-                {Array(7)
-                  .fill(0)
-                  .map((_, i) => (
-                    <div
-                      key={i}
-                      className={cn(
-                        (i === 0 || i == 3) && "max-lg:col-span-2",
-                        i === 1 && "col-span-2 row-span-2  max-lg:col-span-1 ",
-                        i === 3 && "row-span-2",
-                        i === 6 && "col-span-2",
-                        "relative w-full bg-gray-300   max-lg:row-span-1",
-                      )}
-                    >
-                      {i}
-                      <Image
-                        src={
-                          "/sites/real-estate/demo-real-estate-slider-01.jpg"
-                        }
-                        fill
-                        alt="Picture of the author"
-                        className="object-cover"
-                      />
-                    </div>
-                  ))}
+                {aiImageGenGalleryItems.filter(item=>item.category===tab).map((item, i) => (
+                  <div
+                    key={i}
+                    className={cn(
+                      (i === 0 || i == 3) && "max-lg:col-span-2",
+                      i === 1 && "col-span-2 row-span-2  max-lg:col-span-1 ",
+                      i === 3 && "row-span-2",
+                      i === 6 && "col-span-2",
+                      "relative w-full bg-gray-300   max-lg:row-span-1",
+                    )}
+                  >
+                    {i}
+                    <Image
+                      src={item.imageUrl}
+                      fill
+                      alt="Picture of the author"
+                      className="object-cover"
+                    />
+                  </div>
+                ))}
               </div>
             </TabsContent>
           ))}

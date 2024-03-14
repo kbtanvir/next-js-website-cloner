@@ -48,7 +48,7 @@ function FooterTop() {
       <div className="col-span-2 flex w-full max-w-[300px] flex-col items-start justify-start max-lg:col-start-1 max-lg:col-end-4 max-md:items-center ">
         <Link href={Paths.home.path} className="text-nowrap ">
           <div className="text-[30px] font-light uppercase max-md:text-2xl ">
-            E-shopper
+            AIMA
           </div>
         </Link>
         <div className="mt-4 self-stretch text-base leading-7   text-opacity-80">

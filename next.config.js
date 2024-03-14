@@ -31,9 +31,10 @@ const config = {
       "avatars.githubusercontent.com",
       "picsum.photos",
       "cdn.builder.io",
+      "img.freepik.com",
+      "cdn.midjourney.com",
     ],
   },
-
 };
 
 export default config;

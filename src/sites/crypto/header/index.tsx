@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   Drawer,
   DrawerClose,
@@ -9,7 +8,8 @@ import {
 import { Paths } from "@/lib/const/navigation";
 import Link from "next/link";
 import { RiCloseLine, RiMenu2Line } from "react-icons/ri";
-import { LinkText, PrimaryButton } from "../theme";
+import { Button } from "../components/button";
+import { LinkText, PrimaryButton, classes } from "../theme";
 
 function NavLinks() {
   return (
@@ -37,7 +37,10 @@ function NavLinks() {
         },
       ].map((item, i) => (
         <Link href={item.url} key={i}>
-          <LinkText className="border-b-white/20 py-4 uppercase hover:border-b-purple-500 max-md:border-b-[1px]">
+          <LinkText
+            key={i}
+            className={`py-4 uppercase ${classes.linkMobileHover} max-md:border-b-2`}
+          >
             {item.text}
           </LinkText>
         </Link>
@@ -70,8 +73,8 @@ export default function MainHeader() {
             <DrawerContent className="h-full max-w-lg rounded-none border-none bg-gray-800 px-6 py-6 text-white [&>.bg-muted]:hidden">
               <DrawerClose className="absolute right-6 top-6 ">
                 <Button
-                  variant="outline"
-                  className="size-10 p-0 text-2xl  text-black"
+                  variant={"outline"}
+                  className={`size-10 min-w-0 bg-transparent p-0  text-[30px] text-white ${classes.textHoverColor} hover:bg-transparent ${classes.ringColor}`}
                 >
                   <RiCloseLine />
                 </Button>

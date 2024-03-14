@@ -62,9 +62,7 @@ function FooterTop() {
         <div className="mt-8 grid gap-4">
           {footerCompanyNavLinks.map((item, index) => (
             <Link href={"#"} key={index}>
-              <LinkText className="text-sm transition-all hover:text-purple-500">
-                {item.title}
-              </LinkText>
+              <LinkText>{item.title}</LinkText>
             </Link>
           ))}
         </div>
@@ -75,7 +73,7 @@ function FooterTop() {
         <div className="mt-8 grid gap-5">
           {footerQuickLinks.map((item, index) => (
             <Link href={"#"} key={index}>
-              <LinkText className="text-sm">{item.title}</LinkText>
+              <LinkText>{item.title}</LinkText>
             </Link>
           ))}
         </div>
@@ -85,8 +83,8 @@ function FooterTop() {
         <div className="text-xl font-bold leading-7 ">Say Hello</div>
         <div className="mt-8 grid gap-5">
           <div className="text-xl font-bold ">+880 555 555 555</div>
-          <div className="text-sm ">123, New Eskaton Road, Dhaka</div>
-          <div className="text-sm ">Bangladesh</div>
+          <div className="">123, New Eskaton Road, Dhaka</div>
+          <div className="">Bangladesh</div>
         </div>
       </span>
       {/* <div className="flex-1"></div> */}

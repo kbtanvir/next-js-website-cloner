@@ -123,6 +123,7 @@ export function GenerationForm() {
                   <Select
                     onValueChange={(value) => form.setValue(row.name, value)}
                     defaultValue={form.watch(row.name) ?? ""}
+                    
                   >
                     <SelectTrigger className="text-black">
                       <SelectValue placeholder={row.placeholder} />
