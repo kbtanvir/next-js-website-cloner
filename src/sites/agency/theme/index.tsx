@@ -13,7 +13,7 @@ export const colors = {
 export const classes = {
   textColor: `text-[#12D176]`,
   span: `[&>span]:text-[#12D176] [&>span]:underline [&>span]:font-light`,
-  textHoverColor: `hover:text-[#12D176]`,
+  textHoverColor: `hover:text-[#00904a]`,
   bgColor: `bg-[#12D176]`,
   hoverBg: `hover:bg-[#12D176]`,
   ringColor: `ring-[#12D176]`,
@@ -30,7 +30,7 @@ export function LinkText({
   return (
     <div
       className={cn(
-        `cursor-pointer  transition-all hover:underline ${classes.textHoverColor}`,
+        `cursor-pointer  transition-all  ${classes.textHoverColor}`,
         className,
       )}
     >

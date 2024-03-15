@@ -30,10 +30,7 @@ function WelcomeSection() {
   }, [isInView]);
 
   return (
-    <div
-      ref={ref}
-      className="  relative grid h-[80vh] w-full max-md:h-[50vh] max-sm:h-[40vh]"
-    >
+    <div ref={ref} className="relative grid h-[80vh] w-full">
       {/* image */}
       <div className="absolute left-0 top-0 z-0 h-full w-full">
         <div className="relative h-full">
@@ -47,7 +44,7 @@ function WelcomeSection() {
         </div>
       </div>
       <div
-        className={`section-box-w max-md:flex-center relative top-0 z-10 flex  h-full cursor-pointer items-start gap-5 bg-transparent max-md:gap-0 max-md:pt-20`}
+        className={`section-box-w max-md:flex-center relative top-0 z-10 flex  h-full cursor-pointer items-start gap-5 bg-transparent max-md:gap-0  `}
       >
         <div className="flex h-full w-full flex-col justify-center gap-4 bg-opacity-50">
           <Heading3 className="text-white">GROW YOUR BUSINESS WITH US</Heading3>
@@ -121,23 +118,25 @@ function AboutSection() {
       <div className="section-box-w section-py grid gap-40">
         <OfferingsCards />
         {/* ABOUT */}
-        <div className=" flex gap-24 max-xl:gap-10   max-md:flex-col max-md:gap-10 ">
+        <div className=" flex-center gap-24 max-xl:gap-10   max-md:flex-col max-md:gap-10 ">
           {/* Image */}
-          <div className="relative h-[300px] w-[250px] overflow-hidden rounded-2xl max-md:h-[300px]">
-            <Image
-              src={`${siteNavigation.agency.home.path}/about1.png`}
-              fill
-              alt="Picture of the author"
-              className="z-0 object-cover object-top"
-            />
-          </div>
-          <div className="relative ml-[-200px] mt-[200px] h-[300px] w-[250px] overflow-hidden rounded-2xl   max-md:hidden max-md:h-[300px]">
-            <Image
-              src={`${siteNavigation.agency.home.path}/about2.png`}
-              fill
-              alt="Picture of the author"
-              className="z-0 object-cover object-top"
-            />
+          <div className="flex w-1/2 flex-col">
+            <div className="relative size-[400px] overflow-hidden rounded-2xl max-md:h-[400px]">
+              <Image
+                src={`${siteNavigation.agency.home.path}/about1.png`}
+                fill
+                alt="Picture of the author"
+                className="z-0 object-cover object-top"
+              />
+            </div>
+            <div className="relative left-[100px] top-[-100px] size-[400px]   overflow-hidden rounded-2xl   max-md:hidden  ">
+              <Image
+                src={`${siteNavigation.agency.home.path}/about2.png`}
+                fill
+                alt="Picture of the author"
+                className="z-0 object-cover object-top"
+              />
+            </div>
           </div>
           {/* Text box */}
           <div className="flex w-1/2 flex-col justify-center  gap-4 max-md:w-full">
@@ -246,37 +245,6 @@ function AboutSection() {
   );
 }
 
-function LocationSliderItem() {
-  return (
-    <div className="ml-10 flex max-sm:ml-4">
-      <div className="relative  h-[485px] w-[360px] max-sm:h-[280px] max-sm:w-[200px]">
-        <Image
-          src={"/sites/real-estate/demo-real-estate-slider-01.jpg"}
-          fill
-          alt="Picture of the author"
-          className="z-0 object-cover"
-        />
-        <div className="absolute h-full w-full bg-gradient-to-t from-gray-800 mix-blend-overlay" />
-        <div className="relative h-full  w-full text-white">
-          <div className="absolute bottom-0 left-0 w-full p-6">
-            <div className="pb-4 text-2xl font-bold max-sm:pb-2 max-sm:text-base">
-              Washington DC, USA
-            </div>
-            <div className="">20 property listing</div>
-          </div>
-          <div className="absolute flex w-full flex-col items-start">
-            <div className="flex items-stretch pl-6 pt-6">
-              <span className="justify-self-start whitespace-nowrap rounded-md border border-solid border-white border-opacity-10 bg-red-600 px-3.5 py-1.5 text-center text-xs leading-3 text-white">
-                Rent
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function CaseStudySliderSection() {
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
@@ -322,14 +290,43 @@ function CaseStudySliderSection() {
             </div>
           </div>
           {/* slider */}
-          <div className=" mr-[-20vw] ">
+          <div className="mr-[-20vw] ">
             <div className="overflow-hidden" ref={emblaRef}>
-              <div className="flex max-w-[60em]  max-xl:max-w-[44em] max-lg:max-w-[100vw]">
+              <div className="flex max-w-[100em]  max-xl:max-w-[44em] max-lg:max-w-[100vw]">
                 {" "}
-                {Array(4)
+                {Array(6)
                   .fill(0)
                   .map((_, i) => (
-                    <LocationSliderItem key={i} />
+                    <div className="ml-10 flex max-sm:ml-4" key={i}>
+                      <div className="relative  h-[485px] w-[380px] max-sm:h-[280px] max-sm:w-[200px]">
+                        {/* <div className="relative  h-[485px] w-[360px]"> */}
+                        <Image
+                          src={
+                            "/sites/real-estate/demo-real-estate-slider-01.jpg"
+                          }
+                          fill
+                          alt="Picture of the author"
+                          className="z-0 object-cover"
+                        />
+                        {/* </div> */}
+                        <div className="absolute h-full w-full bg-gradient-to-t from-gray-800 mix-blend-overlay" />
+                        <div className="relative h-full  w-full text-white">
+                          <div className="absolute bottom-0 left-0 w-full p-6">
+                            <div className="pb-4 text-2xl font-bold max-sm:pb-2 max-sm:text-base">
+                              Washington DC, USA
+                            </div>
+                            <div className="">20 property listing</div>
+                          </div>
+                          <div className="absolute flex w-full flex-col items-start">
+                            <div className="flex items-stretch pl-6 pt-6">
+                              <span className="justify-self-start whitespace-nowrap rounded-md border border-solid border-white border-opacity-10 bg-red-600 px-3.5 py-1.5 text-center text-xs leading-3 text-white">
+                                Rent
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   ))}
               </div>
             </div>
@@ -591,18 +588,7 @@ function ServicesSection() {
               ),
               text: "Social Media Marketing",
             },
-          ].map((item, i) => (
-            <div
-              className="relative grid  w-full place-items-center gap-6  border-b-[1px] border-r-[1px] border-white/30 py-10 transition-all  duration-300  ease-in-out hover:opacity-100 [&:nth-child(5)]:border-r-0"
-              key={i}
-            >
-              <div className="relative aspect-[4/2] w-[130px]">{item.icon}</div>
-              <div className="max-w-[100px] text-[14px] font-semibold uppercase text-white">
-                {item.text}
-              </div>
-            </div>
-          ))}
-          {[
+
             {
               icon: (
                 <Image
@@ -675,11 +661,13 @@ function ServicesSection() {
             },
           ].map((item, i) => (
             <div
-              className="relative grid  w-full place-items-center gap-6 border-r-[1px] border-white/30  py-10 last:border-r-0  hover:opacity-100"
+              className="relative grid  w-full cursor-pointer place-items-center  gap-6 border-b-[1px] border-r-[1px] border-white/30 py-10  transition-all  duration-300 ease-in-out last:border-r-0 hover:z-10 hover:scale-105 hover:border-black/0 hover:bg-slate-900 hover:shadow-lg [&:nth-child(5)]:border-r-0 [&:nth-child(n+6)]:border-b-0 [&>.text]:hover:text-[#12D176]"
               key={i}
             >
-              <div className="relative aspect-[4/2] w-[130px]">{item.icon}</div>
-              <div className="max-w-[100px] text-[14px] font-semibold uppercase text-white">
+              <div className="icon relative aspect-[4/2] w-[130px] transition-all duration-300 ease-in-out">
+                {item.icon}
+              </div>
+              <div className="text max-w-[100px] text-[14px] font-semibold uppercase text-white transition-all duration-300 ease-in-out">
                 {item.text}
               </div>
             </div>
