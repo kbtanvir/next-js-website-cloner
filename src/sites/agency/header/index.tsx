@@ -49,7 +49,7 @@ function NavLinks() {
 function HeaderElements() {
   return (
     <div
-      className={`section-box-w flex items-center justify-between gap-20 py-5 max-md:gap-5 max-md:gap-y-0 max-md:py-5`}
+      className={`section-box-w flex items-center justify-between gap-20 py-5 max-lg:gap-10 max-md:gap-5 max-md:gap-y-0 max-md:py-5`}
     >
       <div className="">
         <Link
@@ -93,7 +93,7 @@ function HeaderElements() {
           </DrawerContent>
         </Drawer>
 
-        <div className="flex w-full flex-wrap items-center justify-between gap-5 pr-3 max-[850px]:hidden">
+        <div className="flex w-full   items-center justify-between gap-5 pr-3 max-[850px]:hidden">
           {/* desktop nav */}
           <span className="my-auto flex gap-10 self-start justify-self-start max-md:max-w-full max-md:flex-wrap">
             <NavLinks />

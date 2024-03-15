@@ -10,14 +10,14 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: `max-sm:px-4 max-sm:text-sm  max-sm:max-w-auto min-w-[200px] text-black rounded-full bg-transparent px-5 font-bold uppercase ring-[3px] ${classes.ringColor}  ${classes.bgColor}   hover:bg-transparent`,
+        default: `max-sm:px-4 max-sm:text-sm  max-sm:min-w-0 min-w-[200px] text-black rounded-full bg-transparent px-5 font-bold uppercase ring-[3px] ${classes.ringColor}  ${classes.bgColor}   hover:bg-transparent`,
 
-        outline: `max-sm:px-4 max-sm:text-sm  max-sm:max-w-auto min-w-[200px] text-black rounded-full bg-transparent px-5 font-bold uppercase ring-[3px] ${classes.ringColor}   ${classes.hoverBg} hover:text-white`,
+        outline: `max-sm:px-4 max-sm:text-sm  max-sm:min-w-0 min-w-[200px] text-black rounded-full bg-transparent px-5 font-bold uppercase ring-[3px] ${classes.ringColor}   ${classes.hoverBg} hover:text-white`,
 
         link: "px-0 max-sm:text-sm text-black uppercase underline-offset-4 hover:underline",
       },
       size: {
-        default: `h-[50px] px-4 py-2`,
+        default: `h-[50px] px-4 py-2 max-sm:h-[40px]`,
         sm: "h-9 rounded-md px-3",
         lg: "h-11 rounded-md px-8",
         icon: "size-10",

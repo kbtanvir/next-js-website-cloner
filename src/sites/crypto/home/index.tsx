@@ -17,7 +17,7 @@ import { Button } from "../components/button";
 import { Slider } from "../components/slider";
 import { Text } from "../components/text";
 import { Heading2, Heading3, colors } from "../theme";
-import { Contactform } from "./GenerationForm";
+import { Contactform } from "./ContactForm";
 
 function CountDown({
   targetDate = new Date(new Date().setHours(new Date().getHours() + 1)),

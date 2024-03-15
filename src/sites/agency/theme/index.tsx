@@ -12,7 +12,7 @@ export const colors = {
 
 export const classes = {
   textColor: `text-[#12D176]`,
-  span: `[&>span]:text-[#12D176] [&>span]:underline [&>span]:font-light`,
+  span: `[&>span]:text-[#12D176] [&>span]:underline [&>span]:font-bold`,
   textHoverColor: `hover:text-[#00904a]`,
   bgColor: `bg-[#12D176]`,
   hoverBg: `hover:bg-[#12D176]`,
@@ -79,7 +79,7 @@ export function Heading2({
   return (
     <h2
       className={cn(
-        `text-[44px] font-bold capitalize leading-[1.3em] max-sm:text-[28px] max-sm:leading-normal`,
+        `text-[44px] font-light capitalize leading-[1.3em] max-sm:text-[28px] max-sm:leading-normal`,
         classes.span,
         className,
       )}
