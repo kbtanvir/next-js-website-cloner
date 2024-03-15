@@ -7,7 +7,7 @@ import {
   FaRegEnvelope,
   FaStar,
 } from "react-icons/fa";
-import { useEmblaNavigation } from "../../../hooks/useEmbla";
+import { useEmbla, useEmblaNavigation } from "../../../hooks/useEmbla";
 
 import { Input } from "@/components/ui/input";
 import { siteNavigation } from "@/lib/const/navigation";
@@ -20,6 +20,8 @@ import { GiIdea } from "react-icons/gi";
 import { Button } from "../components/button";
 import { Text } from "../components/text";
 import { Heading2, Heading3, LinkText, classes } from "../theme";
+import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
+import { IoMdQuote } from "react-icons/io";
 
 function WelcomeSection() {
   const ref = useRef(null);
@@ -115,10 +117,10 @@ function OfferingsCards() {
 function AboutSection() {
   return (
     <>
-      <div className="section-box-w section-py grid gap-40">
+      <div className="section-box-w section-py grid">
         <OfferingsCards />
         {/* ABOUT */}
-        <div className=" flex-center gap-24 max-xl:gap-10   max-md:flex-col max-md:gap-10 ">
+        <div className=" flex-center gap-24 max-xl:gap-10   max-md:flex-col max-md:gap-10 pt-32 ">
           {/* Image */}
           <div className="flex w-1/2 flex-col">
             <div className="relative size-[400px] overflow-hidden rounded-2xl max-md:h-[400px]">
@@ -336,138 +338,74 @@ function CaseStudySliderSection() {
     </>
   );
 }
-function TestimonialSection() {
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    {
-      slidesToScroll: 1,
-      align: "start",
-      loop: true,
-    },
-    [Autoplay()],
-  );
 
-  const {
-    prevBtnDisabled,
-    nextBtnDisabled,
-    onPrevButtonClick,
-    onNextButtonClick,
-  } = useEmblaNavigation(emblaApi);
+function TestimonialSection() {
+  const { onPrevButtonClick, onNextButtonClick, emblaRef } = useEmbla({});
 
   return (
-    <>
-      <>
-        <div className="section-box-w section-py flex gap-24 max-xl:gap-10 max-md:flex-col max-md:gap-10">
-          {/* Image */}
-          <div className="w-full   max-md:max-w-full">
-            <div className=" relative aspect-square w-[400px] overflow-hidden rounded-full max-md:h-[300px]">
-              <Image
-                src={"/sites/real-estate/demo-real-estate-slider-01.jpg"}
-                fill
-                alt="Picture of the author"
-                className="z-0 object-cover"
-              />
-            </div>
-          </div>
-          {/* Text box */}
-          <div className="flex w-full  flex-col  gap-4">
-            <Heading3>Clients feedback</Heading3>
-            <Heading2>
-              Here is what our{" "}
-              <span className="underline-green-300 font-bold text-purple-600 underline">
-                clients
-              </span>{" "}
-              have to say
-            </Heading2>
-            {/* Testimonial slider */}{" "}
-            <div className="grid max-w-[400px] pt-6 max-md:max-w-[100vw]">
-              <div className="overflow-hidden" ref={emblaRef}>
-                <div className="flex">
-                  {[
-                    {
-                      text: "Alec Thompson",
-                      desc: "I just bought a house with the help of this company. Thank you for your support and help with finding me a home. I am very happy with the service and the help, everything was perfect. Thank you very much.",
-                      icon: (
-                        <Image
-                          src={`${siteNavigation.agency.home.path}/loan.png`}
-                          alt=""
-                          fill
-                        />
-                      ),
-                      rating: 5,
-                    },
-                    {
-                      text: "Alec Thompson",
-                      desc: "I just bought a house with the help of this company. Thank you for your support and help with finding me a home. I am very happy with the service and the help, everything was perfect. Thank you very much.",
-                      icon: (
-                        <Image
-                          src={`${siteNavigation.agency.home.path}/loan.png`}
-                          alt=""
-                          fill
-                        />
-                      ),
-                      rating: 5,
-                    },
-                    {
-                      text: "Alec Thompson",
-                      desc: "I just bought a house with the help of this company. Thank you for your support and help with finding me a home. I am very happy with the service and the help, everything was perfect. Thank you very much.",
-                      icon: (
-                        <Image
-                          src={`${siteNavigation.agency.home.path}/loan.png`}
-                          alt=""
-                          fill
-                        />
-                      ),
-                      rating: 5,
-                    },
-                  ].map((item, i) => (
-                    <div key={i} className=" ml-10 ">
-                      <div className="grid  w-[400px] gap-10    max-sm:w-[100vw]">
-                        <div className="opacity-70">{item.desc}</div>
-                        <div className=" flex items-center justify-start gap-10">
-                          <div className="relative h-[80px]  w-[80px]  rounded-full bg-green-100   text-green-500">
-                            {item.icon}
-                          </div>
-                          <div className="grid  gap-4">
-                            <div className="font-bold">{item.text}</div>
-                            <div className="flex">
-                              {Array(item.rating)
-                                .fill(0)
-                                .map((_, i) => (
-                                  <div key={i} className="text-yellow-500">
-                                    <FaStar />
-                                  </div>
-                                ))}
-                            </div>
-                          </div>
+    <div className="section-box-w section-py relative flex max-w-[960px] flex-col justify-center">
+      {/* SECTION TITLE */}
+      <div className="flex-center flex-col pb-10 text-center">
+        <Heading3>Testimonials</Heading3>
+        <Heading2 className="capitalize">
+          We are loved by our <span>Customers</span>
+        </Heading2>
+      </div>
+      {/* Testimonial slider */}{" "}
+      <div className="max-w-full max-md:pt-4">
+        <div className="embla__viewport" ref={emblaRef}>
+          <div className="ml-[-20px] flex">
+            {Array(6)
+              .fill(0)
+              .map((_, i) => (
+                <div key={i} className="embla__slide w-full pl-[20px]">
+                  <div className="flex">
+                    <div className="flex-center  w-[100vw] flex-col text-center">
+                      <IoMdQuote className="rotate-180 text-[60px] text-purple-500" />
+                      <p className="text-xl leading-loose max-sm:text-base">
+                        Lorem ipsum dolor, sit amet consectetur adipisicing
+                        elit. Perferendis officia nostrum libero veritatis nisi
+                        quasi ullam tenetur nobis odio debitis! Deserunt, ipsum
+                        provident illo illum tempora at architecto? Voluptas,
+                        sint!
+                      </p>
+                      <div className="flex-center gap-4 pt-10">
+                        <div className="relative h-20 w-20 overflow-hidden rounded-full">
+                          <Image
+                            src={
+                              "/sites/real-estate/demo-real-estate-slider-01.jpg"
+                            }
+                            fill
+                            alt="Picture of the author"
+                          />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                          <div className="font-bold">Jacob Daniels</div>
+                          <div className="opacity-70">CEO, Company</div>
                         </div>
                       </div>
                     </div>
-                  ))}
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div className="relative flex gap-4 pt-10">
-              <Button
-                onClick={onPrevButtonClick}
-                disabled={prevBtnDisabled}
-                variant={"outline"}
-                className="h-20 w-20 min-w-0 rounded-full   text-[20px]  "
-              >
-                <FaArrowLeft />
-              </Button>
-              <Button
-                onClick={onNextButtonClick}
-                disabled={nextBtnDisabled}
-                variant={"outline"}
-                className="h-20 w-20  min-w-0   rounded-full   text-[20px]  "
-              >
-                <FaArrowRight />
-              </Button>
-            </div>
+              ))}
           </div>
         </div>
-      </>
-    </>
+      </div>
+      <div className="absolute flex w-full gap-4 pt-10  text-[40px] text-white">
+        <span
+          onClick={onPrevButtonClick}
+          className="absolute left-[-6em] h-20 w-20 cursor-pointer rounded-full bg-transparent   text-white"
+        >
+          <BsArrowLeft />
+        </span>
+        <span
+          onClick={onNextButtonClick}
+          className="absolute  right-[-6em] h-20 w-20  cursor-pointer  rounded-full bg-transparent    text-white"
+        >
+          <BsArrowRight />
+        </span>
+      </div>
+    </div>
   );
 }
 function CTASection() {
