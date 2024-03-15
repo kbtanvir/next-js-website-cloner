@@ -7,7 +7,6 @@ import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import { CiCreditCard1 } from "react-icons/ci";
 import { FaArrowRight } from "react-icons/fa";
 import { IoMdQuote } from "react-icons/io";
-import { IoCheckmark } from "react-icons/io5";
 import {
   MdMobileFriendly,
   MdOutlineSecurity,
@@ -17,7 +16,7 @@ import { useEmbla } from "../../../hooks/useEmbla";
 import { Button } from "../components/button";
 import { Slider } from "../components/slider";
 import { Text } from "../components/text";
-import { Heading2, Heading3, PrimaryButton, colors } from "../theme";
+import { Heading2, Heading3, colors } from "../theme";
 import { Contactform } from "./GenerationForm";
 
 function CountDown({
@@ -55,7 +54,7 @@ function CountDown({
   }, []);
 
   return (
-    <div className="flex w-full justify-center gap-8 pt-10">
+    <div className="grid w-full grid-cols-4 gap-8 pt-10 max-md:gap-4">
       {[
         {
           text: "Days",
@@ -80,10 +79,10 @@ function CountDown({
       ].map((item, i) => (
         <div
           key={i}
-          className="flex flex-col items-center gap-1 rounded-lg bg-gray-800/50 px-10 py-4"
+          className="flex flex-col items-center gap-1 rounded-lg bg-gray-800/50 px-10 py-4 max-md:px-4 "
         >
           <Text
-            className={cn(`text-[35px] font-bold max-sm:text-[24px]`)}
+            className={`text-[35px] font-bold max-md:text-[28px] max-sm:text-[24px]`}
             style={{
               color: item.color,
             }}
@@ -328,96 +327,6 @@ function TestimonialSection() {
   );
 }
 
-function PricingSection() {
-  return (
-    <div
-      id="pricing"
-      className="section-box-w section-py flex flex-row-reverse gap-10 pt-0   max-xl:flex-col-reverse"
-    >
-      {/* Image */}
-      <div className="grid w-full max-w-full grid-cols-2 gap-10 max-[600px]:grid-cols-1 max-sm:gap-4">
-        {[
-          {
-            title: "Silver Pack",
-            desc: "Great for private individuals",
-            price: 99,
-            features: ["1 User", "Unlimited Projects", "Download prototypes"],
-          },
-          {
-            title: "Gold Pack",
-            desc: "Great for small teams",
-            price: 199,
-            features: ["5 Users", "Unlimited Projects", "Download prototypes"],
-          },
-        ].map((item, i) => (
-          <div
-            key={i}
-            className="flex w-full  flex-col place-items-center gap-10 rounded-xl bg-black   px-4 py-10 max-sm:p-10"
-          >
-            <div className="flex flex-col items-center gap-4 text-center">
-              <h4 className="text-2xl font-bold"> {item.title}</h4>
-              <Text> {item.desc}</Text>
-            </div>
-            <div className="relative flex items-end">
-              <div className="absolute left-[-1em] top-0 text-lg">$</div>
-              <div className="text-[60px] font-bold leading-tight max-sm:text-[44px]">
-                {item.price}
-              </div>
-              <div className="relative bottom-3 left-2 text-base font-bold">
-                /Mo
-              </div>
-            </div>
-            <div className="flex flex-col gap-4 text-center">
-              {item.features.map((feature, i) => (
-                <Text key={i}>{feature}</Text>
-              ))}
-            </div>
-            <div className="content-end">
-              <PrimaryButton>Get started</PrimaryButton>
-            </div>
-          </div>
-        ))}
-      </div>
-      {/* Text box */}
-      <div className="flex  flex-col gap-4  max-[1300px]:max-w-[50em]">
-        <Heading3>FLEXIBLE & AFFORDABLE</Heading3>
-        <Heading2>Our Pricing Plans</Heading2>
-        <Text>
-          Adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Ut enim ad minim veniam, quis.
-        </Text>
-        <div className="flex w-full flex-col flex-wrap  gap-10 pt-14  ">
-          {[
-            {
-              text: "10,000+ people trusting our models.",
-              desc: "Adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis.",
-              icon: <IoCheckmark />,
-            },
-            {
-              text: "No hidden fees or extra charges",
-              desc: "Adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis.",
-              icon: <IoCheckmark />,
-            },
-          ].map((item, i) => (
-            <div
-              key={i}
-              className="flex flex-wrap  items-start gap-6 max-sm:flex-col"
-            >
-              <div className="relative size-10 max-w-[80px]   overflow-hidden rounded-[100%] text-[40px] text-purple-500">
-                <IoCheckmark />
-              </div>
-              <div className="flex flex-1 flex-col gap-4">
-                <div className="font-bold">{item.text}</div>
-                <Text>{item.desc}</Text>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function CTASection() {
   return (
     <>
@@ -448,8 +357,8 @@ function AboutSection() {
             </div>
           </div>
           {/* Text box */}
-          <div className="flex flex-col justify-center gap-10 max-md:w-full">
-            <Heading3>WHO WE ARE</Heading3>
+          <div className="flex flex-col justify-center gap-10 max-md:w-full max-md:text-center">
+            <Heading3 className="max-md:justify-center  ">WHO WE ARE</Heading3>
             <Heading2>
               The World’s <span>1st ICO</span> Platform That Offers Rewards
             </Heading2>
@@ -459,13 +368,13 @@ function AboutSection() {
               helps investors to make easy to purchase and sell their tokens
             </Text>
 
-            <div className="max-sm:item-start flex w-full flex-wrap items-center gap-5 self-start   max-md:pt-5   max-sm:justify-start">
+            <div className="max-sm:item-start flex w-full flex-wrap items-center gap-5 self-start   max-md:justify-center   max-md:pt-5">
               <Button>Purchase token</Button>
             </div>
           </div>
         </div>
         {/* PARTNERS */}
-        <div className="flex w-full flex-col items-center justify-stretch gap-10  ">
+        <div className="flex w-full flex-col items-center justify-stretch gap-10 max-md:pt-20  ">
           <Heading3>Our Top Partners</Heading3>
           <div className="grid w-full grid-cols-5 flex-wrap   pt-10 max-md:grid-cols-3 max-sm:grid-cols-2">
             {[
@@ -602,10 +511,12 @@ function AboutSection() {
               },
             ].map((item, i) => (
               <div
-                className="relative grid w-full  place-items-center gap-6 border-b-[1px] border-r-[1px] border-white/30  py-4  transition-all duration-300 ease-in-out last:border-r-0 hover:opacity-100 [&:nth-child(5)]:border-r-0 [&:nth-child(n+6)]:border-b-0"
+                className="relative grid w-full  place-items-center gap-6 border-b-[1px] border-r-[1px] border-white/30  py-4  transition-all duration-300 ease-in-out last:border-r-0 hover:opacity-100 max-md:border-none [&:nth-child(5)]:border-r-0 [&:nth-child(n+6)]:border-b-0"
                 key={i}
               >
-                <div className="relative size-[130px]">{item.icon}</div>
+                <div className="relative size-[130px] max-md:size-[100px]">
+                  {item.icon}
+                </div>
               </div>
             ))}
           </div>
@@ -686,7 +597,7 @@ function RoadmapSection() {
     <>
       <div className="section-py section-px grid">
         {/* SECTION TITLE */}
-        <div className="flex-center flex-col">
+        <div className="flex-center flex-col text-center mb-[-50px]">
           <Heading3>OUR ROADMAP</Heading3>
           <Heading2>
             Bigtech Strategy And Project <span>Plan</span>

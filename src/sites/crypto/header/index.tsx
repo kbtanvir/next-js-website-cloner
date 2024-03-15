@@ -31,10 +31,6 @@ function NavLinks() {
           text: "Roadmap",
           url: "#roadmap",
         },
-        {
-          text: "Contact us",
-          url: "#contact",
-        },
       ].map((item, i) => (
         <Link href={item.url} key={i}>
           <LinkText
@@ -71,7 +67,7 @@ export default function MainHeader() {
               <RiMenu2Line />
             </DrawerTrigger>
             <DrawerContent className="h-full max-w-lg rounded-none border-none bg-gray-800 px-6 py-6 text-white [&>.bg-muted]:hidden">
-              <DrawerClose className="absolute right-6 top-6 ">
+              <DrawerClose className="absolute right-6 top-8 ">
                 <Button
                   variant={"outline"}
                   className={`size-10 min-w-0 bg-transparent p-0  text-[30px] text-white ${classes.textHoverColor} hover:bg-transparent ${classes.ringColor}`}
@@ -91,20 +87,20 @@ export default function MainHeader() {
                     <NavLinks />
                   </div>
                   <Link href={Paths.cart.path} className="relative">
-                    <PrimaryButton>Get Started</PrimaryButton>
+                    <Button>Get Started</Button>
                   </Link>
                 </span>
               </DrawerHeader>
             </DrawerContent>
           </Drawer>
 
-          <div className="flex w-full flex-wrap items-center justify-between gap-5 pr-3 max-[850px]:hidden">
+          <div className="flex w-full items-center justify-between gap-5 pr-3 max-[850px]:hidden">
             {/* desktop nav */}
             <span className="my-auto flex gap-10 self-start justify-self-start max-md:max-w-full max-md:flex-wrap">
               <NavLinks />
             </span>
             <Link href={Paths.cart.path} className="relative">
-              <PrimaryButton>Get Started</PrimaryButton>
+              <Button>Get Started</Button>
             </Link>
           </div>
         </div>
