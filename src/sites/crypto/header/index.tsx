@@ -9,7 +9,7 @@ import { Paths } from "@/lib/const/navigation";
 import Link from "next/link";
 import { RiCloseLine, RiMenu2Line } from "react-icons/ri";
 import { Button } from "../components/button";
-import { LinkText, PrimaryButton, classes } from "../theme";
+import { LinkText, classes } from "../theme";
 
 function NavLinks() {
   return (
@@ -56,7 +56,7 @@ export default function MainHeader() {
             href={Paths.home.path}
             className="text-nowrap text-[30px] font-light uppercase max-md:self-start max-md:text-2xl"
           >
-            AIMA
+            Crypto
           </Link>
         </div>
 

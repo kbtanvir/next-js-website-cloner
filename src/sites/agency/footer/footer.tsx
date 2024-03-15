@@ -1,7 +1,7 @@
 import { Paths } from "@/lib/const/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { LinkText } from "../theme";
+import { LinkText, classes } from "../theme";
 
 const footerCompanyNavLinks = [
   {
@@ -61,7 +61,7 @@ function FooterTop() {
         <div className="text-xl font-bold leading-7 text-gray-800">Company</div>
         <div className="mt-8 grid gap-4">
           {footerCompanyNavLinks.map((item, index) => (
-            <div key={index} className="text-sm text-gray-800">
+            <div key={index} className="text-gray-800">
               <LinkText>{item.title}</LinkText>
             </div>
           ))}
@@ -74,7 +74,7 @@ function FooterTop() {
         </div>
         <div className="mt-8 grid gap-5">
           {footerQuickLinks.map((item, index) => (
-            <div key={index} className="text-sm text-gray-800">
+            <div key={index} className="text-gray-800">
               <LinkText>{item.title}</LinkText>
             </div>
           ))}
@@ -84,11 +84,11 @@ function FooterTop() {
       <span className="col-span-2 flex flex-1 flex-col max-lg:col-start-5 max-lg:col-end-7">
         <div className="text-xl font-bold leading-7 text-gray-800">Contact</div>
         <div className="mt-8 grid gap-5">
-          <div className="text-sm text-gray-800">+880 555 555 555</div>
-          <div className="text-sm text-gray-800">
-            123, New Eskaton Road, Dhaka
+          <div className={`text-2xl  font-semibold ${classes.textColor}`}>
+            +880 555 555 555
           </div>
-          <div className="text-sm text-gray-800">Bangladesh</div>
+          <div className="text-gray-800">123, New Eskaton Road, Dhaka</div>
+          <div className="text-gray-800">Bangladesh</div>
         </div>
       </span>
       {/* <div className="flex-1"></div> */}

@@ -13,7 +13,7 @@ const buttonVariants = cva(
 
         outline: `h-[50px] max-sm:max-h-[40px] max-sm:px-4 max-sm:text-sm max-sm:max-w-auto min-w-[200px] text-black rounded-full bg-transparent px-5 font-bold uppercase ring-[3px] ${classes.ringColor} hover:bg-slate-900 hover:text-white [&>.icon]:hover:text-white flex-center gap-2 max-sm:min-w-[180px]`,
 
-        icon: `flex-center size-12 max-sm:size-10 rounded-[100%] bg-transparent hover:bg-slate-900 hover:text-white  p-0 ring-[3px] ${classes.ringColor} bg-black text-[30px]   px-0 py-0   max-sm:text-xl   hover:text-black`,
+        icon: `flex-center size-12 max-sm:size-10 rounded-[100%] bg-transparent hover:bg-transparent text-white  p-0 ring-[3px] ${classes.ringColor} bg-black text-[30px]   px-0 py-0   max-sm:text-xl   hover:text-black`,
 
         link: `${classes.textHoverColor}  text-base `,
       },

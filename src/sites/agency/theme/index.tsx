@@ -13,7 +13,7 @@ export const colors = {
 export const classes = {
   textColor: `text-[#12D176]`,
   span: `[&>span]:text-[#12D176] [&>span]:underline [&>span]:font-bold`,
-  textHoverColor: `hover:text-[#00904a]`,
+  textHoverColor: `hover:text-[#12D176]`,
   bgColor: `bg-[#12D176]`,
   hoverBg: `hover:bg-[#12D176]`,
   ringColor: `ring-[#12D176]`,
