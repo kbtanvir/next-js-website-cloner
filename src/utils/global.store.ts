@@ -18,6 +18,7 @@ export type GlobalStore = {
   cartTotal: number;
   showSidebar: boolean;
   featuredProductActiveTab: (typeof featuredProductActiveTab)[number];
+  navBarFixed: boolean;
 };
 
 export const initialStore: GlobalStore = {
@@ -32,6 +33,7 @@ export const initialStore: GlobalStore = {
   cartTotal: 0,
   showSidebar: true,
   featuredProductActiveTab: "createdAt",
+  navBarFixed: false,
 };
 
 export const globalStore = createStore(initialStore);

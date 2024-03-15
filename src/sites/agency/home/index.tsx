@@ -9,65 +9,67 @@ import {
 } from "react-icons/fa";
 import { useEmblaNavigation } from "../../../hooks/useEmbla";
 
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/ui/carousel";
 import { Input } from "@/components/ui/input";
 import { siteNavigation } from "@/lib/const/navigation";
+import { globalStore } from "@/utils/global.store";
+import { useInView } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 import { GiIdea } from "react-icons/gi";
 import { Button } from "../components/button";
 import { Text } from "../components/text";
 import { Heading2, Heading3, LinkText, classes } from "../theme";
 
 function WelcomeSection() {
+  const ref = useRef(null);
+  const isInView = useInView(ref);
+
+  useEffect(() => {
+    globalStore.setNavBarFixed(!isInView);
+  }, [isInView]);
+
   return (
-    <Carousel className=" w-full ">
-      <CarouselContent>
-        <CarouselItem className="section-box-w relative h-[60vh] max-md:h-[50vh] max-sm:h-[40vh]">
-          {/* image */}
-          <div className="relative z-0 h-full">
-            <div className="absolute top-0 z-10 h-full w-full  bg-gradient-to-l from-black/5 to-gray-900 mix-blend-multiply"></div>
-            <Image
-              src={`${siteNavigation.agency.home.path}/welcome.png`}
-              fill
-              alt="Picture of the author"
-              className="z-0 object-cover"
-            />
-          </div>
-          <div
-            className={`section-box-w max-md:flex-center absolute top-0 z-20 grid h-full cursor-pointer items-start gap-5 overflow-hidden max-md:gap-0 max-md:pt-20`}
-          >
-            <div className="flex h-full w-full flex-col justify-center gap-4 bg-opacity-50">
-              <Heading3 className="text-white">
-                GROW YOUR BUSINESS WITH US
-              </Heading3>
+    <div
+      ref={ref}
+      className="  relative grid h-[80vh] w-full max-md:h-[50vh] max-sm:h-[40vh]"
+    >
+      {/* image */}
+      <div className="absolute left-0 top-0 z-0 h-full w-full">
+        <div className="relative h-full">
+          <div className="absolute top-0 z-10 h-full w-full  bg-gradient-to-l from-black/5 to-gray-900 mix-blend-multiply" />
+          <Image
+            src={`${siteNavigation.agency.home.path}/welcome.png`}
+            fill
+            alt="Picture of the author"
+            className="z-0 object-cover"
+          />
+        </div>
+      </div>
+      <div
+        className={`section-box-w max-md:flex-center relative top-0 z-10 flex  h-full cursor-pointer items-start gap-5 bg-transparent max-md:gap-0 max-md:pt-20`}
+      >
+        <div className="flex h-full w-full flex-col justify-center gap-4 bg-opacity-50">
+          <Heading3 className="text-white">GROW YOUR BUSINESS WITH US</Heading3>
 
-              <Heading2 className="max-w-[600px] text-white">
-                We craft the <span className="font-bold">most unique </span>
-                business ideas.
-              </Heading2>
+          <Heading2 className="max-w-[600px] text-white">
+            We craft the <span className="font-bold">most unique </span>
+            business ideas.
+          </Heading2>
 
-              <div className="flex gap-4 max-md:flex-wrap">
-                <Link href={siteNavigation.agency.home.path}>
-                  <Button className="mt-2 text-white     ">
-                    Schedule Visit
-                  </Button>
-                </Link>
-                <Link href={siteNavigation.agency.home.path}>
-                  <Button className="mt-2 text-white" variant="outline">
-                    View details
-                  </Button>
-                </Link>
-              </div>
-            </div>
+          <div className="flex gap-4 max-md:flex-wrap">
+            <Link href={siteNavigation.agency.home.path}>
+              <Button className="mt-2 text-white     ">Schedule Visit</Button>
+            </Link>
+            <Link href={siteNavigation.agency.home.path}>
+              <Button className="mt-2 text-white" variant="outline">
+                View details
+              </Button>
+            </Link>
           </div>
-        </CarouselItem>
-      </CarouselContent>
-    </Carousel>
+        </div>
+      </div>
+    </div>
   );
 }
 function OfferingsCards() {

@@ -1,5 +1,5 @@
 import { FooterSection } from "../footer/footer";
-import MainHeader from "../header";
+import Header from "../header";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -8,7 +8,7 @@ interface LayoutProps {
 export function AgencyLayout({ children }: LayoutProps) {
   return (
     <>
-      <MainHeader />
+      <Header />
       <>{children}</>
       <FooterSection />
     </>
