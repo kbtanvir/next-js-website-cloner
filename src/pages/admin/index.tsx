@@ -1,7 +1,7 @@
 import AdminLayout from "@/sites/admin/layouts/AdminLayout";
 import Link from "next/link";
 
-const adminRoutes = ["users", "products", "taxonomy"];
+const adminRoutes = [ "products", "taxonomy"];
 const publicRoutes = ["sites/site1"];
 
 export default function Page() {
