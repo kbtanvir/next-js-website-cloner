@@ -60,6 +60,7 @@ export const siteNavigation = {
   ecommerce: makeNavigation("/sites/eshopper"),
   aiImageGen: makeNavigation("/sites/ai-image-gen"),
   realEstate: makeNavigation("/sites/real-estate"),
+  admin: makeNavigation("/admin"),
   crypto: makeNavigation("/sites/crypto"),
   agency: makeNavigation("/sites/agency"),
 };
