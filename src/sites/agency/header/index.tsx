@@ -85,7 +85,7 @@ function HeaderElements() {
                 <div className="my-auto grid">
                   <NavLinks />
                 </div>
-                <Link href={Paths.cart.path} className="relative">
+                <Link href={"#"} className="relative">
                   <Button>Get Started</Button>
                 </Link>
               </span>
@@ -98,7 +98,7 @@ function HeaderElements() {
           <span className="my-auto flex gap-10 self-start justify-self-start max-md:max-w-full max-md:flex-wrap">
             <NavLinks />
           </span>
-          <Link href={Paths.cart.path} className="relative">
+          <Link href={"#"} className="relative">
             <Button>Get a Free Quote</Button>
           </Link>
         </div>

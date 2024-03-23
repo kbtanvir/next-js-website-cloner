@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/carousel";
 import { type IProduct } from "@/features/shop/model";
 import { ProductItem } from "@/features/shop/view/ProductItem";
-import { Paths } from "@/lib/const/navigation";
+import { Paths, siteNavigation } from "@/lib/const/navigation";
 import { api } from "@/utils/api";
 import { globalStore, useGlobalStore } from "@/utils/global.store";
 import Autoplay from "embla-carousel-autoplay";
@@ -17,6 +17,60 @@ import { FaArrowRight } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
 import { offeringCardsDemoList } from "../../../features/home/model/demo";
 import { Heading2, Heading3 } from "../theme";
+
+function WelcomeSection() {
+  return (
+    <div className="relative grid min-h-[500px] items-center bg-emerald-200">
+      <div className="absolute right-10 top-10 animate-wiggle ">
+        <Image
+          className="opacity-10 bg-blend-overlay"
+          src={"/images/orange.png"}
+          width={100}
+          height={100}
+          alt="Picture of the author"
+        />
+      </div>
+      <div className="absolute bottom-10 left-10 animate-wiggle-lr z-0">
+        <Image
+          className="opacity-10 bg-blend-overlay"
+          src={"/images/salad.png"}
+          width={100}
+          height={100}
+          alt="Picture of the author"
+        />
+      </div>
+      <div className="section-box-w section-px section-py mx-auto flex w-full flex-row-reverse justify-between gap-10 py-20 max-md:flex-col relative z-10 max-md:items-center max-md:gap-0">
+        <div className="relative max-md:size-[200px] ">
+          <Image
+            className="relative z-10 bg-blend-overlay"
+            src={"/images/foodts.png"}
+            width={600}
+            height={600}
+            alt="Picture of the author"
+          />
+        </div>
+        <div className="animation flex max-w-[550px] flex-col justify-center gap-5 max-md:items-center max-md:text-center">
+          <h5 className="flex gap-4 text-[20px] font-semibold max-md:text-base ">
+            <span className="font-bold text-emerald-500 underline underline-offset-4 ">
+              100%
+            </span>
+            Organic Fruits
+          </h5>
+          <h1 className="text-[34px] font-bold max-md:text-2xl max-sm:text-lg">
+            Explore fresh &amp; juicy fruits.
+          </h1>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet
+            reiciendis beatae consequuntur.
+          </p>
+          <Link href={Paths.shop.path}>
+            <Button className="mt-4 bg-emerald-500">Shop now</Button>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function DiscountSlider() {
   const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
@@ -244,7 +298,7 @@ function OfferingsCards() {
         {offeringCardsDemoList.map((item, i) => (
           <div
             key={i}
-            className="grid min-h-[150px]   justify-center gap-2 rounded-lg bg-gray-100 p-8 "
+            className="grid min-h-[150px]   justify-center gap-2 rounded-lg bg-gray-100 p-8 hover:shadow-lg hover:bg-white hover:border-emerald-600 hover:text-emerald-600 transition-all duration-300 ease-in-out cursor-pointer hover:translate-y-[-10px]  "
           >
             <div className={`text-[50px] text-emerald-600`}>{item.icon}</div>
             <h3 className="pt-3 font-bold">{item.title}</h3>
@@ -319,77 +373,26 @@ function CategoryCards() {
             bg: "bg-yellow-100",
           },
         ].map((item, i) => (
-          <div
+          <Link
+            href={siteNavigation.ecommerce.shop.path}
             key={i}
-            className="grid  min-h-[150px] items-center justify-center gap-2 rounded-lg bg-gray-100 p-8 text-center"
+            className="grid min-h-[150px] items-center justify-center gap-2 rounded-lg bg-gray-100 p-8 text-center transition duration-300 ease-in-out [&>.icon]:hover:scale-110 [&>.icon]:hover:border-emerald-600  hover:translate-y-[-10px] hover:shadow-lg hover:bg-white hover:border-emerald-600 hover:text-emerald-600"
           >
             <div
-              className={`flex-center relative mt-[-80px] size-[100px] rounded-full border-[10px] border-white text-[50px] max-md:mt-0 max-md:size-[70px] max-md:border-[5px] ${item.bg}`}
+              className={`icon flex-center relative mt-[-80px] size-[100px] rounded-full border-[10px] border-white text-[50px] max-md:mt-0 max-md:size-[70px] max-md:border-[5px] ${item.bg} transition duration-300 ease-in-out`}
             >
               {item.icon}
             </div>
             <h3 className="pt-3 font-bold">{item.title}</h3>
             <h3>({item.count} Items)</h3>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
   );
 }
 
-function WelcomeSection() {
-  return (
-    <div className="relative grid min-h-[500px] items-center bg-emerald-200">
-      <div className="absolute right-10 top-10 animate-wiggle ">
-        <Image
-          className="opacity-10 bg-blend-overlay"
-          src={"/images/orange.png"}
-          width={100}
-          height={100}
-          alt="Picture of the author"
-        />
-      </div>
-      <div className="absolute bottom-10 left-10 animate-wiggle-lr">
-        <Image
-          className="opacity-10 bg-blend-overlay"
-          src={"/images/salad.png"}
-          width={100}
-          height={100}
-          alt="Picture of the author"
-        />
-      </div>
-      <div className="section-box-w section-px section-py mx-auto flex w-full flex-row-reverse justify-between gap-10 py-20 max-md:flex-col max-md:items-center max-md:gap-0">
-        <div className="relative max-md:size-[200px] ">
-          <Image
-            className="relative z-10 bg-blend-overlay"
-            src={"/images/foodts.png"}
-            width={600}
-            height={600}
-            alt="Picture of the author"
-          />
-        </div>
-        <div className="animation flex max-w-[550px] flex-col justify-center gap-5 max-md:items-center max-md:text-center ">
-          <h5 className="flex gap-4 text-[20px] font-semibold max-md:text-base ">
-            <span className="font-bold text-emerald-500 underline underline-offset-4 ">
-              100%
-            </span>
-            Organic Fruits
-          </h5>
-          <h1 className="text-[34px] font-bold max-md:text-2xl max-sm:text-lg">
-            Explore fresh &amp; juicy fruits.
-          </h1>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet
-            reiciendis beatae consequuntur.
-          </p>
-          <Link href={Paths.shop.path}>
-            <Button className="mt-4 bg-emerald-500">Shop now</Button>
-          </Link>
-        </div>
-      </div>
-    </div>
-  );
-}
+
 
 export default function View() {
   return (

@@ -21,7 +21,8 @@ import { Input } from "@/components/ui/input";
 import { siteNavigation } from "@/lib/const/navigation";
 import Image from "next/image";
 import { IoBedOutline } from "react-icons/io5";
-import { imageRoute } from "../../../pages/sites/real-estate";
+
+import { faker } from "@faker-js/faker";
 import { Button } from "../components/button";
 import { Text } from "../components/text";
 import { Heading2, Heading3, classes } from "../theme";
@@ -30,21 +31,29 @@ function WelcomeSliderItem({
   item,
 }: {
   item: {
-    title: string;
-    discount: string;
+    bed: string;
+    parking: string;
+    baths: string;
+    price: string;
     bg: string;
   };
 }) {
   return (
-    <CarouselItem className="relative h-[100vh] max-md:h-[75vh]">
-      <Image
-        src={`${imageRoute}/demo-real-estate-slider-01.jpg`}
-        fill
-        alt="Picture of the author"
-        className="z-0 object-cover"
-      />
+    <CarouselItem className="relative h-[100vh]  ">
+      {/* image */}
+      <div className="absolute left-0 top-0 z-0 h-full w-full">
+        <div className="relative h-full">
+          <div className="absolute top-0 z-10 h-full w-full  bg-gradient-to-l from-slate-900/5 to-gray-900 mix-blend-multiply" />
+          <Image
+            src={`${siteNavigation.realEstate.home.path}/${item.bg}`}
+            fill
+            alt=""
+            className="z-0 object-cover"
+          />
+        </div>
+      </div>
       <div
-        className={`${item.bg} section-box-w  grid cursor-pointer items-start gap-5 overflow-hidden max-md:gap-0`}
+        className={`section-box-w  grid cursor-pointer items-start gap-5 overflow-hidden max-md:gap-0`}
       >
         <div className="absolute z-10 flex h-full w-full flex-col justify-center gap-4 bg-opacity-50 max-sm:pb-[16vh]">
           <h3 className="text-base text-white">Some location in the city</h3>
@@ -52,9 +61,14 @@ function WelcomeSliderItem({
             <span className="mb-[-20px] font-light max-sm:mb-0">Luxurious</span>
             <span className="font-bold">Mension</span>
           </h2>
-          <div className="flex flex-wrap gap-4">
-            <Button className="mt-2">Schedule Visit</Button>
-            <Button className="mt-2 text-white" variant="outline">
+          <div className="flex flex-wrap gap-4 ">
+            <Button className="mt-2 bg-white text-slate-900 ring-white hover:bg-slate-900 hover:text-white hover:ring-slate-900 max-sm:min-w-0">
+              Schedule Visit
+            </Button>
+            <Button
+              className="mt-2 text-white ring-white hover:ring-slate-900 max-sm:min-w-0"
+              variant="outline"
+            >
               View details
             </Button>
           </div>
@@ -65,23 +79,20 @@ function WelcomeSliderItem({
             {[
               {
                 icon: <IoBedOutline />,
-                title: "3 Beds",
-                price: "1000",
+                title: `${item.bed} Beds`,
               },
               {
                 icon: <PiBathtubLight />,
-                title: "3 Baths",
-                price: "1000",
+                title: `${item.baths} Baths`,
               },
               {
                 icon: <IoCarSportOutline />,
-                title: "3 Parking",
-                price: "1000",
+                title: `${item.parking} Parking`,
               },
             ].map((conv, index) => (
               <div
                 key={index}
-                className="grid place-items-center items-center gap-2 px-5  text-black first:pl-0 last:pr-0"
+                className="grid place-items-center items-center gap-2 px-5  text-slate-900 first:pl-0 last:pr-0"
               >
                 <div className="text-[40px]">{conv.icon}</div>
                 <div className="text-[14px]">{conv.title}</div>
@@ -90,7 +101,9 @@ function WelcomeSliderItem({
           </div>
           <div className="grid place-items-center gap-2 max-sm:place-items-start">
             For sell price
-            <div className="text-3xl font-bold max-sm:text-xl">$100000</div>
+            <div className="text-3xl font-bold max-sm:text-xl">
+              ${item.price}
+            </div>
           </div>
         </div>
       </div>
@@ -110,9 +123,18 @@ function WelcomeSection() {
       <CarouselContent>
         {[
           {
-            title: "Fresh & Healthy Backery",
-            discount: "35%",
-            bg: "bg-red-100",
+            bed: "4",
+            parking: "2",
+            baths: "3",
+            bg: "ws1.jpg",
+            price: "600,000",
+          },
+          {
+            bed: "5",
+            parking: "3",
+            baths: "4",
+            price: "1,200,000",
+            bg: "ws2.jpg",
           },
         ].map((item, index) => (
           <WelcomeSliderItem key={index} item={item} />
@@ -259,7 +281,9 @@ function PropertyListCard() {
         {/* THUMBNAIL */}
         <div className="relative h-[260px]">
           <Image
-            src={"/sites/real-estate/demo-real-estate-slider-01.jpg"}
+            src={faker.image.urlLoremFlickr({
+              category: "house",
+            })}
             alt="Picture of the author"
             fill
           />
@@ -301,7 +325,7 @@ function PropertyListCard() {
           ].map((conv, index) => (
             <div
               key={index}
-              className="flex flex-col flex-wrap gap-2 text-black first:pl-0 last:pr-0"
+              className="flex flex-col flex-wrap gap-2 text-slate-900 first:pl-0 last:pr-0"
             >
               <div className="text-[24px]">{conv.icon}</div>
               <div className="text-base font-bold">{conv.amount}</div>
@@ -340,7 +364,7 @@ function PropertyListSection() {
             <Button variant="link" className="flex-center m-0 gap-2">
               View all properties{" "}
               <span
-                className={`flex-center ${classes.ringColor} ml-4 size-10 rounded-[100%] bg-black bg-transparent  p-0 px-0 py-0 text-[20px] text-black ring-[3px]  hover:bg-slate-900  hover:text-white max-sm:size-10 max-sm:text-xl`}
+                className={`flex-center ${classes.ringColor} ml-4 size-10 rounded-[100%] bg-slate-900 bg-transparent  p-0 px-0 py-0 text-[20px] text-slate-900 ring-[3px]  hover:bg-slate-900  hover:text-white max-sm:size-10 max-sm:text-xl`}
               >
                 <FaArrowRight />
               </span>
@@ -370,7 +394,7 @@ function WhyUs1Section() {
         <div className="w-full max-w-[500px] max-md:max-w-full">
           <div className=" relative h-[600px] max-md:h-[300px]">
             <Image
-              src={"/sites/real-estate/demo-real-estate-slider-01.jpg"}
+              src={`${siteNavigation.realEstate.home.path}/ab1.png`}
               fill
               alt="Picture of the author"
               className="z-0 object-cover"
@@ -395,7 +419,7 @@ function WhyUs1Section() {
                 desc: "Browse millions of properties in your city save your favorites.",
                 icon: (
                   <Image
-                    src={`${imageRoute}/loan.png`}
+                    src={`${siteNavigation.realEstate.home.path}/loan.png`}
                     alt=""
                     fill
                     className="object-cover"
@@ -407,7 +431,7 @@ function WhyUs1Section() {
                 desc: "Browse millions of properties in your city save your favorites.",
                 icon: (
                   <Image
-                    src={`${imageRoute}/satisfaction.png`}
+                    src={`${siteNavigation.realEstate.home.path}/satisfaction.png`}
                     alt=""
                     fill
                     className="object-cover"
@@ -446,7 +470,9 @@ function LocationSliderItem() {
     <div className="ml-10 flex max-sm:ml-4">
       <div className="relative  h-[485px] w-[360px] max-sm:h-[280px] max-sm:w-[200px]">
         <Image
-          src={"/sites/real-estate/demo-real-estate-slider-01.jpg"}
+          src={faker.image.urlLoremFlickr({
+            category: "city",
+          })}
           fill
           alt="Picture of the author"
           className="z-0 object-cover"
@@ -569,7 +595,7 @@ function TestimonialSection() {
           <div className="w-full max-w-[500px] max-md:max-w-full">
             <div className=" relative h-[600px] max-md:h-[300px]">
               <Image
-                src={"/sites/real-estate/demo-real-estate-slider-01.jpg"}
+                src={`${siteNavigation.realEstate.home.path}/testimonial.jpg`}
                 fill
                 alt="Picture of the author"
                 className="z-0 object-cover"
@@ -596,7 +622,7 @@ function TestimonialSection() {
                       desc: "I just bought a house with the help of this company. Thank you for your support and help with finding me a home. I am very happy with the service and the help, everything was perfect. Thank you very much.",
                       icon: (
                         <Image
-                          src={`${imageRoute}/loan.png`}
+                          src={`${siteNavigation.realEstate.home.path}/loan.png`}
                           alt=""
                           height={80}
                           width={80}
@@ -610,7 +636,7 @@ function TestimonialSection() {
                       desc: "I just bought a house with the help of this company. Thank you for your support and help with finding me a home. I am very happy with the service and the help, everything was perfect. Thank you very much.",
                       icon: (
                         <Image
-                          src={`${imageRoute}/loan.png`}
+                          src={`${siteNavigation.realEstate.home.path}/loan.png`}
                           alt=""
                           height={80}
                           width={80}
@@ -624,7 +650,7 @@ function TestimonialSection() {
                       desc: "I just bought a house with the help of this company. Thank you for your support and help with finding me a home. I am very happy with the service and the help, everything was perfect. Thank you very much.",
                       icon: (
                         <Image
-                          src={`${imageRoute}/loan.png`}
+                          src={`${siteNavigation.realEstate.home.path}/loan.png`}
                           alt=""
                           height={80}
                           width={80}
@@ -699,18 +725,15 @@ function CTASection() {
                 Social media its ways of our excellence.
               </Text>
             </div>
-            <div className="relative flex h-[62px] w-full max-w-[500px] items-center justify-between gap-4 rounded-full  bg-white px-2 max-sm:h-[54px]  ">
+            <div className="relative flex h-[62px] w-full max-w-[500px] items-center justify-between gap-4 rounded-md  bg-white px-2 max-sm:h-[54px]  ">
               <Input
                 type="text"
                 placeholder="Enter your email"
-                className="rounded-md border-none  px-8 text-black max-sm:px-4 max-sm:text-[12px]"
+                className="rounded-md border-none  px-8 text-slate-900 max-sm:px-4 max-sm:text-[12px]"
               />
-              <Button
-                variant={"outline"}
-                className="min-w-34 right-2 ring-purple-500 max-md:min-w-0  max-sm:w-14 max-sm:min-w-0"
-              >
-                <FaRegEnvelope className="icon text-lg  text-purple-500 max-md:text-xl max-sm:text-base" />
-                <span className="max-md:hidden">Subscribe</span>
+              <Button className="min-w-34 right-2 gap-4 rounded-sm  bg-purple-600 ring-purple-600 hover:bg-slate-900 max-md:min-w-0 max-sm:w-14 max-sm:min-w-0">
+                <FaRegEnvelope className="icon text-lg  text-white max-md:text-xl max-sm:text-base" />
+                <span className="text-white max-md:hidden">Subscribe</span>
               </Button>
             </div>
           </div>

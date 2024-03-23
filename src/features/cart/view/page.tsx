@@ -27,7 +27,7 @@ function ProductGrid() {
   }, [cstate]);
 
   return (
-    <div className="mx-auto grid   w-full  grid-cols-10 gap-10 ">
+    <div className="mx-auto grid max-sm:flex max-sm:flex-col  w-full  grid-cols-10 place-items-start gap-10">
       {cart.length === 0 ? (
         <div className="border-rounded-lg flex-center  col-span-7 w-full gap-5 border-[20px]  border-gray-100 bg-gray-200 p-5 text-center   text-lg font-light max-lg:col-span-10">
           <IoBagOutline size="30" /> Your cart is empty
@@ -120,19 +120,19 @@ export function CartItem({ item }: { item: ICartItem }) {
           </div>
         </div>
         {/* qty input  */}
-        <div className="col-span-1 flex items-start gap-5 justify-self-end max-md:justify-self-start">
+        <div className="col-span-1 flex items-start gap-5 justify-self-end max-md:justify-self-start max-sm:col-span-2">
           <Button
-            className="flex aspect-square h-9 place-content-center rounded-lg bg-white  p-1.5 shadow-lg"
+            className="flex aspect-square h-9 place-content-center rounded-lg bg-white p-1.5  shadow-lg max-sm:p-0 [&>.icon]:text-black [&>.icon]:hover:text-white hover:bg-black cursor-pointer"
             onClick={() => cartService.removeFromCart({ id: item.id })}
           >
-            <Trash fontSize={25} color="black" />
+            <Trash className="icon transition-all" />
           </Button>
           <Input
             type="number"
             defaultValue={item.qty}
             onChange={debounce(handleQtyChange, 500)}
-            className="w-20 caret-transparent"
-            onKeyDown={(e) => e.preventDefault()}
+            // className="w-20 caret-transparent"
+            // onKeyDown={(e) => e.preventDefault()}
             min={0}
           />
         </div>
@@ -147,7 +147,7 @@ export function CartItem({ item }: { item: ICartItem }) {
 
 export function PageView() {
   return (
-    <div className="section-py section-box-w flex justify-between gap-10">
+    <div className="section-box-w flex justify-between gap-10 py-20 max-md:py-10">
       <ProductGrid />
     </div>
   );

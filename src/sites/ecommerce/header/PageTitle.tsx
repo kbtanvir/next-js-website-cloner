@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { OrderByOptions, type IOrderBy } from "@/features/shop/model";
 import { globalStore, useGlobalStore } from "@/utils/global.store";
-import { SortIcon } from "lib/icons";
+import { SortIcon } from "@/components/icons";
 import { FilterIcon } from "lucide-react";
 
 function formatOrderByText(orderBy: IOrderBy) {

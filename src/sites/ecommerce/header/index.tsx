@@ -5,7 +5,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useCartStore } from "@/features/cart/controller/store";
-import { Paths } from "@/lib/const/navigation";
+import { Paths, siteNavigation } from "@/lib/const/navigation";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -72,12 +72,13 @@ function MegaMenu() {
                       </h2>
                       <ul className="grid gap-4 max-[340px]:gap-2">
                         {items.map((item, i) => (
-                          <li
+                          <Link
+                          href={`${Paths.shop.path}?category=juice`}
                             key={i}
                             className="cursor-pointer text-sm text-zinc-500 hover:text-emerald-600 max-[340px]:text-[12px]"
                           >
                             {item}
-                          </li>
+                          </Link>
                         ))}
                       </ul>
                     </div>
@@ -104,17 +105,17 @@ export function NavigationSection() {
           {[
             {
               text: "Juices",
-              url: `${Paths.shop.path}?category=juice`,
+              url: `${siteNavigation.ecommerce.shop.path}?category=juice`,
               icon: <BiDrink />,
             },
             {
               text: "Fruits",
-              url: `${Paths.shop.path}?category=fruit`,
+              url: `${siteNavigation.ecommerce.shop.path}?category=fruit`,
               icon: <GiFruitBowl />,
             },
             {
               text: "Dairy",
-              url: `${Paths.shop.path}?category=cheese`,
+              url: `${siteNavigation.ecommerce.shop.path}?category=cheese`,
               icon: <GiSlicedBread />,
             },
           ].map((item, i) => (
@@ -178,7 +179,7 @@ export default function MainHeader() {
       className={`section-px section-box-w mx-auto flex items-center justify-between gap-20   py-10  max-lg:justify-between max-md:flex-wrap max-md:gap-5 max-md:py-5`}
     >
       <Link
-        href={Paths.home.path}
+        href={siteNavigation.ecommerce.home.path}
         className="text-nowrap max-md:order-1 max-md:self-start"
       >
         <div className="text-[30px]   font-light uppercase max-md:text-2xl">
@@ -196,9 +197,9 @@ export default function MainHeader() {
             <WishCount />
           </div>
         </Link> */}
-        <Link href={Paths.cart.path} className="relative">
+        <Link href={siteNavigation.ecommerce.cart.path} className="relative">
           <IoCartOutline size={30} />
-          <div className="absolute right-[-10px] top-[-8px] flex h-4  items-center justify-center rounded-full bg-blue-600 px-1 align-middle text-[10px] text-white">
+          <div className="absolute right-[-10px] top-[-8px] flex h-4  items-center justify-center rounded-full bg-emerald-600 px-1 align-middle text-[10px] text-white">
             {cTotal}
           </div>
         </Link>

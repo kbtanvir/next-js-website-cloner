@@ -1,6 +1,5 @@
 generator client {
-    provider        = "prisma-client-js"
-   
+    provider = "prisma-client-js"
 }
 
 datasource db {
@@ -63,6 +62,14 @@ enum Role {
     USER
     ADMIN
     SUPER_ADMIN
+}
+
+// @SECTION: Example Models
+// ------------------------------------------------------------ 
+
+model Example {
+    id    String @id @default(cuid())
+    title String
 }
 
 // @SECTION: Ecommerce Models
@@ -193,174 +200,3 @@ model Payment {
     @@index([orderId])
 }
 
-// @SECTION: CMS Models
-// ------------------------------------------------------------ 
-
-model Taxonomy {
-    id          String     @id @default(cuid())
-    name        String
-    description String?
-    parent      Taxonomy?  @relation("TaxonomyToTaxonomy", fields: [parentId], references: [id])
-    parentId    String?
-    children    Taxonomy[] @relation("TaxonomyToTaxonomy")
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    @@unique([name])
-    @@index([parentId])
-}
-
-model Site {
-    id        String   @id @default(cuid())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    header    Header   @relation(fields: [headerId], references: [id])
-    headerId  String
-    footer    Footer   @relation(fields: [footerId], references: [id])
-    footerId  String
-}
-
-model Header {
-    id          String   @id @default(cuid())
-    name        String
-    description String?
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
-    Site        Site[]
-}
-
-model Footer {
-    id          String   @id @default(cuid())
-    name        String
-    description String?
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
-    Site        Site[]
-}
-
-// @SECTION: Blog Models
-// ------------------------------------------------------------
-
-model Bookmark {
-    id         String    @id @default(cuid())
-    createdAt  DateTime  @default(now())
-    updatedAt  DateTime  @updatedAt
-    business   Resource? @relation(fields: [businessId], references: [id])
-    businessId String?
-
-    @@index([businessId])
-}
-
-model Resource {
-    id           String              @id @default(cuid())
-    name         String
-    createdAt    DateTime            @default(now())
-    updatedAt    DateTime            @updatedAt
-    logo         String?
-    coverImage   String?
-    gallery      String[]
-    l1           String?
-    l2           String?
-    l3           String?
-    l1Term       ProfessionCategory? @relation("ResourceL1Term", fields: [l1], references: [name])
-    l2Term       ProfessionCategory? @relation("ResourceL2Term", fields: [l2], references: [name])
-    l3Term       ProfessionCategory? @relation("ResourceL3Term", fields: [l3], references: [name])
-    info         PersonalInfo?       @relation(fields: [infoId], references: [id])
-    infoId       String?
-    rating       Float?
-    reviews      Review[]
-    reviewsCount Int?
-    source       Source?             @relation(fields: [sourceId], references: [id])
-    sourceId     String?
-    bookMark     Bookmark[]
-    owner        BusinessOwner?      @relation(fields: [ownerId], references: [id])
-    ownerId      String?
-
-    @@index([infoId])
-    @@index([sourceId])
-    @@index([ownerId])
-    @@index([l1])
-    @@index([l2])
-    @@index([l3])
-    @@index([name])
-}
-
-model BusinessOwner {
-    id             String        @id @default(cuid())
-    name           String
-    createdAt      DateTime      @default(now())
-    updatedAt      DateTime      @updatedAt
-    personalInfo   PersonalInfo? @relation(fields: [personalInfoId], references: [id])
-    personalInfoId String?
-    business       Resource[]
-
-    @@index([personalInfoId])
-}
-
-model Source {
-    id        String     @id @default(cuid())
-    name      String
-    logo      String?
-    createdAt DateTime   @default(now())
-    updatedAt DateTime   @updatedAt
-    business  Resource[]
-}
-
-model ProfessionCategory {
-    id         String   @id @default(cuid())
-    name       String   @unique
-    level      Int
-    coverImage String?
-    icon       String?
-    createdAt  DateTime @default(now())
-    updatedAt  DateTime @updatedAt
-    parentId   String?  @unique
-    locationId String?
-
-    rl1 Resource[] @relation("ResourceL1Term")
-    rl2 Resource[] @relation("ResourceL2Term")
-    rl3 Resource[] @relation("ResourceL3Term")
-
-    @@index([name])
-}
-
-model PersonalInfo {
-    id             String          @id @default(cuid())
-    createdAt      DateTime        @default(now())
-    updatedAt      DateTime        @updatedAt
-    name           String?
-    emails         String[]
-    phones         String[]
-    website        String?
-    address        String?
-    displayAddress String?
-    city           String?
-    state          String?
-    zip            String?
-    country        String?
-    longitude      Float?
-    latitude       Float?
-    business       Resource[]
-    businessOwner  BusinessOwner[]
-}
-
-model Review {
-    id         String    @id @default(cuid())
-    createdAt  DateTime  @default(now())
-    updatedAt  DateTime  @updatedAt
-    rating     Int
-    comment    String
-    business   Resource? @relation(fields: [businessId], references: [id])
-    businessId String?
-
-    @@index([businessId])
-}
-
-model YelpData {
-    id        String @id @default(cuid()) // Yelp Business ID
-    name      String
-    apiData   String
-    localData String
-}

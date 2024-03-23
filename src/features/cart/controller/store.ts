@@ -1,4 +1,4 @@
-import { createStore, withDevTools } from "@poly-state/poly-state";
+import { createStore } from "@poly-state/poly-state";
 import { useStore } from "@poly-state/react";
 import { type Product } from "@prisma/client";
 

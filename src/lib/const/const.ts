@@ -96,10 +96,7 @@ export const aiImageGenGalleryItems = [
     imageUrl: `https://img.freepik.com/free-photo/render-octane-ethereal-bohemian-waxwing-bird-bombycilla-garrulus_1409-3740.jpg?t=st=1710424301~exp=1710427901~hmac=0b16b65ff83a4ca07266068f59e87ffb6c9719308241b47801a6c67ac07dc240&w=740`,
     category: "Design",
   },
-  {
-    imageUrl: `https://img.freepik.com/free-photo/render-octane-ethereal-bohemian-waxwing-bird-bombycilla-garrulus_1409-3740.jpg?t=st=1710424301~exp=1710427901~hmac=0b16b65ff83a4ca07266068f59e87ffb6c9719308241b47801a6c67ac07dc240&w=740`,
-    category: "Design",
-  },
+ 
   //  ----------
   {
     imageUrl: `https://img.freepik.com/free-photo/render-octane-ethereal-bohemian-waxwing-bird-bombycilla-garrulus_1409-3740.jpg?t=st=1710424301~exp=1710427901~hmac=0b16b65ff83a4ca07266068f59e87ffb6c9719308241b47801a6c67ac07dc240&w=740`,

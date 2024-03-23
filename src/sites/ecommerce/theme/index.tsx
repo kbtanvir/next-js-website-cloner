@@ -12,7 +12,7 @@ export const colors = {
 
 export const classes = {
   textColor: `text-emerald-600`,
-  span: `[&>span]:text-emerald-600 [&>span]:font-light`,
+  span: `[&>span]:text-emerald-600 [&>span]:font-bold`,
   textHoverColor: `hover:text-emerald-600`,
   bgColor: `bg-emerald-600`,
   hoverBg: `hover:bg-emerald-600`,
@@ -66,7 +66,7 @@ export function Heading2({
   return (
     <h2
       className={cn(
-        `text-[34px] font-bold capitalize leading-[1.3em] max-sm:text-[28px] max-sm:leading-normal`,
+        `text-[34px]  font-light capitalize leading-[1.3em] max-sm:text-[28px]  max-sm:leading-normal`,
         classes.span,
         className,
       )}

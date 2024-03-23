@@ -81,12 +81,12 @@ export default function MainHeader() {
                     href={Paths.home.path}
                     className=" text-nowrap text-[30px] font-light uppercase max-md:self-start max-md:text-2xl"
                   >
-                    Property
+                    CRYPTO
                   </Link>
                   <div className="my-auto grid">
                     <NavLinks />
                   </div>
-                  <Link href={Paths.cart.path} className="relative">
+                  <Link href={"#"} className="relative">
                     <Button>Get Started</Button>
                   </Link>
                 </span>
@@ -99,7 +99,7 @@ export default function MainHeader() {
             <span className="my-auto flex gap-10 self-start justify-self-start max-md:max-w-full max-md:flex-wrap">
               <NavLinks />
             </span>
-            <Link href={Paths.cart.path} className="relative">
+            <Link href={"#"} className="relative">
               <Button>Get Started</Button>
             </Link>
           </div>

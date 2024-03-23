@@ -6,7 +6,6 @@ import { MdSensorOccupied } from "react-icons/md";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { sitePath } from "@/pages/sites/ai-image-gen";
 import Image from "next/image";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import { FaArrowRight, FaRegEnvelope } from "react-icons/fa";
@@ -17,6 +16,7 @@ import { aiImageGenGalleryItems, galleryTabs } from "../../../lib/const/const";
 import { GenerationForm } from "./GenerationForm";
 import { UpscaleForm } from "./UpscaleForm";
 import { VariationsForm } from "./VariationsForm";
+import { siteNavigation } from "@/lib/const/navigation";
 
 export function LinkText({
   children = <>This is a link</>,
@@ -366,7 +366,7 @@ function AboutSection2() {
                 icon: (
                   <Image
                     loading="lazy"
-                    src={sitePath.concat("/logos/agl.png")}
+                    src={siteNavigation.aiImageGen.home.path.concat("/logos/agl.png")}
                     alt="Picture of the author"
                     fill
                     className="object-contain"
@@ -378,7 +378,7 @@ function AboutSection2() {
                 icon: (
                   <Image
                     loading="lazy"
-                    src={sitePath.concat("/logos/citi.png")}
+                    src={siteNavigation.aiImageGen.home.path.concat("/logos/citi.png")}
                     alt="Picture of the author"
                     fill
                     className="object-contain"
@@ -389,7 +389,7 @@ function AboutSection2() {
                 icon: (
                   <Image
                     loading="lazy"
-                    src={sitePath.concat("/logos/energy.png")}
+                    src={siteNavigation.aiImageGen.home.path.concat("/logos/energy.png")}
                     alt="Picture of the author"
                     fill
                     className="object-contain"
@@ -400,7 +400,7 @@ function AboutSection2() {
                 icon: (
                   <Image
                     loading="lazy"
-                    src={sitePath.concat("/logos/github.png")}
+                    src={siteNavigation.aiImageGen.home.path.concat("/logos/github.png")}
                     alt="Picture of the author"
                     fill
                     className="object-contain"
@@ -411,7 +411,7 @@ function AboutSection2() {
                 icon: (
                   <Image
                     loading="lazy"
-                    src={sitePath.concat("/logos/theater.png")}
+                    src={siteNavigation.aiImageGen.home.path.concat("/logos/theater.png")}
                     alt="Picture of the author"
                     fill
                     className="object-contain"
@@ -422,7 +422,7 @@ function AboutSection2() {
                 icon: (
                   <Image
                     loading="lazy"
-                    src={sitePath.concat("/logos/elo.png")}
+                    src={siteNavigation.aiImageGen.home.path.concat("/logos/elo.png")}
                     alt="Picture of the author"
                     fill
                     className="object-contain"
@@ -602,7 +602,13 @@ function CTASection() {
     <>
       <div className="bg-gray-900">
         <div className="section-box-w">
-          <div className="flex flex-wrap items-center justify-between gap-10 rounded-xl bg-purple-600 px-14 py-14 max-md:flex-wrap max-md:justify-center max-sm:gap-4 max-sm:px-6 max-sm:py-6">
+          <div
+            className="flex flex-wrap items-center justify-between gap-10 rounded-xl bg-purple-600 px-14 py-14 max-md:flex-wrap max-md:justify-center max-sm:gap-4 max-sm:px-6 max-sm:py-6"
+            style={{
+              backgroundImage:
+                "linear-gradient(315deg, #7F00FF 35%, #E100FF 50%,#7F00FF 35%)",
+            }}
+          >
             <div className="flex flex-col  gap-5 max-md:w-full max-md:text-center">
               <Heading2>
                 Subscribe to{" "}
