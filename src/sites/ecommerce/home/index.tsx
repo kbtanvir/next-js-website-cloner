@@ -14,7 +14,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { FaArrowRight } from "react-icons/fa";
-import Skeleton from "react-loading-skeleton";
+// import Skeleton from "react-loading-skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 import { offeringCardsDemoList } from "../../../features/home/model/demo";
 import { Heading2, Heading3 } from "../theme";
 
@@ -30,7 +31,7 @@ function WelcomeSection() {
           alt="Picture of the author"
         />
       </div>
-      <div className="absolute bottom-10 left-10 animate-wiggle-lr z-0">
+      <div className="absolute bottom-10 left-10 z-0 animate-wiggle-lr">
         <Image
           className="opacity-10 bg-blend-overlay"
           src={"/images/salad.png"}
@@ -39,7 +40,7 @@ function WelcomeSection() {
           alt="Picture of the author"
         />
       </div>
-      <div className="section-box-w section-px section-py mx-auto flex w-full flex-row-reverse justify-between gap-10 py-20 max-md:flex-col relative z-10 max-md:items-center max-md:gap-0">
+      <div className="section-box-w section-px section-py relative z-10 mx-auto flex w-full flex-row-reverse justify-between gap-10 py-20 max-md:flex-col max-md:items-center max-md:gap-0">
         <div className="relative max-md:size-[200px] ">
           <Image
             className="relative z-10 bg-blend-overlay"
@@ -171,24 +172,26 @@ function FeaturedProducts() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [featuredProductActiveTab]);
 
-  if (query.isLoading)
+  if (query.isLoading) {
     return (
-      <div>
-        {" "}
-        <div className="grid w-full grid-cols-3 gap-10 max-md:grid-cols-1">
-          <Skeleton count={1} height="300px" />
-          <Skeleton count={1} height="300px" />
-          <Skeleton count={1} height="300px" />
-          <Skeleton count={1} height="300px" />
-          <Skeleton count={1} height="300px" />
-          <Skeleton count={1} height="300px" />
-        </div>
-      </div>
+      <>
+        <Skeleton className="h-[300px] w-full" />
+        <Skeleton className="h-[300px] w-full" />
+        <Skeleton className="h-[300px] w-full" />
+        <Skeleton className="h-[300px] w-full" />
+        <Skeleton className="h-[300px] w-full" />
+        <Skeleton className="h-[300px] w-full" />
+      </>
     );
+  }
 
-  if (query.isError) return <div>Error...</div>;
+  if (query.isError) {
+    return <div>Error...</div>;
+  }
 
-  if (!query.data.length) return <div>No data found</div>;
+  if (!query.data.length) {
+    return <div>No data found</div>;
+  }
 
   return query.data.map((item, i) => (
     <ProductItem key={i} item={item as IProduct} refetch={query.refetch} />
@@ -298,7 +301,7 @@ function OfferingsCards() {
         {offeringCardsDemoList.map((item, i) => (
           <div
             key={i}
-            className="grid min-h-[150px]   justify-center gap-2 rounded-lg bg-gray-100 p-8 hover:shadow-lg hover:bg-white hover:border-emerald-600 hover:text-emerald-600 transition-all duration-300 ease-in-out cursor-pointer hover:translate-y-[-10px]  "
+            className="grid min-h-[150px]   cursor-pointer justify-center gap-2 rounded-lg bg-gray-100 p-8 transition-all duration-300 ease-in-out hover:translate-y-[-10px] hover:border-emerald-600 hover:bg-white hover:text-emerald-600 hover:shadow-lg  "
           >
             <div className={`text-[50px] text-emerald-600`}>{item.icon}</div>
             <h3 className="pt-3 font-bold">{item.title}</h3>
@@ -376,7 +379,7 @@ function CategoryCards() {
           <Link
             href={siteNavigation.ecommerce.shop.path}
             key={i}
-            className="grid min-h-[150px] items-center justify-center gap-2 rounded-lg bg-gray-100 p-8 text-center transition duration-300 ease-in-out [&>.icon]:hover:scale-110 [&>.icon]:hover:border-emerald-600  hover:translate-y-[-10px] hover:shadow-lg hover:bg-white hover:border-emerald-600 hover:text-emerald-600"
+            className="grid min-h-[150px] items-center justify-center gap-2 rounded-lg bg-gray-100 p-8 text-center transition duration-300 ease-in-out hover:translate-y-[-10px] hover:border-emerald-600  hover:bg-white hover:text-emerald-600 hover:shadow-lg [&>.icon]:hover:scale-110 [&>.icon]:hover:border-emerald-600"
           >
             <div
               className={`icon flex-center relative mt-[-80px] size-[100px] rounded-full border-[10px] border-white text-[50px] max-md:mt-0 max-md:size-[70px] max-md:border-[5px] ${item.bg} transition duration-300 ease-in-out`}
@@ -391,8 +394,6 @@ function CategoryCards() {
     </div>
   );
 }
-
-
 
 export default function View() {
   return (

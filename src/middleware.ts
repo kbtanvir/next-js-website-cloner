@@ -9,23 +9,23 @@ export default async function middleware(request: NextRequest) {
   });
 
   // if in home url redirect to /sites/eshopper
-  // if (pathname === "/") {
-  //   return NextResponse.redirect(new URL("/sites/eshopper", request.url));
-  // }
+  if (pathname === "/") {
+    return NextResponse.redirect(new URL("/sites/eshopper", request.url));
+  }
 
-  // if (pathname.startsWith("/admin") && !token) {
-  //   return NextResponse.redirect(new URL("/auth/signin", request.url));
-  // }
+  if (pathname.startsWith("/admin") && !token) {
+    return NextResponse.redirect(new URL("/auth/signin", request.url));
+  }
 
-  // if (pathname.startsWith("/admin") && token?.role !== "ADMIN") {
-  //   return NextResponse.redirect(new URL("/auth/signin", request.url));
-  // }
+  if (pathname.startsWith("/admin") && token?.role !== "ADMIN") {
+    return NextResponse.redirect(new URL("/auth/signin", request.url));
+  }
 
-  // if (request.nextUrl.pathname === "/") {
-  //   return NextResponse.rewrite(new URL("/sites/eshopper", request.url));
-  // }
+  if (request.nextUrl.pathname === "/") {
+    return NextResponse.rewrite(new URL("/sites/eshopper", request.url));
+  }
 
-  // return NextResponse.next();
+  return NextResponse.next();
 }
 
 export const config = {
