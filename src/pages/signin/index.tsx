@@ -24,7 +24,7 @@ export default function SignInPage() {
             </h1>
           </div>
           <Button onClick={() => signIn("google")}>Signin with google</Button>
-          <p className="px-8 text-center text-sm text-slate-500 dark:text-slate-400">
+          {/* <p className="px-8 text-center text-sm text-slate-500 dark:text-slate-400">
             By signing in, you agree to our{" "}
             <Link
               href="/terms"
@@ -40,7 +40,7 @@ export default function SignInPage() {
               Privacy Policy
             </Link>
             .
-          </p>
+          </p> */}
         </div>
       </div>
     </div>
