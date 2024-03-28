@@ -1,27 +1,3 @@
-export const sitePath = "/sites/eshopper";
-
-export const Paths = {
-  home: {
-    title: "Home",
-    path: sitePath,
-  },
-  shop: {
-    title: "shop",
-    path: `${sitePath}/shop`,
-  },
-  cart: {
-    title: "cart",
-    path: `${sitePath}/cart`,
-  },
-  checkout: {
-    title: "checkout",
-    path: `${sitePath}/checkout`,
-  },
-  orderSuccess: {
-    title: "success",
-    path: `${sitePath}/order/success`,
-  },
-};
 
 function makeNavigation(homeUrl: string) {
   return {
@@ -60,7 +36,7 @@ export const siteNavigation = {
   ecommerce: makeNavigation("/sites/eshopper"),
   aiImageGen: makeNavigation("/sites/ai-image-gen"),
   realEstate: makeNavigation("/sites/real-estate"),
-  admin: makeNavigation("/admin"),
+  // admin: makeNavigation("/admin"),
   crypto: makeNavigation("/sites/crypto"),
   agency: makeNavigation("/sites/agency"),
 };

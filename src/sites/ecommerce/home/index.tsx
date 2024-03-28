@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/carousel";
 import { type IProduct } from "@/features/shop/model";
 import { ProductItem } from "@/features/shop/view/ProductItem";
-import { Paths, siteNavigation } from "@/lib/const/navigation";
+import { siteNavigation } from "@/lib/const/navigation";
 import { api } from "@/utils/api";
 import { globalStore, useGlobalStore } from "@/utils/global.store";
 import Autoplay from "embla-carousel-autoplay";
@@ -64,7 +64,7 @@ function WelcomeSection() {
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet
             reiciendis beatae consequuntur.
           </p>
-          <Link href={Paths.shop.path}>
+          <Link href={siteNavigation.ecommerce.shop.path}>
             <Button className="mt-4 bg-emerald-500">Shop now</Button>
           </Link>
         </div>
@@ -146,7 +146,7 @@ function DiscountSlider() {
                     off on first order
                   </h5>
 
-                  <Link href={Paths.shop.path}>
+                  <Link href={siteNavigation.ecommerce.shop.path}>
                     <Button className="mt-2 bg-emerald-500">Shop now</Button>
                   </Link>
                 </div>
@@ -265,7 +265,7 @@ function FeaturedProductsSection() {
                 <h5 className="flex gap-4 text-[20px] font-semibold text-gray-500 max-md:text-base">
                   100% Natural
                 </h5>
-                <Link href={Paths.shop.path}>
+                <Link href={siteNavigation.ecommerce.shop.path}>
                   <Button className="mt-4 bg-emerald-500">Shop now</Button>
                 </Link>
               </div>

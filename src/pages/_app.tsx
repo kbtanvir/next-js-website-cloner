@@ -59,7 +59,7 @@ function LayoutRouter({
   pageProps: any;
 }) {
   const router = useRouter();
-  if (router.pathname.startsWith(siteNavigation.admin.home.path)) {
+  if (router.pathname.startsWith("/admin")) {
     return (
       <AdminLayout>
         <AdminHeader />

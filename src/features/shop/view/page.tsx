@@ -111,17 +111,7 @@ function ProductGrid() {
     </div>
   );
 }
-function Pagination() {
-  return (
-    <span className="mt-20 flex w-full  gap-5 self-start max-md:mt-10">
-      {[1, 2, 3, 4].map((_, i) => (
-        <span className="flex-center aspect-square w-10 bg-slate-100" key={i}>
-          {_}
-        </span>
-      ))}
-    </span>
-  );
-}
+
 
 export function useMediaQuery({ max = "769px" }) {
   const [query, setQuery] = useState(false);

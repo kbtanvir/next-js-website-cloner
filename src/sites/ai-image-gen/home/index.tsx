@@ -5,6 +5,7 @@ import { MdSensorOccupied } from "react-icons/md";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { siteNavigation } from "@/lib/const/navigation";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
@@ -16,7 +17,6 @@ import { aiImageGenGalleryItems, galleryTabs } from "../../../lib/const/const";
 import { GenerationForm } from "./GenerationForm";
 import { UpscaleForm } from "./UpscaleForm";
 import { VariationsForm } from "./VariationsForm";
-import { siteNavigation } from "@/lib/const/navigation";
 
 export function LinkText({
   children = <>This is a link</>,
@@ -327,7 +327,7 @@ function WelcomeSection() {
 function AboutSection2() {
   return (
     <>
-      <div className="section-box-w section-py grid gap-10 pb-14">
+      <div id="about" className="section-box-w section-py grid gap-10 pb-14">
         <div className="  flex gap-24 max-xl:gap-10   max-md:flex-col max-md:gap-10 ">
           {/* Image */}
           <div className="w-full max-w-[450px] max-md:max-w-full">
@@ -366,7 +366,9 @@ function AboutSection2() {
                 icon: (
                   <Image
                     loading="lazy"
-                    src={siteNavigation.aiImageGen.home.path.concat("/logos/agl.png")}
+                    src={siteNavigation.aiImageGen.home.path.concat(
+                      "/logos/agl.png",
+                    )}
                     alt="Picture of the author"
                     fill
                     className="object-contain"
@@ -378,7 +380,9 @@ function AboutSection2() {
                 icon: (
                   <Image
                     loading="lazy"
-                    src={siteNavigation.aiImageGen.home.path.concat("/logos/citi.png")}
+                    src={siteNavigation.aiImageGen.home.path.concat(
+                      "/logos/citi.png",
+                    )}
                     alt="Picture of the author"
                     fill
                     className="object-contain"
@@ -389,7 +393,9 @@ function AboutSection2() {
                 icon: (
                   <Image
                     loading="lazy"
-                    src={siteNavigation.aiImageGen.home.path.concat("/logos/energy.png")}
+                    src={siteNavigation.aiImageGen.home.path.concat(
+                      "/logos/energy.png",
+                    )}
                     alt="Picture of the author"
                     fill
                     className="object-contain"
@@ -400,7 +406,9 @@ function AboutSection2() {
                 icon: (
                   <Image
                     loading="lazy"
-                    src={siteNavigation.aiImageGen.home.path.concat("/logos/github.png")}
+                    src={siteNavigation.aiImageGen.home.path.concat(
+                      "/logos/github.png",
+                    )}
                     alt="Picture of the author"
                     fill
                     className="object-contain"
@@ -411,7 +419,9 @@ function AboutSection2() {
                 icon: (
                   <Image
                     loading="lazy"
-                    src={siteNavigation.aiImageGen.home.path.concat("/logos/theater.png")}
+                    src={siteNavigation.aiImageGen.home.path.concat(
+                      "/logos/theater.png",
+                    )}
                     alt="Picture of the author"
                     fill
                     className="object-contain"
@@ -422,7 +432,9 @@ function AboutSection2() {
                 icon: (
                   <Image
                     loading="lazy"
-                    src={siteNavigation.aiImageGen.home.path.concat("/logos/elo.png")}
+                    src={siteNavigation.aiImageGen.home.path.concat(
+                      "/logos/elo.png",
+                    )}
                     alt="Picture of the author"
                     fill
                     className="object-contain"
@@ -723,26 +735,28 @@ function GalleryTabSection() {
           {galleryTabs.map((tab, i) => (
             <TabsContent key={i} value={tab}>
               <div className="grid h-[1000px] grid-cols-4 grid-rows-3 gap-4  max-lg:grid-cols-2 max-lg:grid-rows-none">
-                {aiImageGenGalleryItems.filter(item=>item.category===tab).map((item, i) => (
-                  <div
-                    key={i}
-                    className={cn(
-                      (i === 0 || i == 3) && "max-lg:col-span-2",
-                      i === 1 && "col-span-2 row-span-2  max-lg:col-span-1 ",
-                      i === 3 && "row-span-2",
-                      i === 6 && "col-span-2",
-                      "relative w-full bg-gray-300   max-lg:row-span-1",
-                    )}
-                  >
-                    {i}
-                    <Image
-                      src={item.imageUrl}
-                      fill
-                      alt="Picture of the author"
-                      className="object-cover"
-                    />
-                  </div>
-                ))}
+                {aiImageGenGalleryItems
+                  .filter((item) => item.category === tab)
+                  .map((item, i) => (
+                    <div
+                      key={i}
+                      className={cn(
+                        (i === 0 || i == 3) && "max-lg:col-span-2",
+                        i === 1 && "col-span-2 row-span-2  max-lg:col-span-1 ",
+                        i === 3 && "row-span-2",
+                        i === 6 && "col-span-2",
+                        "relative w-full bg-gray-300   max-lg:row-span-1",
+                      )}
+                    >
+                      {i}
+                      <Image
+                        src={item.imageUrl}
+                        fill
+                        alt="Picture of the author"
+                        className="object-cover"
+                      />
+                    </div>
+                  ))}
               </div>
             </TabsContent>
           ))}

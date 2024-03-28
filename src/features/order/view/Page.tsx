@@ -8,10 +8,9 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useToast } from "@/components/ui/use-toast";
 import { cartService } from "@/features/cart/controller/service";
 import { useCartStore } from "@/features/cart/controller/store";
-import { Paths } from "@/lib/const/navigation";
+import { siteNavigation } from "@/lib/const/navigation";
 import { api } from "@/utils/api";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
@@ -323,8 +322,6 @@ export function PageView() {
 }
 
 function TotalAmount({ handleSubmit }: { handleSubmit: () => void }) {
-  const { data: sessionData } = useSession();
-
   const cstate = useCartStore();
 
   const [total, setcState] = useState<number>(0);
@@ -352,7 +349,10 @@ function TotalAmount({ handleSubmit }: { handleSubmit: () => void }) {
               ${total}
             </span>
           </div>
-          <Link className="self-end" href={Paths.checkout.path}>
+          <Link
+            className="self-end"
+            href={siteNavigation.ecommerce.checkout.path}
+          >
             <Button
               type="submit"
               className="h-12 bg-black px-10 py-5 text-base text-white"

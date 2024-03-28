@@ -5,11 +5,11 @@ import {
   DrawerHeader,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { Paths } from "@/lib/const/navigation";
 import Link from "next/link";
 import { RiCloseLine, RiMenu2Line } from "react-icons/ri";
 import { Button } from "../components/button";
 import { LinkText, classes } from "../theme";
+import { siteNavigation } from "@/lib/const/navigation";
 
 function NavLinks() {
   return (
@@ -53,7 +53,7 @@ export default function MainHeader() {
       >
         <div className="">
           <Link
-            href={Paths.home.path}
+            href={siteNavigation.crypto.home.path}
             className="text-nowrap text-[30px] font-light uppercase max-md:self-start max-md:text-2xl"
           >
             Crypto
@@ -78,7 +78,7 @@ export default function MainHeader() {
               <DrawerHeader className="">
                 <span className="grid gap-10">
                   <Link
-                    href={Paths.home.path}
+                    href={siteNavigation.crypto.home.path}
                     className=" text-nowrap text-[30px] font-light uppercase max-md:self-start max-md:text-2xl"
                   >
                     CRYPTO

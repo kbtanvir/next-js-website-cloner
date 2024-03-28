@@ -5,7 +5,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useCartStore } from "@/features/cart/controller/store";
-import { Paths, siteNavigation } from "@/lib/const/navigation";
+import { siteNavigation } from "@/lib/const/navigation";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -61,7 +61,7 @@ function MegaMenu() {
             <TabsContent
               key={i}
               value={category}
-              className="mt-0 max-sm:mt-8 w-[380px] border-none px-5 py-2 max-sm:w-[300px] "
+              className="mt-0 w-[380px] border-none px-5 py-2 max-sm:mt-8 max-sm:w-[300px] "
             >
               <div className="grid grid-cols-2 gap-2">
                 {Object.entries(subCategories).map(
@@ -73,7 +73,7 @@ function MegaMenu() {
                       <ul className="grid gap-4 max-[340px]:gap-2">
                         {items.map((item, i) => (
                           <Link
-                          href={`${Paths.shop.path}?category=juice`}
+                            href={`${siteNavigation.ecommerce.shop.path}?category=juice`}
                             key={i}
                             className="cursor-pointer text-sm text-zinc-500 hover:text-emerald-600 max-[340px]:text-[12px]"
                           >

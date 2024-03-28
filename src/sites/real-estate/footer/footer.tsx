@@ -1,7 +1,7 @@
-import { Paths } from "@/lib/const/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { LinkText } from "../theme";
+import { siteNavigation } from "@/lib/const/navigation";
 
 const footerCompanyNavLinks = [
   {
@@ -46,7 +46,7 @@ function FooterTop() {
     <div className="mt-9 flex grid-cols-7 grid-rows-1 justify-between gap-20 max-md:flex max-md:flex-col max-md:items-center max-md:gap-10 max-md:text-center">
       {/* ABOUT */}
       <div className="col-span-2 flex w-full max-w-[300px] flex-col items-start justify-start max-lg:col-start-1 max-lg:col-end-4 max-md:items-center ">
-        <Link href={Paths.home.path} className="text-nowrap ">
+        <Link href={siteNavigation.realEstate.home.path} className="text-nowrap ">
           <div className="text-[30px] font-light uppercase max-md:text-2xl ">
             HOME-FINDER
           </div>
@@ -85,9 +85,7 @@ function FooterTop() {
         <div className="text-xl font-bold leading-7 text-gray-800">Contact</div>
         <div className="mt-8 grid gap-5">
           <div className="text-xl text-gray-800">+880 555 555 555</div>
-          <div className="text-gray-800">
-            123, New Eskaton Road, Dhaka
-          </div>
+          <div className="text-gray-800">123, New Eskaton Road, Dhaka</div>
           <div className="text-gray-800">Bangladesh</div>
         </div>
       </span>

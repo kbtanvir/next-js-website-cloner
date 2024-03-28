@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/select";
 
 import { FormErrorMessage } from "@/components/FormMessage";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Fragment } from "react";
@@ -182,7 +181,6 @@ export function VariationsForm() {
           ))}
           <PrimaryButton className="h-[41px] w-full">Generate</PrimaryButton>
         </form>
-        
       </div>
     </FormProvider>
   );

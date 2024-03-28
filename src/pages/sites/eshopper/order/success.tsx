@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
+import { siteNavigation } from "@/lib/const/navigation";
 import Link from "next/link";
-import { Paths } from "../../../../lib/const/navigation";
 
 export default function OrderCompletePage() {
   return (
@@ -16,7 +16,7 @@ export default function OrderCompletePage() {
         </div>
         {/* expolore shop  button */}
         <div className="mt-10">
-          <Link href={Paths.home.path}>
+          <Link href={siteNavigation.agency.home.path}>
             <Button className="">Explore Shop</Button>
           </Link>
         </div>

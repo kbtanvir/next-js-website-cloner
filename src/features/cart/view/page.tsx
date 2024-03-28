@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Paths } from "@/lib/const/navigation";
 import { debounce } from "lodash";
 import { Trash } from "lucide-react";
 import Image from "next/image";
@@ -27,7 +26,7 @@ function ProductGrid() {
   }, [cstate]);
 
   return (
-    <div className="mx-auto grid max-sm:flex max-sm:flex-col  w-full  grid-cols-10 place-items-start gap-10">
+    <div className="mx-auto grid w-full grid-cols-10  place-items-start  gap-10 max-sm:flex max-sm:flex-col">
       {cart.length === 0 ? (
         <div className="border-rounded-lg flex-center  col-span-7 w-full gap-5 border-[20px]  border-gray-100 bg-gray-200 p-5 text-center   text-lg font-light max-lg:col-span-10">
           <IoBagOutline size="30" /> Your cart is empty
@@ -68,7 +67,10 @@ function ProductGrid() {
           </span>
         </div>
         {cart.length > 0 && (
-          <Link className="self-end" href={Paths.checkout.path}>
+          <Link
+            className="self-end"
+            href={siteNavigation.ecommerce.checkout.path}
+          >
             <Button className="h-12 bg-black px-10 py-5 text-base text-white">
               Checkout
             </Button>
@@ -122,7 +124,7 @@ export function CartItem({ item }: { item: ICartItem }) {
         {/* qty input  */}
         <div className="col-span-1 flex items-start gap-5 justify-self-end max-md:justify-self-start max-sm:col-span-2">
           <Button
-            className="flex aspect-square h-9 place-content-center rounded-lg bg-white p-1.5  shadow-lg max-sm:p-0 [&>.icon]:text-black [&>.icon]:hover:text-white hover:bg-black cursor-pointer"
+            className="flex aspect-square h-9 cursor-pointer place-content-center rounded-lg bg-white  p-1.5 shadow-lg hover:bg-black max-sm:p-0 [&>.icon]:text-black [&>.icon]:hover:text-white"
             onClick={() => cartService.removeFromCart({ id: item.id })}
           >
             <Trash className="icon transition-all" />

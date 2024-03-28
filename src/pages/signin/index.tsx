@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { Paths } from "../../lib/const/navigation";
 
 export const metadata = {
   title: "Sign in",
@@ -12,10 +11,7 @@ export const metadata = {
 export default function SignInPage() {
   return (
     <div className=" ">
-      <Link
-        href={Paths.home.path}
-        className="absolute left-4 top-4 md:left-8 md:top-8"
-      >
+      <Link href={"/"} className="absolute left-4 top-4 md:left-8 md:top-8">
         <Button variant="ghost">
           <ChevronLeft className="mr-1 h-4 w-4" /> Home
         </Button>

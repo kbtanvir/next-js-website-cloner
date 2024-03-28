@@ -5,7 +5,7 @@ import {
   DrawerHeader,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { Paths, siteNavigation } from "@/lib/const/navigation";
+import { siteNavigation } from "@/lib/const/navigation";
 import { useGlobalStore } from "@/utils/global.store";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";

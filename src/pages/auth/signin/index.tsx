@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Paths } from "@/lib/const/navigation";
 import { ChevronLeft } from "lucide-react";
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
@@ -13,7 +12,7 @@ export default function SignInPage() {
   return (
     <div className="container grid h-screen w-screen flex-col items-center justify-center lg:max-w-none lg:px-0">
       <Link
-        href={Paths.home.path}
+        href={siteNavigation.agency.home.path}
         className="absolute left-4 top-4 md:left-8 md:top-8"
       >
         <Button variant="ghost">
