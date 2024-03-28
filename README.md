@@ -1,28 +1,52 @@
-# Create T3 App
+# Next.js Multi-Sub Projects
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+This is a boilerplate template including 5 sites built inside one Next.js project. Sites can be easily cloned and deployed into multiple domains. PostgreSQL is used as the database, and it supports Docker.
 
-## What's next? How do I make an app with this?
+## Tech Stack
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+- Next.js
+- Tailwind CSS
+- TypeScript
+- Framer Motion
+- Shadcn UI
+- Next Auth
+- Polystate
+- PostgreSQL
+- Prisma
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## Sites
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+- [AIMA](https://kbtanvir.vercel.app/sites/ai-image-gen)
+- [Eshopper](https://kbtanvir.vercel.app/sites/eshopper)
+- [Crypto](https://kbtanvir.vercel.app/sites/crypto)
+- [Home-Finder](https://kbtanvir.vercel.app/sites/real-estate)
+- [Lead-x](https://kbtanvir.vercel.app/sites/agency)
 
-## Learn More
+## Run Locally
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+1. Clone the project
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+```bash
+git clone https://github.com/kbtanvir/portfolios.git
+```
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+2. Go to the project directory
 
-## How do I deploy this?
+```bash
+cd my-project
+```
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+3. Install dependencies
+
+```bash
+yarn
+```
+
+4. Update the environment file with your PostgreSQL config
+
+5. Run the project in development mode
+
+```bash
+yarn dev
+```
+
