@@ -1,6 +1,4 @@
 import { Toaster } from "@/components/ui/toaster";
-import { EcomLayout } from "@/sites/ecommerce/layouts/RootLayout";
-
 import { cartStore } from "@/features/cart/controller/store";
 import { siteNavigation } from "@/lib/const/navigation";
 import { persistStore } from "@/lib/persist";
@@ -8,6 +6,7 @@ import AdminLayout from "@/sites/admin/layouts/AdminLayout";
 import { AgencyLayout } from "@/sites/agency/layouts/RootLayout";
 import { AiImageGenLayout } from "@/sites/ai-image-gen/layouts/RootLayout";
 import { CryptoLayout } from "@/sites/crypto/layouts/RootLayout";
+import { EcomLayout } from "@/sites/ecommerce/layouts/RootLayout";
 import { RealEstateLayout } from "@/sites/real-estate/layouts/RootLayout";
 import "@/styles/globals.css";
 import { api } from "@/utils/api";
